@@ -1,38 +1,50 @@
-.App {
-  text-align: center;
-}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Roboto+Mono&display=swap");
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", */
+  /* "Lucida Sans", Arial, sans-serif; */
+  font-size: 1.07em;
+  color: black;
+  font-family: "Roboto Mono", monospace;
+  line-height: 1.5;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: column;
+  background-color: #323437;
 }
-
-.App-link {
-  color: #61dafb;
+#root {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.words {
+  background-color: #6e6b6b;
+  min-height: 50px;
+  width: 100%;
+  padding: 10px 5px 15px 20px;
+  border-radius: 15px;
+  /* word-break: break-all; */
+}
+div[class="input"] {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+input {
+  margin-top: 20px;
+  width: 85%;
+  padding: 10px;
+  outline: none;
+  color: black;
 }

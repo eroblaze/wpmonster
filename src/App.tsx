@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, createContext } from "react";
 
-function App() {
+import Type from "./Components/Type/Type";
+
+import { AppContextInterface } from "../src/AppTypes";
+
+export const AppCont = createContext<AppContextInterface>(
+  {} as AppContextInterface
+);
+
+const App = () => {
+  const [isOver, setIsOver] = useState(false);
+  const wordsToDisplay = `this project from learning react to working on this project and then almost giving up when things were not working as planned to learning typescript and a whole lot of other stuff to react-router and redux and now fixing a major bug in this app and now I'm just going to add more things to this project and keep on adding until i release it sometime this month by the grace of God and then open source it so watch this space for me`;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AppCont.Provider value={{ isOver, setIsOver }}>
+        <Type passedWords={wordsToDisplay} />
+      </AppCont.Provider>
+    </>
   );
-}
+};
 
 export default App;
