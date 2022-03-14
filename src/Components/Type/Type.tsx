@@ -1,4 +1,3 @@
-// Bug Update : Ctrl Z and Ctrl Y - FIXED!
 // Also, I just noticed that when you press space bar when you haven't completed a word, the characters that are turned to red, are also included in the calculation for total characters. Is that suppose to be so?
 // Libraries
 import React, { useState, useEffect, createContext, useContext } from "react";
@@ -8,7 +7,13 @@ import Input from "../Input/InputField";
 import Timer from "../Timer/Timer";
 // Helpers
 import generateWpm from "../../Helpers/Generate_wpm";
-import { KeyDownExtension, TColor, TNativeEvent, TContext } from "./TypeTypes";
+import {
+  KeyDownExtension,
+  TColor,
+  TNativeEvent,
+  TContext,
+  TInputEvent,
+} from "./TypeTypes";
 import { AppCont } from "../../App";
 
 // useful variables / bindings
@@ -289,11 +294,7 @@ const Type = ({ passedWords }: TypeProps) => {
   }
 
   // Main function handler
-  const handleUserInput = (
-    e:
-      | (React.KeyboardEvent<HTMLInputElement> & KeyDownExtension)
-      | (React.ChangeEvent<HTMLInputElement> & TNativeEvent)
-  ): void => {
+  const handleUserInput = (e: TInputEvent): void => {
     // Using union discrimination
     // change event
     if (e.type === "change") {
@@ -301,8 +302,6 @@ const Type = ({ passedWords }: TypeProps) => {
       // To prevent a user from typing while pressing the ctrl key
       if (!isWrong) {
         value = e.target.value;
-        // console.log(`char : ${char}`);
-        // console.log(`value : ${value}`);
 
         if (!timeHasStarted) {
           timeClear = setInterval(updateTime, 1000);
@@ -339,11 +338,13 @@ const Type = ({ passedWords }: TypeProps) => {
           time,
         }}
       >
-        <Timer />
         {!isOver && msg("loading...")}
         {isOver && msg("Done it worked")}
         <Div />
-        <Input />
+        <div className="input">
+          <Input />
+          <Timer />
+        </div>
       </TypeContext.Provider>
     </>
   );
