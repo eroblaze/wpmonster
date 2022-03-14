@@ -24,4 +24,5 @@ export type TContext = {
   pastColor: string[];
   userIn: string;
   onInput: (e: TInputEvent) => void;
+  time: number;
 };

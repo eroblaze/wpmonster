@@ -16,7 +16,7 @@ const setup = (Component: React.ReactElement) => {
   return {
     ...render(
       <TypeContext.Provider
-        value={{ words, pastColor, userIn: "", onInput: mockedFn }}
+        value={{ words, pastColor, userIn: "", onInput: mockedFn, time: 1 }}
       >
         {Component}
       </TypeContext.Provider>

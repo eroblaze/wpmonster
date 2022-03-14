@@ -5,6 +5,7 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 // Components
 import Div from "../Div/WordsDiv";
 import Input from "../Input/InputField";
+import Timer from "../Timer/Timer";
 // Helpers
 import generateWpm from "../../Helpers/Generate_wpm";
 import { KeyDownExtension, TColor, TNativeEvent, TContext } from "./TypeTypes";
@@ -23,7 +24,7 @@ let globalCount = 0;
 let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
-let time = 61;
+// let time = 61;
 let timeClear: NodeJS.Timeout;
 // For the main function's context
 let char: string;
@@ -46,6 +47,8 @@ const Type = ({ passedWords }: TypeProps) => {
 
   const [colorId, setColor] = useState<TColor>({} as TColor);
 
+  const [time, setTime] = useState(60);
+
   const [fake, setFake] = useState(false);
   // end states
   // Context
@@ -59,23 +62,24 @@ const Type = ({ passedWords }: TypeProps) => {
   useEffect(() => {
     splittedArr = wordsToDisplay.split("");
   }, [wordsToDisplay]);
-  // end initialization
 
-  function updateTime(): void {
+  useEffect(() => {
+    console.log(time);
+
     if (time === 0) {
       clearInterval(timeClear);
+      // setTime(60);
       console.log("Time is up!", time);
 
       setIsOver(true); // Game over
-
       // To generate the wpm
       generateWpm(1, pastColor);
-      time = 61;
-
-      return;
     }
-    time--;
-    console.log(time);
+  }, [time]);
+  // end initialization
+
+  function updateTime(): void {
+    setTime((prev) => prev - 1);
   }
 
   function wrapperSetWords(startInd: number, excess: string): void {
@@ -332,8 +336,10 @@ const Type = ({ passedWords }: TypeProps) => {
           pastColor,
           userIn,
           onInput: handleUserInput,
+          time,
         }}
       >
+        <Timer />
         {!isOver && msg("loading...")}
         {isOver && msg("Done it worked")}
         <Div />
