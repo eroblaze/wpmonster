@@ -5,12 +5,13 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import Div from "../Div/WordsDiv";
 import Input from "../Input/InputField";
 import Timer from "../Timer/Timer";
+import Modal from "../ResultModal/Modal";
 // Helpers
 import generateWpm from "../../Helpers/Generate_wpm";
 import {
   KeyDownExtension,
+  ResultInterface,
   TColor,
-  TNativeEvent,
   TContext,
   TInputEvent,
 } from "./TypeTypes";
@@ -54,6 +55,10 @@ const Type = ({ passedWords }: TypeProps) => {
 
   const [time, setTime] = useState(60);
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [results, setResults] = useState<ResultInterface | null>(null);
+
   const [fake, setFake] = useState(false);
   // end states
   // Context
@@ -77,8 +82,9 @@ const Type = ({ passedWords }: TypeProps) => {
       console.log("Time is up!", time);
 
       setIsOver(true); // Game over
+      setModalIsOpen(true); // For the Modal Result
       // To generate the wpm
-      generateWpm(1, pastColor);
+      setResults(generateWpm(1, pastColor));
     }
   }, [time]);
   // end initialization
@@ -336,10 +342,14 @@ const Type = ({ passedWords }: TypeProps) => {
           userIn,
           onInput: handleUserInput,
           time,
+          results,
         }}
       >
-        {!isOver && msg("loading...")}
         {isOver && msg("Done it worked")}
+        {!isOver && msg("loading...")}
+        {modalIsOpen && (
+          <Modal modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} />
+        )}
         <Div />
         <div className="input">
           <Input />

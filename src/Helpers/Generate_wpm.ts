@@ -12,7 +12,7 @@ export default function generateWpm(
     return acc;
   }, 0);
 
-  const wrongCharsToWord = wrongChars / 5;
+  const wrongCharsToWord = Math.round(wrongChars / 5);
 
   let totalCharTyped = pastColor.reduce((acc, el) => {
     if (el === "#10f318" || el === "rgb(226, 5, 5)" || el === "blue") acc++;
@@ -21,15 +21,17 @@ export default function generateWpm(
 
   const tot = totalCharTyped / 5;
   const GWM = tot / rightTime;
-  const correctWords = (totalCharTyped - wrongChars) / 5;
+  const correctWords = Math.round((totalCharTyped - wrongChars) / 5);
 
   const WPM = Math.round(GWM - wrongCharsToWord);
+  const correctChars = totalCharTyped - wrongChars;
 
+  console.log(`Correct Chars : ${correctChars}`);
   console.log(`Wrong Chars : ${wrongChars}`);
   console.log(`Spaces : ${spaceTyped}`);
   console.log(`Total char typed : ${totalCharTyped}`);
-  console.log(`Wrong words : ${Math.round(wrongCharsToWord)}`);
-  console.log(`Correct words : ${Math.round(correctWords)}`);
+  console.log(`Wrong words : ${wrongCharsToWord}`);
+  console.log(`Correct words : ${correctWords}`);
   console.log(`GWM : ${GWM}`);
   console.log(`NET WPM : ${WPM} wpm`);
 
@@ -38,4 +40,14 @@ export default function generateWpm(
   let accuracy = ((totalCharTyped - wrongChars) / totalCharTyped) * 100;
   accuracy = +accuracy.toFixed(1);
   console.log(`accuracy : ${accuracy}%`);
+
+  return {
+    correctChars,
+    wrongChars,
+    totalCharTyped,
+    wrongWords: wrongCharsToWord,
+    correctWords,
+    WPM,
+    accuracy,
+  };
 }

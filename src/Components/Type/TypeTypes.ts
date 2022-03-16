@@ -18,6 +18,15 @@ export type TColor = {
 export type TInputEvent =
   | (React.KeyboardEvent<HTMLInputElement> & KeyDownExtension)
   | (React.ChangeEvent<HTMLInputElement> & TNativeEvent);
+export interface ResultInterface {
+  correctChars: number;
+  wrongChars: number;
+  totalCharTyped: number;
+  wrongWords: number;
+  correctWords: number;
+  WPM: number;
+  accuracy: number;
+}
 
 export type TContext = {
   words: string;
@@ -25,4 +34,5 @@ export type TContext = {
   userIn: string;
   onInput: (e: TInputEvent) => void;
   time: number | string;
+  results?: ResultInterface | null;
 };

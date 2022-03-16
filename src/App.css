@@ -8,8 +8,6 @@
   /* "Lucida Sans", Arial, sans-serif; */
   font-size: 1.05em;
   color: black;
-  font-family: "Roboto Mono", monospace;
-  line-height: 1.5;
 }
 body {
   width: 100vw;
@@ -19,6 +17,8 @@ body {
   justify-content: center;
   flex-direction: column;
   background-color: #323437;
+  font-family: "Roboto Mono", monospace;
+  line-height: 1.5;
 }
 #root {
   width: 75%;
@@ -34,8 +34,9 @@ body {
   width: 100%;
   padding: 10px 20px 15px 20px;
   border-radius: 15px;
-  /* word-break: break-all; */
+  overflow: hidden;
 }
+
 div[class="input"] {
   width: 100%;
   /* border: 1px solid red; */
