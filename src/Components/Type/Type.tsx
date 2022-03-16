@@ -5,7 +5,7 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import Div from "../Div/WordsDiv";
 import Input from "../Input/InputField";
 import Timer from "../Timer/Timer";
-import Modal from "../ResultModal/Modal";
+import ResultModal from "../ResultModal/ResultModal";
 // Helpers
 import generateWpm from "../../Helpers/Generate_wpm";
 import {
@@ -53,7 +53,7 @@ const Type = ({ passedWords }: TypeProps) => {
 
   const [colorId, setColor] = useState<TColor>({} as TColor);
 
-  const [time, setTime] = useState(60);
+  const [time, setTime] = useState<number>(60);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -348,7 +348,10 @@ const Type = ({ passedWords }: TypeProps) => {
         {isOver && msg("Done it worked")}
         {!isOver && msg("loading...")}
         {modalIsOpen && (
-          <Modal modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} />
+          <ResultModal
+            modalIsOpen={modalIsOpen}
+            setModalIsOpen={setModalIsOpen}
+          />
         )}
         <Div />
         <div className="input">
