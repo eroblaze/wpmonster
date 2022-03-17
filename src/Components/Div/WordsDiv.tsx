@@ -1,4 +1,7 @@
 import React, { useContext } from "react";
+
+import Cover from "../Cover/Cover";
+
 import { TypeContext } from "../Type/Type";
 import { AppCont } from "../../App";
 
@@ -28,7 +31,8 @@ const Div = (): JSX.Element => {
 
   return (
     <div data-testid="words-div" className="words">
-      {output}
+      {isOver && <Cover />}
+      <div className="output">{output}</div>
     </div>
   );
 };

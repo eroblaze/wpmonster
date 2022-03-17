@@ -6,6 +6,7 @@ import Div from "../Div/WordsDiv";
 import Input from "../Input/InputField";
 import Timer from "../Timer/Timer";
 import ResultModal from "../ResultModal/ResultModal";
+import ResultSection from "../ResultSection/ResultSection";
 // Helpers
 import generateWpm from "../../Helpers/Generate_wpm";
 import {
@@ -53,7 +54,7 @@ const Type = ({ passedWords }: TypeProps) => {
 
   const [colorId, setColor] = useState<TColor>({} as TColor);
 
-  const [time, setTime] = useState<number>(60);
+  const [time, setTime] = useState<number>(8);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -82,7 +83,8 @@ const Type = ({ passedWords }: TypeProps) => {
       console.log("Time is up!", time);
 
       setIsOver(true); // Game over
-      setModalIsOpen(true); // For the Modal Result
+      setUserIn(""); // Clear the input field
+      setTimeout(() => setModalIsOpen(true), 2000); // For the Modal Result
       // To generate the wpm
       setResults(generateWpm(1, pastColor));
     }
@@ -306,7 +308,8 @@ const Type = ({ passedWords }: TypeProps) => {
     if (e.type === "change") {
       char = e.nativeEvent.data;
       // To prevent a user from typing while pressing the ctrl key
-      if (!isWrong) {
+      // And to prevent whatever is typed from being process after the time is over
+      if (!isWrong && !isOver) {
         value = e.target.value;
 
         if (!timeHasStarted) {
@@ -331,8 +334,6 @@ const Type = ({ passedWords }: TypeProps) => {
   };
   // end main function
 
-  const msg = (ms: string) => <h1 style={{ color: "white" }}>{ms}</h1>;
-
   return (
     <>
       <TypeContext.Provider
@@ -343,10 +344,9 @@ const Type = ({ passedWords }: TypeProps) => {
           onInput: handleUserInput,
           time,
           results,
+          modalIsOpen: modalIsOpen,
         }}
       >
-        {isOver && msg("Done it worked")}
-        {!isOver && msg("loading...")}
         {modalIsOpen && (
           <ResultModal
             modalIsOpen={modalIsOpen}
@@ -358,6 +358,7 @@ const Type = ({ passedWords }: TypeProps) => {
           <Input />
           <Timer />
         </div>
+        <ResultSection />
       </TypeContext.Provider>
     </>
   );

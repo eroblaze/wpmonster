@@ -1,4 +1,7 @@
 .result-div {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: normal;
+  font-size: initial;
   height: 350px;
   width: 300px;
   border-radius: 5px;

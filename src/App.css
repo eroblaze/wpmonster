@@ -9,13 +9,12 @@
   font-size: 1.05em;
   color: black;
 }
+html,
 body {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+body {
   background-color: #323437;
   font-family: "Roboto Mono", monospace;
   line-height: 1.5;
@@ -23,18 +22,19 @@ body {
 #root {
   width: 75%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  margin: auto;
 }
+
 .words {
+  margin-top: 100px;
+  position: relative;
   background-color: #6e6b6b;
-  min-height: 50px;
   width: 100%;
-  padding: 10px 20px 15px 20px;
   border-radius: 15px;
   overflow: hidden;
+}
+.output {
+  padding: 10px 20px 15px 20px;
 }
 
 div[class="input"] {
@@ -46,10 +46,13 @@ div[class="input"] {
 }
 .input > input {
   width: 70%;
-  padding: 10px;
+  padding: 5px 10px 5px 10px;
   outline: none;
-  color: black;
+  color: white;
   margin-right: 10px;
+  border: 2px solid #6e6b6b;
+  background-color: #323437;
+  border-radius: 5px;
 }
 #timer {
   /* border: 1px solid red; */
@@ -60,4 +63,17 @@ div[class="input"] {
   width: 70px;
   display: grid;
   place-content: center;
+}
+.output-sibling {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #1c1d1f;
+  transition: all 2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.to-restart > h2 {
+  color: white;
 }

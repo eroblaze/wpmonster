@@ -25,7 +25,7 @@ const Modal = ({
         <div className="result-inner-div">
           Result
           {setModalIsOpen && (
-            <button onClick={() => setModalIsOpen(!modalIsOpen)}>x</button>
+            <button onClick={() => setModalIsOpen(false)}>x</button>
           )}
         </div>
       </div>
