@@ -15,7 +15,9 @@ const App = () => {
   return (
     <>
       <AppCont.Provider value={{ isOver, setIsOver }}>
-        <Type passedWords={wordsToDisplay} />
+        <div className="app">
+          <Type passedWords={wordsToDisplay} />
+        </div>
       </AppCont.Provider>
     </>
   );

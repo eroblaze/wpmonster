@@ -39,6 +39,8 @@ let value: string;
 let valueLen: number;
 let valueLenInd: number;
 let isWrong = false;
+// When to show Result Section
+let shouldShowResultSection = false;
 
 interface TypeProps {
   passedWords: string;
@@ -54,7 +56,7 @@ const Type = ({ passedWords }: TypeProps) => {
 
   const [colorId, setColor] = useState<TColor>({} as TColor);
 
-  const [time, setTime] = useState<number>(8);
+  const [time, setTime] = useState<number>(60);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -84,7 +86,10 @@ const Type = ({ passedWords }: TypeProps) => {
 
       setIsOver(true); // Game over
       setUserIn(""); // Clear the input field
-      setTimeout(() => setModalIsOpen(true), 2000); // For the Modal Result
+      setTimeout(() => {
+        shouldShowResultSection = true;
+        setModalIsOpen(true);
+      }, 2000); // For the Modal Result
       // To generate the wpm
       setResults(generateWpm(1, pastColor));
     }
@@ -358,7 +363,7 @@ const Type = ({ passedWords }: TypeProps) => {
           <Input />
           <Timer />
         </div>
-        <ResultSection />
+        {shouldShowResultSection && <ResultSection />}
       </TypeContext.Provider>
     </>
   );

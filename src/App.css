@@ -12,7 +12,7 @@
 html,
 body {
   width: 100%;
-  height: 100%;
+  height: fit-content;
 }
 body {
   background-color: #323437;
@@ -20,6 +20,10 @@ body {
   line-height: 1.5;
 }
 #root {
+  width: 100%;
+  height: 100%;
+}
+.app {
   width: 75%;
   height: 100%;
   margin: auto;
