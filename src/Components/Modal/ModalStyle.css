@@ -69,6 +69,7 @@ div[class^="sect"]:last-of-type {
 
 .sect-1 {
   text-align: center;
+  overflow: hidden;
 }
 .wpm-scores {
   float: right;
@@ -95,8 +96,21 @@ div[class^="sect"]:last-of-type {
   font-size: 14px;
 }
 .wpm-big {
+  position: relative;
   font-size: 2.3em;
   line-height: 1;
+}
+.high-score {
+  position: absolute;
+  margin-right: -50px;
+  margin-top: -20px;
+  right: 0;
+  top: 0;
+  transform: rotate(30deg);
+  width: 150px;
+  height: 25px;
+  background-color: silver;
+  border: 1px solid grey;
 }
 .wpm-labels,
 .wpm-scores {

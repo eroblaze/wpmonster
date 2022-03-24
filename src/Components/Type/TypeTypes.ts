@@ -34,6 +34,7 @@ export type TContext = {
   userIn: string;
   onInput: (e: TInputEvent) => void;
   time: number | string;
-  results?: ResultInterface | null;
+  results?: ResultInterface | undefined;
   modalIsOpen?: boolean;
+  highScore: ResultInterface;
 };

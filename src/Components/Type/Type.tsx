@@ -1,6 +1,12 @@
 // Also, I just noticed that when you press space bar when you haven't completed a word, the characters that are turned to red, are also included in the calculation for total characters. Is that suppose to be so?
 // Libraries
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useRef,
+} from "react";
 // Components
 import Div from "../Div/WordsDiv";
 import Input from "../Input/InputField";
@@ -48,7 +54,7 @@ interface TypeProps {
 
 export const TypeContext = createContext<TContext>({} as TContext);
 
-const Type = ({ passedWords }: TypeProps) => {
+function Type({ passedWords }: TypeProps) {
   // states
   const [wordsToDisplay, setWordsToDisplay] = useState(passedWords);
 
@@ -60,7 +66,13 @@ const Type = ({ passedWords }: TypeProps) => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const [results, setResults] = useState<ResultInterface | null>(null);
+  const [results, setResults] = useState<ResultInterface | undefined>(
+    undefined
+  );
+  const [highScore, setHighScore] = useState<ResultInterface>(
+    {} as ResultInterface
+  );
+  const resultsRef = useRef(0);
 
   const [fake, setFake] = useState(false);
   // end states
@@ -92,8 +104,16 @@ const Type = ({ passedWords }: TypeProps) => {
       }, 2000); // For the Modal Result
       // To generate the wpm
       setResults(generateWpm(1, pastColor));
+      resultsRef.current = results?.WPM || 0;
     }
   }, [time]);
+
+  useEffect(() => {
+    // To set an highscore
+    if (results && results?.WPM > resultsRef.current) {
+      setHighScore(results);
+    }
+  }, [results]);
   // end initialization
 
   function updateTime(): void {
@@ -297,9 +317,21 @@ const Type = ({ passedWords }: TypeProps) => {
     setFake((prev) => !prev);
   }
 
+  // To restart the game
+
+  const restart = () => {
+    console.log("from the restart");
+  };
+
   function checkCtrl(
     e: React.KeyboardEvent<HTMLInputElement> & KeyDownExtension
   ): void {
+    console.log(e.key);
+    if (e.key === "F5") {
+      e.preventDefault();
+      restart();
+      return;
+    }
     if (e.key === "Backspace" && e.ctrlKey) isWrong = false;
     else if (e.key === "Delete" && e.ctrlKey) isWrong = false;
     else if (e.ctrlKey) isWrong = true;
@@ -350,6 +382,7 @@ const Type = ({ passedWords }: TypeProps) => {
           time,
           results,
           modalIsOpen: modalIsOpen,
+          highScore: highScore,
         }}
       >
         {modalIsOpen && (
@@ -367,6 +400,6 @@ const Type = ({ passedWords }: TypeProps) => {
       </TypeContext.Provider>
     </>
   );
-};
+}
 
 export default Type;

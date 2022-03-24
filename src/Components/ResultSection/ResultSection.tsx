@@ -4,7 +4,18 @@ import { TypeContext } from "../Type/Type";
 import "./ResultSection.css";
 
 const ResultSection = () => {
-  const { results } = useContext(TypeContext);
+  const {
+    results,
+    highScore: {
+      WPM: hWPM,
+      accuracy: hAccuracy,
+      correctChars: hCorrectChars,
+      correctWords: hCorrectWords,
+      totalCharTyped: hTotalCharTyped,
+      wrongChars: hWrongChars,
+      wrongWords: hWrongWords,
+    },
+  } = useContext(TypeContext);
 
   if (results) {
     const {
@@ -20,6 +31,16 @@ const ResultSection = () => {
     return (
       <div className="result-section">
         <Modal
+          WPM={hWPM}
+          accuracy={hAccuracy}
+          correctChars={hCorrectChars}
+          correctWords={hCorrectWords}
+          totalCharTyped={hTotalCharTyped}
+          wrongChars={hWrongChars}
+          wrongWords={hWrongWords}
+          highScore
+        />
+        <Modal
           WPM={WPM}
           accuracy={accuracy}
           correctChars={correctChars}
@@ -27,15 +48,6 @@ const ResultSection = () => {
           totalCharTyped={totalCharTyped}
           wrongChars={wrongChars}
           wrongWords={wrongWords}
-        />
-        <Modal
-          WPM={80}
-          accuracy={90}
-          correctChars={223}
-          correctWords={80}
-          totalCharTyped={332}
-          wrongChars={123}
-          wrongWords={2}
         />
       </div>
     );

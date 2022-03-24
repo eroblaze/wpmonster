@@ -4,6 +4,7 @@ import "./ModalStyle.css";
 import { ResultInterface } from "../Type/TypeTypes";
 
 interface ModalProps extends ResultInterface {
+  highScore?: boolean;
   modalIsOpen?: boolean;
   setModalIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,6 +19,7 @@ const Modal = ({
   wrongWords,
   modalIsOpen,
   setModalIsOpen,
+  highScore,
 }: ModalProps) => {
   return (
     <div className="result-div">
@@ -32,7 +34,10 @@ const Modal = ({
       <div className="result-body">
         <div className="sect-1">
           <div className="wpm-container">
-            <h1 className="wpm wpm-correct wpm-big">{WPM} WPM</h1>
+            <h1 className="wpm wpm-correct wpm-big">
+              {highScore && <span className="high-score"></span>}
+              {WPM} WPM
+            </h1>
             <span className="wpm-small">(words per minute)</span>
           </div>
         </div>

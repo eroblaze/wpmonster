@@ -12,7 +12,11 @@ const howToRestart = () => {
   );
 };
 
-const Cover = () => {
+interface CoverProps {
+  restart?: boolean;
+}
+
+const Cover = ({ restart }: CoverProps) => {
   let [show, setShow] = useState(false);
   let { modalIsOpen } = useContext(TypeContext);
 
@@ -23,7 +27,10 @@ const Cover = () => {
   }, [modalIsOpen]);
 
   return (
-    <div className="output-sibling">{!show ? <Spinner /> : howToRestart()}</div>
+    <div className="output-sibling">
+      {!restart && !show ? <Spinner /> : howToRestart()}
+      {restart && <Spinner />}
+    </div>
   );
 };
 
