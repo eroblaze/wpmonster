@@ -1,9 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { TypeContext } from "../Type/Type";
 import { TInputEvent } from "../Type/TypeTypes";
 
 const Input = (): JSX.Element => {
-  const { userIn, onInput } = useContext(TypeContext);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { userIn, onInput, modalIsOpen } = useContext(TypeContext);
+
+  // A type Predicate ( just for fun )
+  const isInputValid = (
+    input: React.MutableRefObject<HTMLInputElement | null>
+  ): input is React.MutableRefObject<HTMLInputElement> => {
+    return !!input.current;
+  };
+
+  useEffect(() => {
+    if (!modalIsOpen && isInputValid(inputRef)) inputRef.current.focus();
+  }, [modalIsOpen]);
+
   return (
     <input
       type="text"
@@ -15,6 +28,7 @@ const Input = (): JSX.Element => {
       autoFocus
       autoComplete="off"
       data-testid="main-input"
+      ref={inputRef}
     />
   );
 };

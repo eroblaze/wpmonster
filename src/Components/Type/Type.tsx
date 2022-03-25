@@ -26,10 +26,10 @@ import { AppCont } from "../../App";
 
 // useful variables / bindings
 let everyIndexBeforeSpace: number[] = [];
-const dataToCheck: (number | string)[] = [];
+let dataToCheck: (number | string)[] = [];
 let backKeyPressed = 0;
 let splittedArr: string[] = [];
-const pastColor: string[] = [];
+let pastColor: string[] = [];
 let spaceSplit: string[] = [];
 let counter = 0;
 let space = 0;
@@ -37,6 +37,7 @@ let globalCount = 0;
 let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
+const startTime = 5;
 // let time = 61;
 let timeClear: NodeJS.Timeout;
 // For the main function's context
@@ -47,6 +48,24 @@ let valueLenInd: number;
 let isWrong = false;
 // When to show Result Section
 let shouldShowResultSection = false;
+
+function clearAllEntries(): void {
+  everyIndexBeforeSpace = [];
+  dataToCheck = [];
+  splittedArr = [];
+  pastColor = [];
+  spaceSplit = [];
+  counter = 0;
+  space = 0;
+  globalCount = 0;
+  extraCount = 0;
+  timeHasStarted = false;
+  char = "";
+  value = "";
+  valueLen = 0;
+  valueLenInd = 0;
+  isWrong = false;
+}
 
 interface TypeProps {
   passedWords: string;
@@ -62,7 +81,7 @@ function Type({ passedWords }: TypeProps) {
 
   const [colorId, setColor] = useState<TColor>({} as TColor);
 
-  const [time, setTime] = useState<number>(60);
+  const [time, setTime] = useState<number>(startTime);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -72,7 +91,13 @@ function Type({ passedWords }: TypeProps) {
   const [highScore, setHighScore] = useState<ResultInterface>(
     {} as ResultInterface
   );
-  const resultsRef = useRef(0);
+
+  const [restart, setRestart] = useState(false);
+
+  const resultsRef = useRef<number>(
+    JSON.parse(localStorage.getItem("highScore") || JSON.stringify({ WPM: -1 }))
+      .WPM
+  );
 
   const [fake, setFake] = useState(false);
   // end states
@@ -80,17 +105,25 @@ function Type({ passedWords }: TypeProps) {
   const { isOver, setIsOver } = useContext(AppCont);
 
   // start initialization
+  // This is necessary inorder to set the highScore state to what was retrieved from the local storage
   useEffect(() => {
-    spaceSplit = wordsToDisplay.split(" ");
+    const highScoreObj: ResultInterface = JSON.parse(
+      localStorage.getItem("highScore") || JSON.stringify({})
+    );
+    setHighScore(highScoreObj);
   }, []);
 
   useEffect(() => {
+    console.log(resultsRef.current);
     splittedArr = wordsToDisplay.split("");
   }, [wordsToDisplay]);
 
   useEffect(() => {
-    console.log(time);
+    spaceSplit = wordsToDisplay.split(" ");
+    splittedArr = wordsToDisplay.split(""); // This is neccessary to re-create this array after every restart
+  }, [restart]);
 
+  useEffect(() => {
     if (time === 0) {
       clearInterval(timeClear);
       // setTime(60);
@@ -101,17 +134,18 @@ function Type({ passedWords }: TypeProps) {
       setTimeout(() => {
         shouldShowResultSection = true;
         setModalIsOpen(true);
+        // To generate the wpm
+        setResults(generateWpm(1, pastColor));
       }, 2000); // For the Modal Result
-      // To generate the wpm
-      setResults(generateWpm(1, pastColor));
-      resultsRef.current = results?.WPM || 0;
     }
   }, [time]);
 
   useEffect(() => {
     // To set an highscore
-    if (results && results?.WPM > resultsRef.current) {
+    if (results && results.WPM > resultsRef.current) {
       setHighScore(results);
+      localStorage.setItem("highScore", JSON.stringify(results));
+      resultsRef.current = results.WPM;
     }
   }, [results]);
   // end initialization
@@ -319,17 +353,23 @@ function Type({ passedWords }: TypeProps) {
 
   // To restart the game
 
-  const restart = () => {
+  const handleRestart = () => {
     console.log("from the restart");
+    setIsOver(false);
+    setRestart(true);
+    setTimeout(() => setRestart(false), 2000);
+    setWordsToDisplay(passedWords); // Fetching is going to take place here
+    setTime(startTime);
+    setColor({} as TColor);
+    clearAllEntries();
   };
 
   function checkCtrl(
     e: React.KeyboardEvent<HTMLInputElement> & KeyDownExtension
   ): void {
-    console.log(e.key);
     if (e.key === "F5") {
       e.preventDefault();
-      restart();
+      handleRestart();
       return;
     }
     if (e.key === "Backspace" && e.ctrlKey) isWrong = false;
@@ -346,7 +386,7 @@ function Type({ passedWords }: TypeProps) {
       char = e.nativeEvent.data;
       // To prevent a user from typing while pressing the ctrl key
       // And to prevent whatever is typed from being process after the time is over
-      if (!isWrong && !isOver) {
+      if (!isWrong && !isOver && !restart) {
         value = e.target.value;
 
         if (!timeHasStarted) {
@@ -383,6 +423,7 @@ function Type({ passedWords }: TypeProps) {
           results,
           modalIsOpen: modalIsOpen,
           highScore: highScore,
+          restart,
         }}
       >
         {modalIsOpen && (

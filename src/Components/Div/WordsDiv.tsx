@@ -6,7 +6,7 @@ import { TypeContext } from "../Type/Type";
 import { AppCont } from "../../App";
 
 const Div = (): JSX.Element => {
-  const { words, pastColor } = useContext(TypeContext);
+  const { words, pastColor, restart } = useContext(TypeContext);
   const { isOver } = useContext(AppCont);
 
   const wordsArr: string[] = words.split("");
@@ -32,6 +32,7 @@ const Div = (): JSX.Element => {
   return (
     <div data-testid="words-div" className="words">
       {isOver && <Cover />}
+      {restart && <Cover />}
       <div className="output">{output}</div>
     </div>
   );
