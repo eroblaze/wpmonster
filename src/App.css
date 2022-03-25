@@ -16,6 +16,7 @@ body {
 }
 body {
   background-color: #323437;
+  /* background: url("../public/images/nasa-bg.jpg"); */
   font-family: "Roboto Mono", monospace;
   line-height: 1.5;
 }
@@ -27,6 +28,10 @@ body {
   width: 75%;
   height: 100%;
   margin: auto;
+  /* border: 2px solid blue; */
+  padding: 0 10px 0 10px;
+  /* background-color: #3c3f44; */
+  /* opacity: 0.5; */
 }
 
 .words {

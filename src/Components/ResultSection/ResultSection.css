@@ -3,5 +3,6 @@
   margin-top: 40px;
   height: fit-content;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  gap: 2em;
 }

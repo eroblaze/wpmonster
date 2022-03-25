@@ -22,7 +22,7 @@ import {
   TContext,
   TInputEvent,
 } from "./TypeTypes";
-import { AppCont } from "../../App";
+import { AppCont, wordsArrayRandom } from "../../App";
 
 // useful variables / bindings
 let everyIndexBeforeSpace: number[] = [];
@@ -37,8 +37,7 @@ let globalCount = 0;
 let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
-const startTime = 5;
-// let time = 61;
+const startTime = 60;
 let timeClear: NodeJS.Timeout;
 // For the main function's context
 let char: string;
@@ -355,10 +354,12 @@ function Type({ passedWords }: TypeProps) {
 
   const handleRestart = () => {
     console.log("from the restart");
+    clearInterval(timeClear);
+    setUserIn("");
     setIsOver(false);
     setRestart(true);
     setTimeout(() => setRestart(false), 2000);
-    setWordsToDisplay(passedWords); // Fetching is going to take place here
+    setWordsToDisplay(wordsArrayRandom[Math.round(Math.random())]); // Fetching is going to take place here
     setTime(startTime);
     setColor({} as TColor);
     clearAllEntries();

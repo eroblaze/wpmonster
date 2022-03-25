@@ -4,7 +4,14 @@ import { TypeContext } from "../Type/Type";
 
 const Timer = () => {
   let { time } = useContext(TypeContext);
-  time = time === 60 ? "1:00" : time;
+  if (time === 60) {
+    time = "1:00";
+  } else if (time.toString().length === 2) {
+    time = `0:${time}`;
+  } else if (time === 0) time = "0:00";
+  else {
+    time = `0:0${time}`;
+  }
 
   return (
     <span id="timer" style={{ color: "white" }}>
