@@ -38,7 +38,7 @@ export default function generateWpm(
   // For Accuracy
 
   let accuracy = ((totalCharTyped - wrongChars) / totalCharTyped) * 100;
-  accuracy = +accuracy.toFixed(1);
+  accuracy = +accuracy.toFixed(1) || 0; // Incase of when it is 0
   console.log(`accuracy : ${accuracy}%`);
 
   return {

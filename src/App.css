@@ -10,6 +10,9 @@
   --secondary-color: rgb(85, 202, 85);
   --general-red: rgb(219, 5, 5);
   --wrong-words-bg: rgb(104, 59, 59);
+  --current-width-of-timeFlow: 0; /* Going to be changed in the Timer Component*/
+  --words-container-fs: 18px;
+  --primary-font: "Roboto Mono", monospace;
 }
 
 * {
@@ -135,17 +138,26 @@ header li:last-child span {
   border: 1px solid var(--secondary-color);
   border-radius: 50px;
   transform: translateY(50%);
-  animation: time-flow-animation 30s linear forwards;
+  animation: time-flow-animation-decrement 30s linear forwards;
   animation-play-state: paused; /*Change this with javascript*/
 }
 
-@keyframes time-flow-animation {
+@keyframes time-flow-animation-decrement {
   from {
     width: 100%;
   }
   to {
     width: 0;
     border-color: var(--general-red);
+  }
+}
+@keyframes time-flow-animation-increment {
+  0% {
+    width: var(--current-width-of-timeFlow);
+  }
+  100% {
+    width: 100%;
+    border-color: var(--secondary-color);
   }
 }
 
@@ -172,6 +184,8 @@ header li:last-child span {
   /* border: 1px solid limegreen; */
   line-height: 1.5;
   margin-bottom: var(--main-typing-box-padding);
+  font-size: var(--words-container-fs);
+  font-family: var(--primary-font);
 }
 
 .input-restart {
@@ -188,6 +202,8 @@ header li:last-child span {
   border: none;
   border-radius: var(--general-b-radius);
   background-color: var(--overall-bg-color);
+  font-size: var(--words-container-fs);
+  font-family: var(--primary-font);
 }
 .input-restart input:focus {
   outline: 2px solid var(--secondary-color);

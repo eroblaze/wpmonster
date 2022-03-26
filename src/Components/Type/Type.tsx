@@ -6,6 +6,7 @@ import React, {
   createContext,
   useContext,
   useRef,
+  useCallback,
 } from "react";
 // Components
 import Div from "../Div/WordsDiv";
@@ -38,6 +39,7 @@ let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
 const startTime = 5;
+const loadTime = 2000;
 let timeClear: NodeJS.Timeout;
 // For the main function's context
 let char: string;
@@ -47,6 +49,7 @@ let valueLenInd: number;
 let isWrong = false;
 // When to show Result Section
 let shouldShowResultSection = false;
+let isSubmitting = false;
 
 function clearAllEntries(): void {
   everyIndexBeforeSpace = [];
@@ -101,11 +104,30 @@ function Type({ passedWords }: TypeProps) {
   );
 
   const [fake, setFake] = useState(false);
+
+  const onWindowKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Escape" && modalIsOpen) {
+        setModalIsOpen(false);
+      }
+    },
+    [modalIsOpen]
+  );
   // end states
   // Context
   const { isOver, setIsOver } = useContext(AppCont);
 
   // start initialization
+  useEffect(() => {
+    // Listen for esc being pressed in the window
+    console.log("called");
+    window.addEventListener("keydown", onWindowKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onWindowKeyDown);
+    };
+  }, [modalIsOpen]);
+
   // This is necessary inorder to set the highScore state to what was retrieved from the local storage
   useEffect(() => {
     const highScoreObj: ResultInterface = JSON.parse(
@@ -128,17 +150,16 @@ function Type({ passedWords }: TypeProps) {
     if (time === 0) {
       clearInterval(timeClear);
       // setTime(60);
-      console.log("Time is up!", time);
-
+      isSubmitting = true;
       setIsOver(true); // Game over
       setUserIn(""); // Clear the input field
-      setStartAnimating(false); // For the timer animation
       setTimeout(() => {
+        isSubmitting = false;
         shouldShowResultSection = true;
         setModalIsOpen(true);
         // To generate the wpm
         setResults(generateWpm(1, pastColor));
-      }, 2000); // For the Modal Result
+      }, loadTime); // For the Modal Result
     }
   }, [time]);
 
@@ -358,10 +379,11 @@ function Type({ passedWords }: TypeProps) {
   const handleRestart = () => {
     console.log("from the restart");
     clearInterval(timeClear);
+    setStartAnimating(false); // For the timer animation
     setUserIn("");
     setIsOver(false);
     setRestart(true);
-    setTimeout(() => setRestart(false), 2000);
+    setTimeout(() => setRestart(false), loadTime);
     setWordsToDisplay(wordsArrayRandom[Math.round(Math.random())]); // Fetching is going to take place here
     setTime(startTime);
     setColor({} as TColor);
@@ -411,7 +433,7 @@ function Type({ passedWords }: TypeProps) {
     // keydown event
     else {
       // on every keydown, check whether the ctrl key was held and take necessary actions
-      checkCtrl(e);
+      if (!modalIsOpen && !restart && !isSubmitting) checkCtrl(e);
     }
   };
   // end main function
@@ -440,10 +462,10 @@ function Type({ passedWords }: TypeProps) {
             />
           )}
           <div className="typing-box-1">
-            <Timer />
+            <Timer loadTime={loadTime} />
             <div className="main-typing-box">
               <Div />
-              <Input />
+              <Input click={handleRestart} />
             </div>
           </div>
 

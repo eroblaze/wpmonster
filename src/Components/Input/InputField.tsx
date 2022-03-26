@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import { TypeContext } from "../Type/Type";
 import { TInputEvent } from "../Type/TypeTypes";
 
-const Input = (): JSX.Element => {
+const Input = ({ click }: { click: () => void }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { userIn, onInput, modalIsOpen } = useContext(TypeContext);
 
@@ -31,7 +31,15 @@ const Input = (): JSX.Element => {
         data-testid="main-input"
         ref={inputRef}
       />
-      <span className="restart-span">rest</span>
+      <span
+        className="restart-span"
+        onClick={() => {
+          inputRef.current?.focus();
+          click();
+        }}
+      >
+        rest
+      </span>
     </div>
   );
 };
