@@ -1,22 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
 import { TypeContext } from "../Type/Type";
 
 const Timer = () => {
-  let { time } = useContext(TypeContext);
-  if (time === 60) {
-    time = "1:00";
-  } else if (time.toString().length === 2) {
-    time = `0:${time}`;
-  } else if (time === 0) time = "0:00";
-  else {
-    time = `0:0${time}`;
-  }
+  let { time, startAnimating } = useContext(TypeContext);
+  const timeFlowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (startAnimating) {
+      if (timeFlowRef.current) {
+        const { current: el } = timeFlowRef;
+        el.style.animationDuration = `${time}s`;
+        el.style.animationPlayState = "running";
+      }
+    } else {
+      if (timeFlowRef.current) {
+        const { current: el } = timeFlowRef;
+        el.style.width = "100%";
+        el.style.animationPlayState = "paused";
+      }
+    }
+  }, [startAnimating]);
 
   return (
-    <span id="timer" style={{ color: "white" }}>
-      {time}
-    </span>
+    <div className="timer-container">
+      <h3>Time Left : {time}s</h3>
+      <div className="time-flow" ref={timeFlowRef}></div>
+    </div>
   );
 };
 

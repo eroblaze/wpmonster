@@ -1,8 +1,0 @@
-.result-section {
-  border: 1px solid red;
-  margin-top: 40px;
-  height: fit-content;
-  display: flex;
-  justify-content: flex-start;
-  gap: 2em;
-}

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import Modal from "../Modal/Modal";
+import WrongWords from "../WrongWords/WrongWords";
 import { TypeContext } from "../Type/Type";
-import "./ResultSection.css";
 
 const ResultSection = () => {
   const {
@@ -29,8 +29,8 @@ const ResultSection = () => {
     } = results;
 
     return (
-      <div className="result-section">
-        <Modal
+      <>
+        {/* <Modal
           WPM={hWPM}
           accuracy={hAccuracy}
           correctChars={hCorrectChars}
@@ -39,7 +39,7 @@ const ResultSection = () => {
           wrongChars={hWrongChars}
           wrongWords={hWrongWords}
           highScore
-        />
+        /> */}
         <Modal
           WPM={WPM}
           accuracy={accuracy}
@@ -49,7 +49,8 @@ const ResultSection = () => {
           wrongChars={wrongChars}
           wrongWords={wrongWords}
         />
-      </div>
+        {/* <WrongWords /> */}
+      </>
     );
   } else return null;
 };

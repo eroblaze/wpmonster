@@ -37,7 +37,7 @@ let globalCount = 0;
 let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
-const startTime = 60;
+const startTime = 5;
 let timeClear: NodeJS.Timeout;
 // For the main function's context
 let char: string;
@@ -81,6 +81,8 @@ function Type({ passedWords }: TypeProps) {
   const [colorId, setColor] = useState<TColor>({} as TColor);
 
   const [time, setTime] = useState<number>(startTime);
+
+  const [startAnimating, setStartAnimating] = useState(false);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -130,6 +132,7 @@ function Type({ passedWords }: TypeProps) {
 
       setIsOver(true); // Game over
       setUserIn(""); // Clear the input field
+      setStartAnimating(false); // For the timer animation
       setTimeout(() => {
         shouldShowResultSection = true;
         setModalIsOpen(true);
@@ -392,6 +395,7 @@ function Type({ passedWords }: TypeProps) {
 
         if (!timeHasStarted) {
           timeClear = setInterval(updateTime, 1000);
+          setStartAnimating(true);
         }
         timeHasStarted = true;
 
@@ -425,20 +429,30 @@ function Type({ passedWords }: TypeProps) {
           modalIsOpen: modalIsOpen,
           highScore: highScore,
           restart,
+          startAnimating,
         }}
       >
-        {modalIsOpen && (
-          <ResultModal
-            modalIsOpen={modalIsOpen}
-            setModalIsOpen={setModalIsOpen}
-          />
-        )}
-        <Div />
-        <div className="input">
-          <Input />
-          <Timer />
-        </div>
-        {shouldShowResultSection && <ResultSection />}
+        <section className="main-body">
+          {modalIsOpen && (
+            <ResultModal
+              modalIsOpen={modalIsOpen}
+              setModalIsOpen={setModalIsOpen}
+            />
+          )}
+          <div className="typing-box-1">
+            <Timer />
+            <div className="main-typing-box">
+              <Div />
+              <Input />
+            </div>
+          </div>
+
+          {shouldShowResultSection && (
+            <div className="typing-box-2">
+              <ResultSection />
+            </div>
+          )}
+        </section>
       </TypeContext.Provider>
     </>
   );

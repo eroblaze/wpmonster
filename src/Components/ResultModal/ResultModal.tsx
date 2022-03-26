@@ -38,6 +38,7 @@ const ResultModal = ({ modalIsOpen, setModalIsOpen }: ResultModalProps) => {
             wrongWords={wrongWords}
             modalIsOpen={modalIsOpen}
             setModalIsOpen={setModalIsOpen}
+            recent
           />
         </div>
       </>

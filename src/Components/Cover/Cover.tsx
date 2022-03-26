@@ -5,9 +5,9 @@ import { TypeContext } from "../Type/Type";
 const howToRestart = () => {
   return (
     <div className="to-restart">
-      <h2>
+      <h3>
         Press <code style={{ color: "#f3f3f3" }}>f5</code> to restart
-      </h2>
+      </h3>
     </div>
   );
 };

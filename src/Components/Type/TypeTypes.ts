@@ -37,5 +37,6 @@ export type TContext = {
   results?: ResultInterface | undefined;
   modalIsOpen?: boolean;
   highScore: ResultInterface;
+  startAnimating?: boolean;
   restart?: boolean;
 };

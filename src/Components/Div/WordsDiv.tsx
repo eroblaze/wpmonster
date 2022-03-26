@@ -30,10 +30,10 @@ const Div = (): JSX.Element => {
   });
 
   return (
-    <div data-testid="words-div" className="words">
+    <div data-testid="words-div" className="words-container">
       {isOver && <Cover />}
       {restart && <Cover />}
-      <div className="output">{output}</div>
+      {output}
     </div>
   );
 };

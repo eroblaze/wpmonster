@@ -18,18 +18,21 @@ const Input = (): JSX.Element => {
   }, [modalIsOpen]);
 
   return (
-    <input
-      type="text"
-      value={userIn}
-      onKeyDown={(e) => onInput(e as TInputEvent)}
-      onChange={(e) => onInput(e as TInputEvent)}
-      onPaste={(e) => e.preventDefault()}
-      onDrop={(e) => e.preventDefault()}
-      autoFocus
-      autoComplete="off"
-      data-testid="main-input"
-      ref={inputRef}
-    />
+    <div className="input-restart">
+      <input
+        type="text"
+        value={userIn}
+        onKeyDown={(e) => onInput(e as TInputEvent)}
+        onChange={(e) => onInput(e as TInputEvent)}
+        onPaste={(e) => e.preventDefault()}
+        onDrop={(e) => e.preventDefault()}
+        autoFocus
+        autoComplete="off"
+        data-testid="main-input"
+        ref={inputRef}
+      />
+      <span className="restart-span">rest</span>
+    </div>
   );
 };
 export default Input;

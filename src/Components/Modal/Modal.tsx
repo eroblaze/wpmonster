@@ -1,5 +1,4 @@
 import React from "react";
-import "./ModalStyle.css";
 
 import { ResultInterface } from "../Type/TypeTypes";
 
@@ -7,6 +6,7 @@ interface ModalProps extends ResultInterface {
   highScore?: boolean;
   modalIsOpen?: boolean;
   setModalIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  recent?: boolean;
 }
 
 const Modal = ({
@@ -20,17 +20,20 @@ const Modal = ({
   modalIsOpen,
   setModalIsOpen,
   highScore,
+  recent,
 }: ModalProps) => {
   return (
     <div className="result-div">
-      <div className="result-title">
-        <div className="result-inner-div">
-          Result
-          {setModalIsOpen && (
-            <button onClick={() => setModalIsOpen(false)}>x</button>
-          )}
+      {recent && (
+        <div className="result-title">
+          <div className="result-inner-div">
+            Result
+            {setModalIsOpen && (
+              <button onClick={() => setModalIsOpen(false)}>x</button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
       <div className="result-body">
         <div className="sect-1">
           <div className="wpm-container">
