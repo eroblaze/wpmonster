@@ -1,12 +1,46 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { TypeContext } from "../Type/Type";
+import { AppCont } from "../../App";
 
-const Timer = ({ loadTime }: { loadTime: number }) => {
-  let { time, startAnimating } = useContext(TypeContext);
+let haveStarted = false;
+let timeClear: NodeJS.Timeout;
+
+interface TimerInterface {
+  timeDelay: number;
+  startTime: number;
+  startAnimating: boolean;
+}
+
+const Timer = ({ timeDelay, startTime, startAnimating }: TimerInterface) => {
+  const [time, setTime] = useState<number>(startTime);
+  let { setIsOver } = useContext(AppCont);
   const timeFlowRef = useRef<HTMLDivElement>(null);
 
+  // const rendered = useRef(0);
+
+  // useEffect(() => {
+  //   console.log(`Timer rendered : ${rendered.current++}`);
+  // });
+
   useEffect(() => {
+    if (time === 0) {
+      clearInterval(timeClear);
+      setIsOver(true); // Game over
+    }
+  }, [time]);
+
+  useEffect(() => {
+    // This is to reduce the state by a second
+    if (startAnimating && !haveStarted) {
+      timeClear = setInterval(updateTime, 1000);
+      haveStarted = true;
+    } else if (!startAnimating) {
+      clearInterval(timeClear);
+      haveStarted = false;
+      setTime(startTime);
+    }
+
+    // timeFlow animation
     if (startAnimating) {
       if (timeFlowRef.current) {
         const { current: el } = timeFlowRef;
@@ -23,12 +57,16 @@ const Timer = ({ loadTime }: { loadTime: number }) => {
           "--current-width-of-timeFlow",
           `${el.offsetWidth}px`
         );
-        el.style.animationDuration = `${loadTime}ms`;
+        el.style.animationDuration = `${timeDelay}ms`;
         el.style.animationName = "time-flow-animation-increment";
         el.style.animationPlayState = "running";
       }
     }
   }, [startAnimating]);
+
+  function updateTime(): void {
+    setTime((prev) => prev - 1);
+  }
 
   return (
     <div className="timer-container">
@@ -38,4 +76,4 @@ const Timer = ({ loadTime }: { loadTime: number }) => {
   );
 };
 
-export default Timer;
+export default React.memo(Timer);

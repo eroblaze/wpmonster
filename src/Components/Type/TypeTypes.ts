@@ -33,10 +33,10 @@ export type TContext = {
   pastColor: string[];
   userIn: string;
   onInput: (e: TInputEvent) => void;
-  time: number | string;
   results?: ResultInterface | undefined;
   modalIsOpen?: boolean;
   highScore: ResultInterface;
   startAnimating?: boolean;
   restart?: boolean;
+  caretRef?: React.RefObject<HTMLSpanElement>;
 };

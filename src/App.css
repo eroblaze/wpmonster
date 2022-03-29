@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Roboto+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=B612+Mono&family=Oxygen+Mono&family=PT+Mono&family=Roboto+Mono&display=swap");
 :root {
   --header-height: 40px;
   --main-typing-box-padding: 20px;
@@ -11,15 +11,14 @@
   --general-red: rgb(219, 5, 5);
   --wrong-words-bg: rgb(104, 59, 59);
   --current-width-of-timeFlow: 0; /* Going to be changed in the Timer Component*/
-  --words-container-fs: 18px;
-  --primary-font: "Roboto Mono", monospace;
+  --words-container-fs: 21px;
+  --primary-font: "Oxygen Mono", monospace;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-size: 1.05em; */
   -webkit-font-smoothing: antialiased; /* for smoothing the texts*/
 }
 html {
@@ -176,16 +175,71 @@ header li:last-child span {
   background-color: var(--overall-bg-color);
   display: grid;
   place-content: center;
+  z-index: 10;
   /* border: 1px solid red; */
 }
 
 .words-container {
   position: relative;
   /* border: 1px solid limegreen; */
+  padding: 1px 5px;
   line-height: 1.5;
   margin-bottom: var(--main-typing-box-padding);
   font-size: var(--words-container-fs);
   font-family: var(--primary-font);
+  height: 99px;
+  overflow: hidden; /* necessary for the typing animation */
+}
+
+.each-word {
+  display: inline-block;
+  position: relative;
+  /* border: 1px solid red; */
+}
+.each-word span {
+  position: relative;
+  /* border: 1px solid pink; */
+}
+
+.spaces {
+  visibility: hidden;
+}
+
+#blockCaret {
+  position: absolute;
+  height: 89%;
+  width: fit-content;
+  font-size: var(--words-container-fs);
+  border: none;
+  background-color: var(--secondary-color);
+  transform: translateY(0.9px);
+  transition: left 0.1s ease;
+}
+#thinCaret {
+  position: absolute;
+  height: 89%;
+  z-index: 5;
+  margin-left: -1px;
+  border-left: 2px solid var(--secondary-color);
+  border-radius: 50px;
+  transform: translateY(0.9px);
+  transition: left 0.1s ease;
+}
+#blockCaret span {
+  visibility: hidden;
+}
+.blink {
+  animation: blink 1.1s infinite 1s;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .input-restart {
@@ -233,8 +287,6 @@ header li:last-child span {
   margin-top: 40px;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
-  /* flex-wrap: nowrap; */
 }
 
 /* Beginning of modal*/
@@ -288,8 +340,6 @@ header li:last-child span {
 
 .result-body {
   height: fit-content;
-  /* display: grid;
-  grid-template-rows: 30% 15% 15% 15% 15%; */
   /* border: 1px solid violet; */
 }
 
@@ -299,7 +349,6 @@ div[class^="sect"] {
   height: 100%;
   margin: auto;
   display: flex;
-  /* border: 1px solid blue; */
   height: 50px;
 }
 div[class^="sect"]:last-of-type {
@@ -386,7 +435,6 @@ div[class="sect-1"] {
 .wrong-words {
   /* border: 1px solid yellow; */
   display: flex;
-  /* justify-content: space-between; */
   gap: 20px;
   flex-wrap: wrap;
   max-height: 203px;
@@ -415,9 +463,3 @@ div[class="sect-1"] {
   padding: 4px;
   background-color: var(--wrong-words-bg);
 }
-/* 
-@media (max-width: 500px) {
-  .typing-box-2 {
-    flex-direction: column;
-  }
-} */

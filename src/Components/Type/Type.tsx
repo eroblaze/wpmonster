@@ -38,9 +38,8 @@ let globalCount = 0;
 let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
-const startTime = 5;
+const startTime = 100;
 const loadTime = 2000;
-let timeClear: NodeJS.Timeout;
 // For the main function's context
 let char: string;
 let value: string;
@@ -76,14 +75,14 @@ interface TypeProps {
 export const TypeContext = createContext<TContext>({} as TContext);
 
 function Type({ passedWords }: TypeProps) {
+  const { isOver, setIsOver } = useContext(AppCont);
+
   // states
   const [wordsToDisplay, setWordsToDisplay] = useState(passedWords);
 
   const [userIn, setUserIn] = useState("");
 
   const [colorId, setColor] = useState<TColor>({} as TColor);
-
-  const [time, setTime] = useState<number>(startTime);
 
   const [startAnimating, setStartAnimating] = useState(false);
 
@@ -95,15 +94,17 @@ function Type({ passedWords }: TypeProps) {
   const [highScore, setHighScore] = useState<ResultInterface>(
     {} as ResultInterface
   );
+  const [fake, setFake] = useState(false);
 
   const [restart, setRestart] = useState(false);
+  // end states
+
+  const caretRef = useRef<HTMLSpanElement>(null);
 
   const resultsRef = useRef<number>(
     JSON.parse(localStorage.getItem("highScore") || JSON.stringify({ WPM: -1 }))
       .WPM
   );
-
-  const [fake, setFake] = useState(false);
 
   const onWindowKeyDown = useCallback(
     (e) => {
@@ -113,9 +114,6 @@ function Type({ passedWords }: TypeProps) {
     },
     [modalIsOpen]
   );
-  // end states
-  // Context
-  const { isOver, setIsOver } = useContext(AppCont);
 
   // start initialization
   useEffect(() => {
@@ -147,11 +145,8 @@ function Type({ passedWords }: TypeProps) {
   }, [restart]);
 
   useEffect(() => {
-    if (time === 0) {
-      clearInterval(timeClear);
-      // setTime(60);
+    if (isOver) {
       isSubmitting = true;
-      setIsOver(true); // Game over
       setUserIn(""); // Clear the input field
       setTimeout(() => {
         isSubmitting = false;
@@ -161,7 +156,7 @@ function Type({ passedWords }: TypeProps) {
         setResults(generateWpm(1, pastColor));
       }, loadTime); // For the Modal Result
     }
-  }, [time]);
+  }, [isOver]);
 
   useEffect(() => {
     // To set an highscore
@@ -172,10 +167,6 @@ function Type({ passedWords }: TypeProps) {
     }
   }, [results]);
   // end initialization
-
-  function updateTime(): void {
-    setTime((prev) => prev - 1);
-  }
 
   function wrapperSetWords(startInd: number, excess: string): void {
     setWordsToDisplay((prev) => {
@@ -377,15 +368,12 @@ function Type({ passedWords }: TypeProps) {
   // To restart the game
 
   const handleRestart = () => {
-    console.log("from the restart");
-    clearInterval(timeClear);
     setStartAnimating(false); // For the timer animation
     setUserIn("");
     setIsOver(false);
     setRestart(true);
     setTimeout(() => setRestart(false), loadTime);
     setWordsToDisplay(wordsArrayRandom[Math.round(Math.random())]); // Fetching is going to take place here
-    setTime(startTime);
     setColor({} as TColor);
     clearAllEntries();
   };
@@ -416,19 +404,24 @@ function Type({ passedWords }: TypeProps) {
         value = e.target.value;
 
         if (!timeHasStarted) {
-          timeClear = setInterval(updateTime, 1000);
           setStartAnimating(true);
         }
         timeHasStarted = true;
 
         if (space < spaceSplit.length) {
+          if (caretRef.current) {
+            const { current } = caretRef;
+            current.classList.remove("blink");
+            setTimeout(() => current.classList.add("blink"), 500);
+          }
+
           if (char === " ") {
             ifSpaceBarPressed();
           } else {
             ifNormalKeysPressed();
           }
         }
-      } else console.log("Nothing happened waloah");
+      }
     }
     // keydown event
     else {
@@ -446,12 +439,12 @@ function Type({ passedWords }: TypeProps) {
           pastColor,
           userIn,
           onInput: handleUserInput,
-          time,
           results,
           modalIsOpen: modalIsOpen,
           highScore: highScore,
           restart,
           startAnimating,
+          caretRef,
         }}
       >
         <section className="main-body">
@@ -462,9 +455,13 @@ function Type({ passedWords }: TypeProps) {
             />
           )}
           <div className="typing-box-1">
-            <Timer loadTime={loadTime} />
+            <Timer
+              timeDelay={loadTime}
+              startTime={startTime}
+              startAnimating={startAnimating}
+            />
             <div className="main-typing-box">
-              <Div />
+              <Div spaceCount={space} />
               <Input click={handleRestart} />
             </div>
           </div>

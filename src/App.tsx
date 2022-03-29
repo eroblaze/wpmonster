@@ -6,8 +6,8 @@ import { AppContextInterface } from "../src/AppTypes";
 import Header from "./Components/Header/Header";
 
 export const wordsArrayRandom = [
-  `this project from learning react to working on this project and then almost giving up when things were not working as planned to learning typescript and tell me something girl are you tired tryna feel that void`,
-  "when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void",
+  `this project from learning react to working on this project and then almost giving up when things were not working as planned to learning typescript and tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me`,
+  "when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me",
 ];
 
 export const AppCont = createContext<AppContextInterface>(
