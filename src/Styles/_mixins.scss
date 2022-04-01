@@ -1,0 +1,19 @@
+@mixin caret($oneForBlock) {
+  position: absolute;
+  height: 89%;
+  transform: translateY(0.9px);
+  transition: left 0.1s ease;
+
+  // if it's 2, that means it is thinCaret
+  @if ($oneForBlock == 1) {
+    width: fit-content;
+    font-size: $words-container-fs;
+    border: none;
+    background-color: $secondary-color;
+  } @else {
+    z-index: 5;
+    margin-left: -1px;
+    border-left: 2px solid $secondary-color;
+    border-radius: 50px;
+  }
+}

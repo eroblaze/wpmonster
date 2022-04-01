@@ -1,0 +1,28 @@
+@keyframes time-flow-animation-decrement {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+    border-color: $general-red;
+  }
+}
+@keyframes time-flow-animation-increment {
+  0% {
+    width: $current-width-of-timeFlow;
+  }
+  100% {
+    width: 100%;
+    border-color: $secondary-color;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

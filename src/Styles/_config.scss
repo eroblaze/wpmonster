@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=B612+Mono&family=Oxygen+Mono&family=PT+Mono&family=Roboto+Mono&display=swap");
+
+$header-height: 40px;
+$main-typing-box-padding: 20px;
+$general-b-radius: 3px;
+$input-restart-padding: 10px;
+$timer-words-bg-color: #323437;
+$modal-second-color: #585d64;
+$overall-bg-color: #202020;
+$secondary-color: rgb(85, 202, 85);
+$general-red: rgb(219, 5, 5);
+$wrong-words-bg: rgb(104, 59, 59);
+$current-width-of-timeFlow: 0; /* Going to be changed in the Timer Component*/
+$words-container-fs: 21px;
+$primary-font: "Oxygen Mono", monospace;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased; /* for smoothing the texts*/
+}

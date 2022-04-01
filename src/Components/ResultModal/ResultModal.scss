@@ -1,4 +1,4 @@
-.modal-sibling {
+@mixin placement {
   position: fixed;
   top: 0;
   left: 0;
@@ -6,19 +6,17 @@
   right: 0;
   width: 100%;
   height: 100%;
+}
+
+.modal-sibling {
+  @include placement();
   background-color: black;
   opacity: 0.95;
   z-index: 11;
 }
 .modal-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  @include placement();
   display: grid;
   place-content: center;
-  width: 100%;
-  height: 100%;
   z-index: 12;
 }

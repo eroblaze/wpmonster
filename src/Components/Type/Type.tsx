@@ -119,7 +119,6 @@ function Type({ passedWords }: TypeProps) {
   // start initialization
   useEffect(() => {
     // Listen for esc being pressed in the window
-    console.log("called");
     window.addEventListener("keydown", onWindowKeyDown);
 
     return () => {
@@ -136,7 +135,6 @@ function Type({ passedWords }: TypeProps) {
   }, []);
 
   useEffect(() => {
-    console.log(resultsRef.current);
     splittedArr = wordsToDisplay.split("");
   }, [wordsToDisplay]);
 

@@ -11,6 +11,7 @@ interface DicInterface {
 }
 
 const Div = ({ spaceCount }: DicInterface): JSX.Element => {
+  console.count("WordsDiv component rendered");
   const isBlockCursor = false;
 
   const { isOver } = useContext(TypeContext);
@@ -25,7 +26,6 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
     // This is important so as to prevent it from scrolling back after the words-container div has been scrolled up
     if (!isOver) {
       if (currentWordRef.current) {
-        console.count("current scrolled");
         // On every render, scroll the current word to the center
         const { current } = currentWordRef;
         current.scrollIntoView({
@@ -37,7 +37,6 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
 
   useEffect(() => {
     if (isOver) {
-      console.count("isOver");
       if (wordsContainerRef.current) {
         // This scrolls the wordsContainer back to the top if not, it breaks
         wordsContainerRef.current.scrollTo(0, 0);

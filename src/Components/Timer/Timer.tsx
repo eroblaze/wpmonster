@@ -13,15 +13,10 @@ interface TimerInterface {
 }
 
 const Timer = ({ timeDelay, startTime, startAnimating }: TimerInterface) => {
+  console.count("Timer component rendered");
   const [time, setTime] = useState<number>(startTime);
   let { setIsOver } = useContext(TypeContext);
   const timeFlowRef = useRef<HTMLDivElement>(null);
-
-  // const rendered = useRef(0);
-
-  // useEffect(() => {
-  //   console.log(`Timer rendered : ${rendered.current++}`);
-  // });
 
   useEffect(() => {
     if (time === 0) {
