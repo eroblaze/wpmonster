@@ -38,7 +38,7 @@ let globalCount = 0;
 let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
-const startTime = 100;
+const startTime = 15;
 const loadTime = 2000;
 // For the main function's context
 let char: string;
@@ -75,7 +75,8 @@ interface TypeProps {
 export const TypeContext = createContext<TContext>({} as TContext);
 
 function Type({ passedWords }: TypeProps) {
-  const { isOver, setIsOver } = useContext(AppCont);
+  // const { isOver, setIsOver } = useContext(AppCont);
+  const [isOver, setIsOver] = useState(false);
 
   // states
   const [wordsToDisplay, setWordsToDisplay] = useState(passedWords);
@@ -445,6 +446,8 @@ function Type({ passedWords }: TypeProps) {
           restart,
           startAnimating,
           caretRef,
+          isOver,
+          setIsOver,
         }}
       >
         <section className="main-body">

@@ -15,16 +15,15 @@ export const AppCont = createContext<AppContextInterface>(
 );
 
 const App = () => {
-  const [isOver, setIsOver] = useState(false);
   const wordsToDisplay = wordsArrayRandom[0];
 
   return (
     <>
-      <AppCont.Provider value={{ isOver, setIsOver }}>
+      {/* <AppCont.Provider value={{ isOver, setIsOver }}> */}
         <Header />
         <Type passedWords={wordsToDisplay} />
         {/* Footer component goes here */}
-      </AppCont.Provider>
+      {/* </AppCont.Provider> */}
     </>
   );
 };

@@ -39,4 +39,6 @@ export type TContext = {
   startAnimating?: boolean;
   restart?: boolean;
   caretRef?: React.RefObject<HTMLSpanElement>;
+  isOver?: boolean;
+  setIsOver: React.Dispatch<React.SetStateAction<boolean>>;
 };

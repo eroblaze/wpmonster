@@ -13,38 +13,37 @@ interface DicInterface {
 const Div = ({ spaceCount }: DicInterface): JSX.Element => {
   const isBlockCursor = false;
 
-  const { isOver } = useContext(AppCont);
+  const { isOver } = useContext(TypeContext);
   const { words, pastColor, restart, caretRef } = useContext(TypeContext);
 
   const wordsContainerRef = useRef<HTMLDivElement>(null);
   const currentWordRef = useRef<HTMLDivElement>(null);
-  const rendered = useRef(1);
 
   let pCIdx = -1; // To get the colors from pastColor array
 
   useEffect(() => {
-    if (currentWordRef.current) {
-      // On every render, scroll the current word to the center
-      const { current } = currentWordRef;
-      current.scrollIntoView({
-        block: "center",
-      });
+    // This is important so as to prevent it from scrolling back after the words-container div has been scrolled up
+    if (!isOver) {
+      if (currentWordRef.current) {
+        console.count("current scrolled");
+        // On every render, scroll the current word to the center
+        const { current } = currentWordRef;
+        current.scrollIntoView({
+          block: "center",
+        });
+      }
     }
   });
 
   useEffect(() => {
-    if (restart || isOver) {
+    if (isOver) {
+      console.count("isOver");
       if (wordsContainerRef.current) {
         // This scrolls the wordsContainer back to the top if not, it breaks
         wordsContainerRef.current.scrollTo(0, 0);
       }
     }
-  }, [restart, isOver]);
-
-  useEffect(() => {
-    console.log(`pCIdx : ${pCIdx}`);
-    console.log(`Div component rendered : ${rendered.current++}`);
-  });
+  }, [isOver]);
 
   const wordsArr = words.split(" ");
   const lastIdx = wordsArr.length - 1; // last word index in the array

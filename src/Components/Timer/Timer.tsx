@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { AppCont } from "../../App";
+import { TypeContext } from "../Type/Type";
 
 let haveStarted = false;
 let timeClear: NodeJS.Timeout;
@@ -13,7 +14,7 @@ interface TimerInterface {
 
 const Timer = ({ timeDelay, startTime, startAnimating }: TimerInterface) => {
   const [time, setTime] = useState<number>(startTime);
-  let { setIsOver } = useContext(AppCont);
+  let { setIsOver } = useContext(TypeContext);
   const timeFlowRef = useRef<HTMLDivElement>(null);
 
   // const rendered = useRef(0);
