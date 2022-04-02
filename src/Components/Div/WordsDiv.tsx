@@ -11,7 +11,7 @@ interface DicInterface {
 }
 
 const Div = ({ spaceCount }: DicInterface): JSX.Element => {
-  console.count("WordsDiv component rendered");
+  // console.count("WordsDiv component rendered");
   const isBlockCursor = true;
 
   const { isOver } = useContext(TypeContext);

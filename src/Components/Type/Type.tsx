@@ -38,7 +38,7 @@ let globalCount = 0;
 let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
-const startTime = 30;
+// const startTime = 30;
 const loadTime = 2000;
 // For the main function's context
 let char: string;
@@ -75,7 +75,8 @@ interface TypeProps {
 export const TypeContext = createContext<TContext>({} as TContext);
 
 function Type({ passedWords }: TypeProps) {
-  // const { isOver, setIsOver } = useContext(AppCont);
+  // const { startTime } = useContext(AppCont);
+
   const [isOver, setIsOver] = useState(false);
 
   // states
@@ -372,7 +373,7 @@ function Type({ passedWords }: TypeProps) {
     setIsOver(false);
     setRestart(true);
     setTimeout(() => setRestart(false), loadTime);
-    setWordsToDisplay(wordsArrayRandom[Math.round(Math.random() * 4)]); // Fetching is going to take place here
+    setWordsToDisplay(wordsArrayRandom[Math.floor(Math.random() * 4)]); // Fetching is going to take place here
     setColor({} as TColor);
     clearAllEntries();
   };
@@ -456,11 +457,7 @@ function Type({ passedWords }: TypeProps) {
             />
           )}
           <div className="typing-box-1">
-            <Timer
-              timeDelay={loadTime}
-              startTime={startTime}
-              startAnimating={startAnimating}
-            />
+            <Timer timeDelay={loadTime} startAnimating={startAnimating} />
             <div className="main-typing-box">
               <Div spaceCount={space} />
               <Input click={handleRestart} />

@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import { useState, createContext } from "react";
 
 import Type from "./Components/Type/Type";
 
@@ -12,20 +12,31 @@ export const wordsArrayRandom = [
   "when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently what do you know?",
 ];
 
+const timeArray = [15, 30, 60];
+
 export const AppCont = createContext<AppContextInterface>(
   {} as AppContextInterface
 );
 
 const App = () => {
+  const [startTime, setStartTime] = useState(60);
   const wordsToDisplay = wordsArrayRandom[0];
+
+  const handleTimeChange = (time: number) => {
+    setStartTime(time);
+  };
 
   return (
     <>
-      {/* <AppCont.Provider value={{ isOver, setIsOver }}> */}
-      <Header />
-      <Type passedWords={wordsToDisplay} />
-      {/* Footer component goes here */}
-      {/* </AppCont.Provider> */}
+      <AppCont.Provider value={{ startTime }}>
+        <Header
+          timeArray={timeArray}
+          startTime={startTime}
+          onTimeChange={handleTimeChange}
+        />
+        <Type passedWords={wordsToDisplay} />
+        {/* Footer component goes here */}
+      </AppCont.Provider>
     </>
   );
 };

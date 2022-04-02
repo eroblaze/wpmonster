@@ -8,15 +8,20 @@ let timeClear: NodeJS.Timeout;
 
 interface TimerInterface {
   timeDelay: number;
-  startTime: number;
   startAnimating: boolean;
 }
 
-const Timer = ({ timeDelay, startTime, startAnimating }: TimerInterface) => {
-  console.count("Timer component rendered");
+const Timer = ({ timeDelay, startAnimating }: TimerInterface) => {
+  // console.count("Timer component rendered");
+  const { startTime } = useContext(AppCont);
   const [time, setTime] = useState<number>(startTime);
   let { isOver, setIsOver } = useContext(TypeContext);
   const timeFlowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    console.log("startTime changed");
+    setTime(startTime);
+  }, [startTime]);
 
   useEffect(() => {
     if (time === 0) {

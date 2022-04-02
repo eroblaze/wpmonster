@@ -1,4 +1,5 @@
 export interface AppContextInterface {
-  isOver: boolean;
-  setIsOver: React.Dispatch<React.SetStateAction<boolean>>;
+  startTime: number;
+  isOver?: boolean;
+  setIsOver?: React.Dispatch<React.SetStateAction<boolean>>;
 }
