@@ -15,7 +15,7 @@ interface TimerInterface {
 const Timer = ({ timeDelay, startTime, startAnimating }: TimerInterface) => {
   console.count("Timer component rendered");
   const [time, setTime] = useState<number>(startTime);
-  let { setIsOver } = useContext(TypeContext);
+  let { isOver, setIsOver } = useContext(TypeContext);
   const timeFlowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const Timer = ({ timeDelay, startTime, startAnimating }: TimerInterface) => {
         el.style.animationPlayState = "running";
       }
     } else {
+      // if (isOver) { // look up that isOver state it's not quite right
       if (timeFlowRef.current) {
         const { current: el } = timeFlowRef;
         const root = document.documentElement;
@@ -57,6 +58,7 @@ const Timer = ({ timeDelay, startTime, startAnimating }: TimerInterface) => {
         el.style.animationName = "time-flow-animation-increment";
         el.style.animationPlayState = "running";
       }
+      // }
     }
   }, [startAnimating]);
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "./ResultModal.scss";
+import "../../Styles/ResultModal.scss";
 
 import Modal from "../Modal/Modal";
 

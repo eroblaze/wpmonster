@@ -6,8 +6,10 @@ import { AppContextInterface } from "../src/AppTypes";
 import Header from "./Components/Header/Header";
 
 export const wordsArrayRandom = [
-  `this project from learning react to working on this project and then almost giving up when things were not working as planned to learning typescript and tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me`,
-  "when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me",
+  "one two",
+  "what is the reason for this it's to prepare for more features",
+  `this project from learning react to working on this project and then almost giving up when things were not working as planned to learning typescript and tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently what do you know?`,
+  "when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently what do you know?",
 ];
 
 export const AppCont = createContext<AppContextInterface>(
@@ -20,9 +22,9 @@ const App = () => {
   return (
     <>
       {/* <AppCont.Provider value={{ isOver, setIsOver }}> */}
-        <Header />
-        <Type passedWords={wordsToDisplay} />
-        {/* Footer component goes here */}
+      <Header />
+      <Type passedWords={wordsToDisplay} />
+      {/* Footer component goes here */}
       {/* </AppCont.Provider> */}
     </>
   );

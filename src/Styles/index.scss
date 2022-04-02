@@ -154,7 +154,8 @@ header {
   margin-bottom: $main-typing-box-padding;
   font-size: $words-container-fs;
   font-family: $primary-font;
-  height: 99px;
+  height: fit-content;
+  max-height: 99px;
   overflow: hidden; /* necessary for the typing animation */
 }
 

@@ -38,7 +38,7 @@ let globalCount = 0;
 let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
-const startTime = 15;
+const startTime = 30;
 const loadTime = 2000;
 // For the main function's context
 let char: string;
@@ -372,7 +372,7 @@ function Type({ passedWords }: TypeProps) {
     setIsOver(false);
     setRestart(true);
     setTimeout(() => setRestart(false), loadTime);
-    setWordsToDisplay(wordsArrayRandom[Math.round(Math.random())]); // Fetching is going to take place here
+    setWordsToDisplay(wordsArrayRandom[Math.round(Math.random() * 4)]); // Fetching is going to take place here
     setColor({} as TColor);
     clearAllEntries();
   };
