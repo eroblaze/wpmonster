@@ -9,9 +9,18 @@ let timeClear: NodeJS.Timeout;
 interface TimerInterface {
   timeDelay: number;
   startAnimating: boolean;
+  wasDoneEarly: boolean;
+  setWasDoneEarly: React.Dispatch<React.SetStateAction<boolean>>;
+  finishedEarly: (timeTake: number) => void;
 }
 
-const Timer = ({ timeDelay, startAnimating }: TimerInterface) => {
+const Timer = ({
+  timeDelay,
+  startAnimating,
+  wasDoneEarly,
+  setWasDoneEarly,
+  finishedEarly,
+}: TimerInterface) => {
   // console.count("Timer component rendered");
   const { startTime } = useContext(AppCont);
   const [time, setTime] = useState<number>(startTime);
@@ -19,7 +28,6 @@ const Timer = ({ timeDelay, startAnimating }: TimerInterface) => {
   const timeFlowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log("startTime changed");
     setTime(startTime);
   }, [startTime]);
 
@@ -27,8 +35,22 @@ const Timer = ({ timeDelay, startAnimating }: TimerInterface) => {
     if (time === 0) {
       clearInterval(timeClear);
       setIsOver(true); // Game over
+      setWasDoneEarly(false);
     }
   }, [time]);
+
+  useEffect(() => {
+    if (wasDoneEarly) {
+      // Stops the time and pauses the timeFlow animation
+      clearInterval(timeClear);
+      const timeTaken = startTime - time;
+      if (timeFlowRef.current) {
+        const { current } = timeFlowRef;
+        current.style.animationPlayState = "paused";
+      }
+      finishedEarly(timeTaken);
+    }
+  }, [wasDoneEarly]);
 
   useEffect(() => {
     // This is to reduce the state by a second
@@ -50,7 +72,6 @@ const Timer = ({ timeDelay, startAnimating }: TimerInterface) => {
         el.style.animationPlayState = "running";
       }
     } else {
-      // if (isOver) { // look up that isOver state it's not quite right
       if (timeFlowRef.current) {
         const { current: el } = timeFlowRef;
         const root = document.documentElement;
@@ -63,7 +84,6 @@ const Timer = ({ timeDelay, startAnimating }: TimerInterface) => {
         el.style.animationName = "time-flow-animation-increment";
         el.style.animationPlayState = "running";
       }
-      // }
     }
   }, [startAnimating]);
 

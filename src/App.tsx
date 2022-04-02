@@ -20,15 +20,16 @@ export const AppCont = createContext<AppContextInterface>(
 
 const App = () => {
   const [startTime, setStartTime] = useState(60);
+  const [hasGameStarted, setHasGameStarted] = useState(false);
   const wordsToDisplay = wordsArrayRandom[0];
 
   const handleTimeChange = (time: number) => {
-    setStartTime(time);
+    if (!hasGameStarted) setStartTime(time);
   };
 
   return (
     <>
-      <AppCont.Provider value={{ startTime }}>
+      <AppCont.Provider value={{ startTime, setHasGameStarted }}>
         <Header
           timeArray={timeArray}
           startTime={startTime}

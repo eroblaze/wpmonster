@@ -7,7 +7,7 @@ interface HeaderInterface {
 const Header = ({ startTime, timeArray, onTimeChange }: HeaderInterface) => {
   const verifyTime = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     const target = e.target as HTMLSpanElement;
-    const time = target.getAttribute("data-timeValue");
+    const time = target.getAttribute("data-timevalue");
 
     if (time) {
       if (+time === startTime) return;
@@ -27,9 +27,10 @@ const Header = ({ startTime, timeArray, onTimeChange }: HeaderInterface) => {
             time:
             {timeArray.map((time) => (
               <span
+                key={time}
                 onClick={verifyTime}
                 className={startTime === time ? "time-selected" : ""}
-                data-timeValue={time}
+                data-timevalue={time}
               >
                 {" "}
                 {time}

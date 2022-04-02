@@ -1,7 +1,10 @@
-export default function generateWpm(
-  rightTime: number = 1,
-  pastColor: string[]
-) {
+export default function generateWpm(rightTime: number, pastColor: string[]) {
+  console.log(`before change rightTime :${rightTime}`);
+  // Format the rightTime (from seconds to minutes)
+  rightTime = rightTime / 60;
+
+  console.log(`rightTime changed: ${rightTime}`);
+
   const wrongChars = pastColor.reduce((acc, el) => {
     if (el === "rgb(226, 5, 5)") acc++;
     return acc;
@@ -26,20 +29,27 @@ export default function generateWpm(
   const WPM = Math.round(GWM - wrongCharsToWord);
   const correctChars = totalCharTyped - wrongChars;
 
-  console.log(`Correct Chars : ${correctChars}`);
-  console.log(`Wrong Chars : ${wrongChars}`);
-  console.log(`Spaces : ${spaceTyped}`);
-  console.log(`Total char typed : ${totalCharTyped}`);
-  console.log(`Wrong words : ${wrongCharsToWord}`);
-  console.log(`Correct words : ${correctWords}`);
-  console.log(`GWM : ${GWM}`);
-  console.log(`NET WPM : ${WPM} wpm`);
+  // console.log(`Correct Chars : ${correctChars}`);
+  // console.log(`Wrong Chars : ${wrongChars}`);
+  // console.log(`Spaces : ${spaceTyped}`);
+  // console.log(`Total char typed : ${totalCharTyped}`);
+  // console.log(`Wrong words : ${wrongCharsToWord}`);
+  // console.log(`Correct words : ${correctWords}`);
+  // console.log(`GWM : ${GWM}`);
+  // console.log(`NET WPM : ${WPM} wpm`);
 
   // For Accuracy
 
   let accuracy = ((totalCharTyped - wrongChars) / totalCharTyped) * 100;
   accuracy = +accuracy.toFixed(1) || 0; // Incase of when it is 0
-  console.log(`accuracy : ${accuracy}%`);
+  // console.log(`accuracy : ${accuracy}%`);
+
+  // console.log(`rightTime : ${rightTime}`);
+  // console.log(
+  //   `Normally it would have been if it were to be 1 minute ${
+  //     Math.round(totalCharTyped / 5) - wrongCharsToWord
+  //   } wpm`
+  // );
 
   return {
     correctChars,

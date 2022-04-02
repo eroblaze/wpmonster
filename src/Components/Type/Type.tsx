@@ -33,7 +33,8 @@ let splittedArr: string[] = [];
 let pastColor: string[] = [];
 let spaceSplit: string[] = [];
 let counter = 0;
-let space = 0;
+let spaceEnteredByUser = 0;
+let totalSpaceInitially = 0;
 let globalCount = 0;
 let extraCount = 0;
 // For the timer
@@ -57,7 +58,7 @@ function clearAllEntries(): void {
   pastColor = [];
   spaceSplit = [];
   counter = 0;
-  space = 0;
+  spaceEnteredByUser = 0;
   globalCount = 0;
   extraCount = 0;
   timeHasStarted = false;
@@ -75,7 +76,7 @@ interface TypeProps {
 export const TypeContext = createContext<TContext>({} as TContext);
 
 function Type({ passedWords }: TypeProps) {
-  // const { startTime } = useContext(AppCont);
+  const { setHasGameStarted, startTime } = useContext(AppCont);
 
   const [isOver, setIsOver] = useState(false);
 
@@ -99,6 +100,8 @@ function Type({ passedWords }: TypeProps) {
   const [fake, setFake] = useState(false);
 
   const [restart, setRestart] = useState(false);
+
+  const [wasDoneEarly, setWasDoneEarly] = useState(false);
   // end states
 
   const caretRef = useRef<HTMLSpanElement>(null);
@@ -141,19 +144,21 @@ function Type({ passedWords }: TypeProps) {
 
   useEffect(() => {
     spaceSplit = wordsToDisplay.split(" ");
+    totalSpaceInitially = spaceSplit.length - 1;
     splittedArr = wordsToDisplay.split(""); // This is neccessary to re-create this array after every restart
   }, [restart]);
 
   useEffect(() => {
-    if (isOver) {
+    if (isOver && !wasDoneEarly) {
       isSubmitting = true;
       setUserIn(""); // Clear the input field
+      setHasGameStarted(false);
       setTimeout(() => {
         isSubmitting = false;
         shouldShowResultSection = true;
         setModalIsOpen(true);
         // To generate the wpm
-        setResults(generateWpm(1, pastColor));
+        setResults(generateWpm(startTime, pastColor));
       }, loadTime); // For the Modal Result
     }
   }, [isOver]);
@@ -167,6 +172,20 @@ function Type({ passedWords }: TypeProps) {
     }
   }, [results]);
   // end initialization
+
+  const finishedEarly = (timeTaken: number) => {
+    setIsOver(true); // Game over
+    isSubmitting = true;
+    setUserIn(""); // Clear the input field
+    setHasGameStarted(false);
+    setTimeout(() => {
+      isSubmitting = false;
+      shouldShowResultSection = true;
+      setModalIsOpen(true);
+      // To generate the wpm
+      setResults(generateWpm(timeTaken, pastColor));
+    }, loadTime);
+  };
 
   function wrapperSetWords(startInd: number, excess: string): void {
     setWordsToDisplay((prev) => {
@@ -267,14 +286,14 @@ function Type({ passedWords }: TypeProps) {
         setWordsToDisplay((prev) => {
           const prevArr = prev.split(" ");
           let prevCount = 0;
-          for (let i = 0; i <= space; i++) {
+          for (let i = 0; i <= spaceEnteredByUser; i++) {
             prevCount += prevArr[i].length;
             prevCount++;
           }
           prevCount--;
           // Check if num and prevCount are not equal because if there was
           // fullstop (.) they will be different
-          if (extraCount === 0 || num === prevArr[space].length) {
+          if (extraCount === 0 || num === prevArr[spaceEnteredByUser].length) {
             extraCount = 0;
 
             const cpFirst = prev.slice(0, prevCount - newCount);
@@ -285,9 +304,14 @@ function Type({ passedWords }: TypeProps) {
             return newState;
           } else {
             // work with the difference from behind
-            if (prevArr[space].length - num > spaceSplit[space].length) {
+            if (
+              prevArr[spaceEnteredByUser].length - num >
+              spaceSplit[spaceEnteredByUser].length
+            ) {
               extraCount =
-                prevArr[space].length - num - spaceSplit[space].length;
+                prevArr[spaceEnteredByUser].length -
+                num -
+                spaceSplit[spaceEnteredByUser].length;
             } else extraCount = 0;
 
             let count = prevCount - num;
@@ -302,7 +326,7 @@ function Type({ passedWords }: TypeProps) {
       }
       // If only backspace was pressed :
       else {
-        if (colorId.id > spaceSplit[space].length - 1) {
+        if (colorId.id > spaceSplit[spaceEnteredByUser].length - 1) {
           extraCount--;
           const startInd = globalCount;
 
@@ -346,8 +370,14 @@ function Type({ passedWords }: TypeProps) {
   function ifSpaceBarPressed(): void {
     // For the counter;
     counter++;
-    space++;
+    spaceEnteredByUser++;
     extraCount = 0;
+
+    // If the user has submitted the last word by pressing space bar
+    if (spaceEnteredByUser === totalSpaceInitially + 1) {
+      setWasDoneEarly(true);
+      return;
+    }
 
     setColor((prevId) => {
       return {
@@ -368,8 +398,10 @@ function Type({ passedWords }: TypeProps) {
   // To restart the game
 
   const handleRestart = () => {
+    setWasDoneEarly(false);
     setStartAnimating(false); // For the timer animation
     setUserIn("");
+    setHasGameStarted(false);
     setIsOver(false);
     setRestart(true);
     setTimeout(() => setRestart(false), loadTime);
@@ -405,10 +437,11 @@ function Type({ passedWords }: TypeProps) {
 
         if (!timeHasStarted) {
           setStartAnimating(true);
+          setHasGameStarted(true);
         }
         timeHasStarted = true;
 
-        if (space < spaceSplit.length) {
+        if (spaceEnteredByUser < spaceSplit.length) {
           if (caretRef.current) {
             const { current } = caretRef;
             current.classList.remove("blink");
@@ -457,9 +490,15 @@ function Type({ passedWords }: TypeProps) {
             />
           )}
           <div className="typing-box-1">
-            <Timer timeDelay={loadTime} startAnimating={startAnimating} />
+            <Timer
+              timeDelay={loadTime}
+              startAnimating={startAnimating}
+              wasDoneEarly={wasDoneEarly}
+              setWasDoneEarly={setWasDoneEarly}
+              finishedEarly={finishedEarly}
+            />
             <div className="main-typing-box">
-              <Div spaceCount={space} />
+              <Div spaceCount={spaceEnteredByUser} />
               <Input click={handleRestart} />
             </div>
           </div>
