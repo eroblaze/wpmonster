@@ -6,7 +6,8 @@ const howToRestart = () => {
   return (
     <div className="to-restart">
       <p>
-        Press <code style={{ color: "#f3f3f3" }}>f5</code> to restart
+        Press <code style={{ color: "#f3f3f3", fontStyle: "italic" }}>f5</code>{" "}
+        to restart
       </p>
     </div>
   );

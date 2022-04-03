@@ -55,6 +55,7 @@ header {
   }
 
   ul {
+    font-size: $small-font;
     list-style: none;
     display: flex;
     justify-content: space-evenly;
@@ -124,7 +125,7 @@ header {
   width: 100%;
   border-radius: $general-b-radius;
   background-color: $timer-words-bg-color;
-
+  font-size: $small-font;
   p {
     padding: 5px $main-typing-box-padding 5px $main-typing-box-padding;
     /* border: 1px solid white; */
@@ -267,7 +268,8 @@ header {
 
 .to-restart {
   font-family: $general-font;
-  letter-spacing: 1;
+  letter-spacing: 2px;
+  font-size: 19px;
 }
 
 .restart-span {
@@ -289,14 +291,11 @@ header {
 
 .typing-box-2 {
   width: 100%;
-  border: 1px solid red;
+  // border: 1px solid red;
   height: 280px;
   margin-top: 30px;
   display: flex;
   justify-content: center;
-}
-details {
-  display: inline;
 }
 
 /* Beginning of modal*/
@@ -421,10 +420,10 @@ div[class="sect-1"] {
   background-color: silver;
   border: 1px solid grey;
 }
-.wpm-labels,
-.wpm-scores {
-  // font-size: 19px;
-}
+// .wpm-labels,
+// .wpm-scores {
+//   // font-size: 19px;
+// }
 .wpm-shrink {
   font-size: 14px;
   margin-right: 10px;
@@ -458,6 +457,7 @@ div[class="sect-1"] {
     border-radius: $general-b-radius;
     padding: 4px;
     background-color: $wrong-words-bg;
+    font-size: 16px;
   }
 
   &::-webkit-scrollbar {
