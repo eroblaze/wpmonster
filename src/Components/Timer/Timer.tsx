@@ -93,7 +93,7 @@ const Timer = ({
 
   return (
     <div className="timer-container">
-      <h3>Time Left: {time}s</h3>
+      <p>Time Left: {time}s</p>
       <div className="time-flow" ref={timeFlowRef}></div>
     </div>
   );

@@ -15,7 +15,7 @@ body {
   width: 100%;
   height: 100%;
   color: white;
-  font-family: "Roboto Mono", monospace;
+  font-family: $general-font;
   background-color: $overall-bg-color;
   font-size: 18px;
 
@@ -125,7 +125,7 @@ header {
   border-radius: $general-b-radius;
   background-color: $timer-words-bg-color;
 
-  h3 {
+  p {
     padding: 5px $main-typing-box-padding 5px $main-typing-box-padding;
     /* border: 1px solid white; */
   }
@@ -165,7 +165,7 @@ header {
   line-height: 1.5;
   margin-bottom: $main-typing-box-padding;
   font-size: $words-container-fs;
-  font-family: $primary-font;
+  font-family: $primary-font-typing;
   height: fit-content;
   max-height: 99px;
   overflow: hidden; /* necessary for the typing animation */
@@ -257,12 +257,17 @@ header {
     border-radius: $general-b-radius;
     background-color: $overall-bg-color;
     font-size: $words-container-fs;
-    font-family: $primary-font;
+    font-family: $primary-font-typing;
 
     &:focus {
       outline: 2px solid $secondary-color;
     }
   }
+}
+
+.to-restart {
+  font-family: $general-font;
+  letter-spacing: 1;
 }
 
 .restart-span {
@@ -296,7 +301,7 @@ details {
 
 /* Beginning of modal*/
 .result-div {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: $general-font;
   line-height: normal;
   font-size: initial;
   /* height: 350px; */
@@ -418,7 +423,7 @@ div[class="sect-1"] {
 }
 .wpm-labels,
 .wpm-scores {
-  font-size: 19px;
+  // font-size: 19px;
 }
 .wpm-shrink {
   font-size: 14px;

@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=B612+Mono&family=Oxygen+Mono&family=PT+Mono&family=Roboto+Mono&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 $header-height: 80px;
 $main-typing-box-padding: 20px;
 $general-b-radius: 3px;
@@ -11,7 +11,8 @@ $secondary-color: rgb(85, 202, 85);
 $general-red: rgb(219, 5, 5);
 $wrong-words-bg: rgb(104, 59, 59);
 $words-container-fs: 21px;
-$primary-font: "Oxygen Mono", monospace;
+$general-font: "Poppins", sans-serif;
+$primary-font-typing: "Oxygen Mono", monospace;
 
 * {
   margin: 0;

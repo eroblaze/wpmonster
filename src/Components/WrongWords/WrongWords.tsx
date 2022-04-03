@@ -3,7 +3,7 @@ import React from "react";
 const WrongWords = () => {
   return (
     <div className="wrong-words-container">
-      <h1 className="wrong-words-title">WRONG WORDS</h1>
+      <h3 className="wrong-words-title">WRONG WORDS</h3>
 
       <div className="wrong-words">
         <span>important</span>
