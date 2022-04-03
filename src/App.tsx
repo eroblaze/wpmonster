@@ -21,19 +21,25 @@ export const AppCont = createContext<AppContextInterface>(
 const App = () => {
   const [startTime, setStartTime] = useState(60);
   const [hasGameStarted, setHasGameStarted] = useState(false);
+  const [isBlockCaret, setIsBlockCaret] = useState(false);
   const wordsToDisplay = wordsArrayRandom[0];
 
   const handleTimeChange = (time: number) => {
     if (!hasGameStarted) setStartTime(time);
   };
 
+  const handleCaretClick = (caret: boolean) => {
+    if (!hasGameStarted && caret !== isBlockCaret) setIsBlockCaret(caret);
+  };
+
   return (
     <>
-      <AppCont.Provider value={{ startTime, setHasGameStarted }}>
+      <AppCont.Provider value={{ isBlockCaret, startTime, setHasGameStarted }}>
         <Header
           timeArray={timeArray}
           startTime={startTime}
           onTimeChange={handleTimeChange}
+          onCaretClick={handleCaretClick}
         />
         <Type passedWords={wordsToDisplay} />
         {/* Footer component goes here */}

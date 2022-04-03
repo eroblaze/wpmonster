@@ -12,8 +12,7 @@ interface DicInterface {
 
 const Div = ({ spaceCount }: DicInterface): JSX.Element => {
   // console.count("WordsDiv component rendered");
-  const isBlockCursor = true;
-
+  const { isBlockCaret } = useContext(AppCont);
   const { isOver } = useContext(TypeContext);
   const { words, pastColor, restart, caretRef } = useContext(TypeContext);
 
@@ -57,9 +56,7 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
         key={idx}
         ref={isCurrentWord ? currentWordRef : null}
       >
-        {isCurrentWord && (
-          <Caret ref={caretRef} putBlockClass={isBlockCursor} />
-        )}
+        {isCurrentWord && <Caret ref={caretRef} putBlockClass={isBlockCaret} />}
 
         {letterArr.map((letter, index) => {
           pCIdx++;
@@ -71,13 +68,13 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
               style={{
                 color:
                   pastColor[pCIdx] === "rgb(226, 5, 5)"
-                    ? isBlockCursor
+                    ? isBlockCaret
                       ? pastColor[pCIdx]
                       : "black"
                     : pastColor[pCIdx],
                 backgroundColor:
                   pastColor[pCIdx] === "rgb(226, 5, 5)"
-                    ? isBlockCursor
+                    ? isBlockCaret
                       ? undefined
                       : pastColor[pCIdx]
                     : undefined,

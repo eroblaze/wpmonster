@@ -11,4 +11,14 @@
   display: grid;
   place-content: center;
   z-index: 12;
+  animation: fade 500ms ease-in-out forwards;
+  opacity: 0;
+  transform: translateY(50%);
+}
+
+@keyframes fade {
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

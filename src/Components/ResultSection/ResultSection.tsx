@@ -49,7 +49,7 @@ const ResultSection = () => {
           wrongChars={wrongChars}
           wrongWords={wrongWords}
         />
-        {/* <WrongWords /> */}
+        <WrongWords />
       </>
     );
   } else return null;
