@@ -1,38 +1,22 @@
-import React from "react";
+import { useContext } from "react";
+import { TypeContext } from "../Type/Type";
 
 const WrongWords = () => {
-  return (
-    <div className="wrong-words-container">
-      <h3 className="wrong-words-title">WRONG WORDS</h3>
+  const { derivedWrongWords } = useContext(TypeContext);
 
-      <div className="wrong-words">
-        <span>important</span>
-        <span>children</span>
-        <span>phone</span>
-        <span>people</span>
-        <span>important</span>
-        <span>children</span>
-        <span>phone</span>
-        <span>people</span>
-        <span>important</span>
-        <span>children</span>
-        <span>phone</span>
-        <span>people</span>
-        <span>another</span> <span>pee</span>
-        <span>important</span>
-        <span>children</span>
-        <span>phone</span>
-        <span>people</span>
-        <span>another</span>
-        <span>another</span> <span>pee</span>
-        <span>important</span>
-        <span>children</span>
-        <span>phone</span>
-        <span>people</span>
-        <span>another</span>
+  if (derivedWrongWords) {
+    return (
+      <div className="wrong-words-container">
+        <h3 className="wrong-words-title">WRONG WORDS</h3>
+
+        <div className="wrong-words">
+          {derivedWrongWords.map((el) => (
+            <span>{el}</span>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else return null;
 };
 
 export default WrongWords;

@@ -1,11 +1,15 @@
 // You can't change a sass variable using javascript, that's why I'm using a css variable here.
-:root {
-  --current-width-of-timeFlow: 0; /* Going to be changed in the Timer Component*/
-}
 
 @import "./config";
 @import "./mixins";
 @import "./animations";
+
+:root {
+  --current-width-of-timeFlow: 0; /* Going to be changed in the Timer Component*/
+  //  --toastify-color-success: #07bc0c;
+  --toastify-color-success: rgb(85, 202, 85);
+  --toastify-font-family: "Poppins", sans-serif;
+}
 
 html {
   width: 100%;
@@ -86,6 +90,25 @@ header {
       }
     }
   }
+}
+
+// For the svg icons
+#crown {
+  @include svgIcons();
+  cursor: pointer;
+  transition: 0.25s all ease;
+  &:hover {
+    fill: $modal-second-color;
+  }
+}
+#rotate-right {
+  @include svgIcons();
+}
+// End svg icons
+
+// For the toastify component
+.toastify-progress-height {
+  height: 2px;
 }
 
 .time-selected {
@@ -286,6 +309,9 @@ header {
   &:hover {
     transform: translate(-3px);
     background-color: #232527;
+    #rotate-right {
+      animation: rotateOnce 0.5s linear;
+    }
   }
 }
 

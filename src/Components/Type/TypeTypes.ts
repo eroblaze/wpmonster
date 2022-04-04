@@ -29,6 +29,7 @@ export interface ResultInterface {
 }
 
 export type TContext = {
+  derivedWrongWords: string[] | null;
   words: string;
   pastColor: string[];
   userIn: string;

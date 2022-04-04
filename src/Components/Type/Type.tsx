@@ -8,6 +8,10 @@ import React, {
   useRef,
   useCallback,
 } from "react";
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Components
 import Div from "../Div/WordsDiv";
 import Input from "../Input/InputField";
@@ -97,9 +101,14 @@ function Type({ passedWords }: TypeProps) {
   const [highScore, setHighScore] = useState<ResultInterface>(
     {} as ResultInterface
   );
+
   const [fake, setFake] = useState(false);
 
   const [restart, setRestart] = useState(false);
+
+  const [derivedWrongWords, setDerivedWrongWords] = useState<string[] | null>(
+    null
+  );
 
   const [wasDoneEarly, setWasDoneEarly] = useState(false);
   // end states
@@ -158,7 +167,7 @@ function Type({ passedWords }: TypeProps) {
         shouldShowResultSection = true;
         setModalIsOpen(true);
         // To generate the wpm
-        setResults(generateWpm(startTime, pastColor));
+        getWrongWords();
       }, loadTime); // For the Modal Result
     }
   }, [isOver]);
@@ -169,6 +178,7 @@ function Type({ passedWords }: TypeProps) {
       setHighScore(results);
       localStorage.setItem("highScore", JSON.stringify(results));
       resultsRef.current = results.WPM;
+      if (modalIsOpen) showToastify();
     }
   }, [results]);
   // end initialization
@@ -183,9 +193,51 @@ function Type({ passedWords }: TypeProps) {
       shouldShowResultSection = true;
       setModalIsOpen(true);
       // To generate the wpm
-      setResults(generateWpm(timeTaken, pastColor));
+      getWrongWords();
     }, loadTime);
   };
+
+  function getWrongWords() {
+    const {
+      wrongWordsIdx,
+      WPM,
+      accuracy,
+      correctChars,
+      correctWords,
+      totalCharTyped,
+      wrongChars,
+      wrongWords,
+    } = generateWpm(startTime, pastColor);
+
+    const gottenWrongWords = wrongWordsIdx.map((el) => spaceSplit[el]);
+
+    if (gottenWrongWords.length) setDerivedWrongWords(gottenWrongWords);
+    else setDerivedWrongWords(null); // Get rid of what was there before
+
+    setResults({
+      WPM,
+      accuracy,
+      correctChars,
+      correctWords,
+      totalCharTyped,
+      wrongChars,
+      wrongWords,
+    });
+  }
+
+  function showToastify() {
+    // For the Toastify component
+    toast.success("New High Score!", {
+      progressClassName: "toastify-progress-height",
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+    });
+  }
 
   function wrapperSetWords(startInd: number, excess: string): void {
     setWordsToDisplay((prev) => {
@@ -480,6 +532,7 @@ function Type({ passedWords }: TypeProps) {
           caretRef,
           isOver,
           setIsOver,
+          derivedWrongWords,
         }}
       >
         <section className="main-body">
@@ -503,12 +556,14 @@ function Type({ passedWords }: TypeProps) {
             </div>
           </div>
 
+          <i className="fa-solid fa-caret-right"></i>
           {shouldShowResultSection && (
             <div className="typing-box-2">
               <ResultSection />
             </div>
           )}
         </section>
+        <ToastContainer theme="dark" />
       </TypeContext.Provider>
     </>
   );

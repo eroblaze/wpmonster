@@ -1,3 +1,5 @@
+const red = "rgb(226, 5, 5)";
+
 export default function generateWpm(rightTime: number, pastColor: string[]) {
   console.log(`before change rightTime :${rightTime}`);
   // Format the rightTime (from seconds to minutes)
@@ -5,20 +7,24 @@ export default function generateWpm(rightTime: number, pastColor: string[]) {
 
   console.log(`rightTime changed: ${rightTime}`);
 
-  const wrongChars = pastColor.reduce((acc, el) => {
-    if (el === "rgb(226, 5, 5)") acc++;
-    return acc;
-  }, 0);
+  const wordsArr = pastColor.join("").split("blue");
 
-  const spaceTyped = pastColor.reduce((acc, el) => {
-    if (el === "blue") acc++;
+  let wrongWordsIdx = wordsArr.map((el, idx) => {
+    if (el.includes(red)) return idx;
+    return -1; // just to fill the ones that don't have red
+  });
+
+  wrongWordsIdx = wrongWordsIdx.filter((el) => el >= 0); // remove all the -1
+
+  const wrongChars = pastColor.reduce((acc, el) => {
+    if (el === red) acc++;
     return acc;
   }, 0);
 
   const wrongCharsToWord = Math.round(wrongChars / 5);
 
   let totalCharTyped = pastColor.reduce((acc, el) => {
-    if (el === "#10f318" || el === "rgb(226, 5, 5)" || el === "blue") acc++;
+    if (el === "#10f318" || el === red || el === "blue") acc++;
     return acc;
   }, 0);
 
@@ -52,6 +58,7 @@ export default function generateWpm(rightTime: number, pastColor: string[]) {
   // );
 
   return {
+    wrongWordsIdx,
     correctChars,
     wrongChars,
     totalCharTyped,
