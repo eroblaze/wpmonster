@@ -1,7 +1,8 @@
 import { useContext, useEffect, useRef } from "react";
 import { AppCont } from "../../App";
+// For the warning notification
+import { toast } from "react-toastify";
 
-let canStart = 0;
 interface HeaderInterface {
   startTime: number;
   timeArray: number[];
@@ -19,20 +20,22 @@ const Header = ({
     isBlockCaret,
     shouldShowResultSection,
     setShouldShowResultSection,
-    showSectionToggle,
     setShowSectionToggle,
+    setShowHighScore,
+    highScore,
   } = useContext(AppCont);
   const hiderRef = useRef<SVGSVGElement | null>(null);
+  const canStart = useRef(0);
 
   useEffect(() => {
     if (hiderRef.current) {
       const { current } = hiderRef;
       if (shouldShowResultSection) {
-        if (!canStart) canStart = 1;
+        if (!canStart.current) canStart.current = 1;
         current.classList.add("hider-active");
         current.classList.remove("hider-deactivate");
       } else {
-        if (canStart) {
+        if (canStart.current) {
           current.classList.remove("hider-active");
           current.classList.add("hider-deactivate");
         }
@@ -51,9 +54,26 @@ const Header = ({
   };
 
   const handleHiderClick = () => {
-    if (canStart) {
+    if (canStart.current) {
       setShouldShowResultSection(!shouldShowResultSection);
       setShowSectionToggle((former) => !former);
+    }
+  };
+
+  const handleHighScore = () => {
+    if (highScore.WPM) setShowHighScore((former) => !former);
+    else {
+      // If this is the user's first time and he/she is trying to access the personal record modal
+      toast.warn("No High Score yet!", {
+        progressClassName: "toastify-progress-height",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
     }
   };
 
@@ -65,7 +85,9 @@ const Header = ({
           <span>
             <svg
               id="typing-box-2-hider-svg"
-              className={canStart || shouldShowResultSection ? "hoverable" : ""}
+              className={
+                canStart.current || shouldShowResultSection ? "hoverable" : ""
+              }
               ref={hiderRef}
               onClick={handleHiderClick}
               xmlns="http://www.w3.org/2000/svg"
@@ -78,11 +100,12 @@ const Header = ({
       </div>
       <nav>
         <ul>
-          <li>
+          <li title="High Score 🎉">
             <svg
               id="crown"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 576 512"
+              onClick={handleHighScore}
             >
               <path d="M576 136c0 22.09-17.91 40-40 40c-.248 0-.4551-.1266-.7031-.1305l-50.52 277.9C482 468.9 468.8 480 453.3 480H122.7c-15.46 0-28.72-11.06-31.48-26.27L40.71 175.9C40.46 175.9 40.25 176 39.1 176c-22.09 0-40-17.91-40-40S17.91 96 39.1 96s40 17.91 40 40c0 8.998-3.521 16.89-8.537 23.57l89.63 71.7c15.91 12.73 39.5 7.544 48.61-10.68l57.6-115.2C255.1 98.34 247.1 86.34 247.1 72C247.1 49.91 265.9 32 288 32s39.1 17.91 39.1 40c0 14.34-7.963 26.34-19.3 33.4l57.6 115.2c9.111 18.22 32.71 23.4 48.61 10.68l89.63-71.7C499.5 152.9 496 144.1 496 136C496 113.9 513.9 96 536 96S576 113.9 576 136z" />
             </svg>

@@ -36,7 +36,6 @@ export type TContext = {
   onInput: (e: TInputEvent) => void;
   results?: ResultInterface | undefined;
   modalIsOpen?: boolean;
-  highScore: ResultInterface;
   startAnimating?: boolean;
   restart?: boolean;
   caretRef?: React.RefObject<HTMLSpanElement>;

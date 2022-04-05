@@ -8,7 +8,7 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-
+// For notifications
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,6 +18,7 @@ import Input from "../Input/InputField";
 import Timer from "../Timer/Timer";
 import ResultModal from "../ResultModal/ResultModal";
 import ResultSection from "../ResultSection/ResultSection";
+import HighScoreModal from "../HighScoreModal/HighScoreModal";
 // Helpers
 import generateWpm from "../../Helpers/Generate_wpm";
 import {
@@ -85,6 +86,9 @@ function Type({ passedWords }: TypeProps) {
     shouldShowResultSection,
     setShouldShowResultSection,
     showSectionToggle,
+    showHighScore,
+    setShowHighScore,
+    setHighScore,
   } = useContext(AppCont);
 
   const [isOver, setIsOver] = useState(false);
@@ -102,9 +106,6 @@ function Type({ passedWords }: TypeProps) {
 
   const [results, setResults] = useState<ResultInterface | undefined>(
     undefined
-  );
-  const [highScore, setHighScore] = useState<ResultInterface>(
-    {} as ResultInterface
   );
 
   const [fake, setFake] = useState(false);
@@ -127,11 +128,10 @@ function Type({ passedWords }: TypeProps) {
 
   const onWindowKeyDown = useCallback(
     (e) => {
-      if (e.key === "Escape" && modalIsOpen) {
-        setModalIsOpen(false);
-      }
+      if (e.key === "Escape" && modalIsOpen) setModalIsOpen(false);
+      if (e.key === "Escape" && showHighScore) setShowHighScore(false);
     },
-    [modalIsOpen]
+    [modalIsOpen, showHighScore]
   );
 
   // start initialization
@@ -142,7 +142,7 @@ function Type({ passedWords }: TypeProps) {
     return () => {
       window.removeEventListener("keydown", onWindowKeyDown);
     };
-  }, [modalIsOpen]);
+  }, [modalIsOpen, showHighScore]);
 
   // This is necessary inorder to set the highScore state to what was retrieved from the local storage
   useEffect(() => {
@@ -489,7 +489,7 @@ function Type({ passedWords }: TypeProps) {
       char = e.nativeEvent.data;
       // To prevent a user from typing while pressing the ctrl key
       // And to prevent whatever is typed from being process after the time is over
-      if (!isWrong && !isOver && !restart) {
+      if (!isWrong && !isOver && !restart && !showHighScore) {
         value = e.target.value;
 
         if (!timeHasStarted) {
@@ -516,7 +516,8 @@ function Type({ passedWords }: TypeProps) {
     // keydown event
     else {
       // on every keydown, check whether the ctrl key was held and take necessary actions
-      if (!modalIsOpen && !restart && !isSubmitting) checkCtrl(e);
+      if (!modalIsOpen && !restart && !isSubmitting && !showHighScore)
+        checkCtrl(e);
     }
   };
   // end main function
@@ -531,7 +532,6 @@ function Type({ passedWords }: TypeProps) {
           onInput: handleUserInput,
           results,
           modalIsOpen: modalIsOpen,
-          highScore: highScore,
           restart,
           startAnimating,
           caretRef,
@@ -541,12 +541,10 @@ function Type({ passedWords }: TypeProps) {
         }}
       >
         <section className="main-body">
-          {modalIsOpen && (
-            <ResultModal
-              modalIsOpen={modalIsOpen}
-              setModalIsOpen={setModalIsOpen}
-            />
+          {showHighScore && (
+            <HighScoreModal setModalIsOpen={setShowHighScore} />
           )}
+          {modalIsOpen && <ResultModal setModalIsOpen={setModalIsOpen} />}
           <div className="typing-box-1">
             <Timer
               timeDelay={loadTime}

@@ -1,3 +1,5 @@
+import { ResultInterface } from "./Components/Type/TypeTypes";
+
 export interface AppContextInterface {
   startTime: number;
   setHasGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -6,4 +8,8 @@ export interface AppContextInterface {
   setShouldShowResultSection: React.Dispatch<React.SetStateAction<boolean>>;
   showSectionToggle: boolean;
   setShowSectionToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  showHighScore: boolean;
+  setShowHighScore: React.Dispatch<React.SetStateAction<boolean>>;
+  highScore: ResultInterface;
+  setHighScore: React.Dispatch<React.SetStateAction<ResultInterface>>;
 }

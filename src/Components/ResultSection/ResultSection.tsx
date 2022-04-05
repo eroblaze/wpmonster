@@ -4,18 +4,7 @@ import WrongWords from "../WrongWords/WrongWords";
 import { TypeContext } from "../Type/Type";
 
 const ResultSection = () => {
-  const {
-    results,
-    highScore: {
-      WPM: hWPM,
-      accuracy: hAccuracy,
-      correctChars: hCorrectChars,
-      correctWords: hCorrectWords,
-      totalCharTyped: hTotalCharTyped,
-      wrongChars: hWrongChars,
-      wrongWords: hWrongWords,
-    },
-  } = useContext(TypeContext);
+  const { results } = useContext(TypeContext);
 
   if (results) {
     const {
@@ -30,16 +19,6 @@ const ResultSection = () => {
 
     return (
       <>
-        {/* <Modal
-          WPM={hWPM}
-          accuracy={hAccuracy}
-          correctChars={hCorrectChars}
-          correctWords={hCorrectWords}
-          totalCharTyped={hTotalCharTyped}
-          wrongChars={hWrongChars}
-          wrongWords={hWrongWords}
-          highScore
-        /> */}
         <Modal
           WPM={WPM}
           accuracy={accuracy}

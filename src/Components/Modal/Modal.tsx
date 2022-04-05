@@ -2,9 +2,8 @@ import React from "react";
 
 import { ResultInterface } from "../Type/TypeTypes";
 
-interface ModalProps extends ResultInterface {
+export interface ModalProps extends ResultInterface {
   highScore?: boolean;
-  modalIsOpen?: boolean;
   setModalIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   recent?: boolean;
 }
@@ -17,7 +16,6 @@ const Modal = ({
   totalCharTyped,
   correctWords,
   wrongWords,
-  modalIsOpen,
   setModalIsOpen,
   highScore,
   recent,

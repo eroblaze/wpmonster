@@ -1,16 +1,14 @@
 import React, { useContext } from "react";
 import "../../Styles/ResultModal.scss";
 
-import Modal from "../Modal/Modal";
-
+import ResultPresentationalModal from "../ResultPresentationalModal/ResultPresentationModal";
 import { TypeContext } from "../Type/Type";
 
-interface ResultModalProps {
-  modalIsOpen: boolean;
+export interface ResultModalProps {
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ResultModal = ({ modalIsOpen, setModalIsOpen }: ResultModalProps) => {
+const ResultModal = ({ setModalIsOpen }: ResultModalProps) => {
   const { results } = useContext(TypeContext);
 
   if (results) {
@@ -25,23 +23,16 @@ const ResultModal = ({ modalIsOpen, setModalIsOpen }: ResultModalProps) => {
     } = results;
 
     return (
-      <>
-        <div className="modal-sibling"></div>
-        <div className="modal-bg">
-          <Modal
-            WPM={WPM}
-            accuracy={accuracy}
-            correctChars={correctChars}
-            correctWords={correctWords}
-            totalCharTyped={totalCharTyped}
-            wrongChars={wrongChars}
-            wrongWords={wrongWords}
-            modalIsOpen={modalIsOpen}
-            setModalIsOpen={setModalIsOpen}
-            recent
-          />
-        </div>
-      </>
+      <ResultPresentationalModal
+        WPM={WPM}
+        accuracy={accuracy}
+        correctChars={correctChars}
+        correctWords={correctWords}
+        totalCharTyped={totalCharTyped}
+        wrongChars={wrongChars}
+        wrongWords={wrongWords}
+        setModalIsOpen={setModalIsOpen}
+      ></ResultPresentationalModal>
     );
   } else return null;
 };

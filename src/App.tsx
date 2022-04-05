@@ -5,6 +5,8 @@ import Type from "./Components/Type/Type";
 import { AppContextInterface } from "../src/AppTypes";
 import Header from "./Components/Header/Header";
 
+import { ResultInterface } from "./Components/Type/TypeTypes";
+
 export const wordsArrayRandom = [
   "one two",
   "what is the reason for this it's to prepare for more features",
@@ -19,11 +21,15 @@ export const AppCont = createContext<AppContextInterface>(
 );
 
 const App = () => {
+  const [highScore, setHighScore] = useState<ResultInterface>(
+    {} as ResultInterface
+  );
   const [startTime, setStartTime] = useState(60);
   const [hasGameStarted, setHasGameStarted] = useState(false);
   const [isBlockCaret, setIsBlockCaret] = useState(false);
   const [shouldShowResultSection, setShouldShowResultSection] = useState(false);
   const [showSectionToggle, setShowSectionToggle] = useState(true);
+  const [showHighScore, setShowHighScore] = useState(false);
   const wordsToDisplay = wordsArrayRandom[0];
 
   const handleTimeChange = (time: number) => {
@@ -45,6 +51,10 @@ const App = () => {
           setShouldShowResultSection,
           showSectionToggle,
           setShowSectionToggle,
+          showHighScore,
+          setShowHighScore,
+          highScore,
+          setHighScore,
         }}
       >
         <Header
