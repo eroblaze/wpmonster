@@ -1,5 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { AppCont } from "../../App";
+
+let canStart = 0;
 interface HeaderInterface {
   startTime: number;
   timeArray: number[];
@@ -13,7 +15,30 @@ const Header = ({
   onTimeChange,
   onCaretClick,
 }: HeaderInterface) => {
-  const { isBlockCaret } = useContext(AppCont);
+  const {
+    isBlockCaret,
+    shouldShowResultSection,
+    setShouldShowResultSection,
+    showSectionToggle,
+    setShowSectionToggle,
+  } = useContext(AppCont);
+  const hiderRef = useRef<SVGSVGElement | null>(null);
+
+  useEffect(() => {
+    if (hiderRef.current) {
+      const { current } = hiderRef;
+      if (shouldShowResultSection) {
+        if (!canStart) canStart = 1;
+        current.classList.add("hider-active");
+        current.classList.remove("hider-deactivate");
+      } else {
+        if (canStart) {
+          current.classList.remove("hider-active");
+          current.classList.add("hider-deactivate");
+        }
+      }
+    }
+  }, [shouldShowResultSection]);
 
   const verifyTime = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     const target = e.target as HTMLSpanElement;
@@ -25,10 +50,31 @@ const Header = ({
     }
   };
 
+  const handleHiderClick = () => {
+    if (canStart) {
+      setShouldShowResultSection(!shouldShowResultSection);
+      setShowSectionToggle((former) => !former);
+    }
+  };
+
   return (
     <header>
       <div className="logo">
-        <h1>Typify</h1>
+        <h1>
+          <span id="wpm-green">wpm</span>onster{" "}
+          <span>
+            <svg
+              id="typing-box-2-hider-svg"
+              className={canStart || shouldShowResultSection ? "hoverable" : ""}
+              ref={hiderRef}
+              onClick={handleHiderClick}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 256 512"
+            >
+              <path d="M118.6 105.4l128 127.1C252.9 239.6 256 247.8 256 255.1s-3.125 16.38-9.375 22.63l-128 127.1c-9.156 9.156-22.91 11.9-34.88 6.943S64 396.9 64 383.1V128c0-12.94 7.781-24.62 19.75-29.58S109.5 96.23 118.6 105.4z" />
+            </svg>
+          </span>
+        </h1>
       </div>
       <nav>
         <ul>

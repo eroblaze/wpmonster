@@ -10,8 +10,8 @@ const WrongWords = () => {
         <h3 className="wrong-words-title">WRONG WORDS</h3>
 
         <div className="wrong-words">
-          {derivedWrongWords.map((el) => (
-            <span>{el}</span>
+          {derivedWrongWords.map((el, idx) => (
+            <span key={idx}>{el}</span>
           ))}
         </div>
       </div>

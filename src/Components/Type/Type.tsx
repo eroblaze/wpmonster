@@ -52,7 +52,6 @@ let valueLen: number;
 let valueLenInd: number;
 let isWrong = false;
 // When to show Result Section
-let shouldShowResultSection = false;
 let isSubmitting = false;
 
 function clearAllEntries(): void {
@@ -80,7 +79,13 @@ interface TypeProps {
 export const TypeContext = createContext<TContext>({} as TContext);
 
 function Type({ passedWords }: TypeProps) {
-  const { setHasGameStarted, startTime } = useContext(AppCont);
+  const {
+    setHasGameStarted,
+    startTime,
+    shouldShowResultSection,
+    setShouldShowResultSection,
+    showSectionToggle,
+  } = useContext(AppCont);
 
   const [isOver, setIsOver] = useState(false);
 
@@ -164,7 +169,7 @@ function Type({ passedWords }: TypeProps) {
       setHasGameStarted(false);
       setTimeout(() => {
         isSubmitting = false;
-        shouldShowResultSection = true;
+        if (showSectionToggle) setShouldShowResultSection(true);
         setModalIsOpen(true);
         // To generate the wpm
         getWrongWords();
@@ -190,14 +195,14 @@ function Type({ passedWords }: TypeProps) {
     setHasGameStarted(false);
     setTimeout(() => {
       isSubmitting = false;
-      shouldShowResultSection = true;
+      if (showSectionToggle) setShouldShowResultSection(true);
       setModalIsOpen(true);
       // To generate the wpm
-      getWrongWords();
+      getWrongWords(timeTaken);
     }, loadTime);
   };
 
-  function getWrongWords() {
+  function getWrongWords(timeTaken?: number) {
     const {
       wrongWordsIdx,
       WPM,
@@ -207,7 +212,7 @@ function Type({ passedWords }: TypeProps) {
       totalCharTyped,
       wrongChars,
       wrongWords,
-    } = generateWpm(startTime, pastColor);
+    } = generateWpm(timeTaken === undefined ? startTime : timeTaken, pastColor);
 
     const gottenWrongWords = wrongWordsIdx.map((el) => spaceSplit[el]);
 
@@ -425,12 +430,6 @@ function Type({ passedWords }: TypeProps) {
     spaceEnteredByUser++;
     extraCount = 0;
 
-    // If the user has submitted the last word by pressing space bar
-    if (spaceEnteredByUser === totalSpaceInitially + 1) {
-      setWasDoneEarly(true);
-      return;
-    }
-
     setColor((prevId) => {
       return {
         id: -1,
@@ -443,6 +442,12 @@ function Type({ passedWords }: TypeProps) {
     showRedColor();
 
     setUserIn("");
+
+    // If the user has submitted the last word by pressing space bar
+    if (spaceEnteredByUser === totalSpaceInitially + 1) {
+      setWasDoneEarly(true);
+      return;
+    }
     // Make React re-render this component :
     setFake((prev) => !prev);
   }
@@ -556,8 +561,7 @@ function Type({ passedWords }: TypeProps) {
             </div>
           </div>
 
-          <i className="fa-solid fa-caret-right"></i>
-          {shouldShowResultSection && (
+          {shouldShowResultSection && showSectionToggle && (
             <div className="typing-box-2">
               <ResultSection />
             </div>

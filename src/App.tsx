@@ -22,6 +22,8 @@ const App = () => {
   const [startTime, setStartTime] = useState(60);
   const [hasGameStarted, setHasGameStarted] = useState(false);
   const [isBlockCaret, setIsBlockCaret] = useState(false);
+  const [shouldShowResultSection, setShouldShowResultSection] = useState(false);
+  const [showSectionToggle, setShowSectionToggle] = useState(true);
   const wordsToDisplay = wordsArrayRandom[0];
 
   const handleTimeChange = (time: number) => {
@@ -34,7 +36,17 @@ const App = () => {
 
   return (
     <>
-      <AppCont.Provider value={{ isBlockCaret, startTime, setHasGameStarted }}>
+      <AppCont.Provider
+        value={{
+          isBlockCaret,
+          startTime,
+          setHasGameStarted,
+          shouldShowResultSection,
+          setShouldShowResultSection,
+          showSectionToggle,
+          setShowSectionToggle,
+        }}
+      >
         <Header
           timeArray={timeArray}
           startTime={startTime}

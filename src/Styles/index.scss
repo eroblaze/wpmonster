@@ -56,6 +56,27 @@ header {
 
   h1 {
     font-size: 30px;
+    #wpm-green {
+      color: $secondary-color;
+    }
+
+    #typing-box-2-hider-svg {
+      @include svgIcons();
+    }
+    .hider-active {
+      animation: hiderActive 0.25s linear forwards;
+    }
+    .hider-deactivate {
+      animation: hiderDeactivate 0.25s linear reverse;
+    }
+    .hoverable {
+      cursor: pointer;
+      transition: 0.25s fill ease;
+
+      &:hover {
+        fill: $modal-second-color !important;
+      }
+    }
   }
 
   ul {

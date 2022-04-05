@@ -41,3 +41,15 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes hiderActive {
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes hiderDeactivate {
+  100% {
+    transform: rotate(90deg);
+  }
+}
