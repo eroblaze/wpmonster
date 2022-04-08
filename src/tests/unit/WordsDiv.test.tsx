@@ -2,10 +2,10 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
-import Div from "../../src/Components/Div/WordsDiv";
+import Div from "../../Components/Div/WordsDiv";
 
-import { TypeContext } from "../../src/Components/Type/Type";
-import { TInputEvent } from "../../src/types/TypeTypes";
+import { TypeContext } from "../../Components/Type/Type";
+import { TInputEvent } from "../../types/TypeTypes";
 
 const words = "what is the meaning of this?";
 const pastColor = ["red", "green", "blue"];

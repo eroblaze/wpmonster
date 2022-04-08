@@ -18,8 +18,8 @@
   },
   "include": [
     "src",
-    "tests/unit/InputField.test.tsx",
-    "tests/unit/WordsDiv.test.tsx",
-    "tests/integration/Type.test.tsx"
+    "src/tests/unit/InputField.test.tsx",
+    "src/tests/unit/WordsDiv.test.tsx",
+    "src/tests/integration/Type.test.tsx"
   ]
 }

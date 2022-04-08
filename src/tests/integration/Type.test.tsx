@@ -3,7 +3,9 @@ import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 
-import Type from "../../src/Components/Type/Type";
+import Type from "../../Components/Type/Type";
+import { AppCont } from "../../App";
+import { ResultInterface } from "../../types/TypeTypes";
 /**
  * userEvent ^14.0.0-beta is unstable and some things which are working in ^13.5.0 are misbehaving there
  */
@@ -18,9 +20,43 @@ const red = "rgb(226, 5, 5)";
 
 const words = "this is the typing test";
 
+const setHasGameStarted = jest
+  .fn()
+  .mockImplementation((e: React.SetStateAction<boolean>) => undefined);
+const setShouldShowResultSection = jest
+  .fn()
+  .mockImplementation((e: React.SetStateAction<boolean>) => undefined);
+const setShowSectionToggle = jest
+  .fn()
+  .mockImplementation((e: React.SetStateAction<boolean>) => undefined);
+const setShowHighScore = jest
+  .fn()
+  .mockImplementation((e: React.SetStateAction<boolean>) => undefined);
+const setHighScore = jest
+  .fn()
+  .mockImplementation((e: React.SetStateAction<ResultInterface>) => undefined);
+
 const setup = (component: React.ReactElement) => {
   return {
-    ...render(component),
+    ...render(
+      <AppCont.Provider
+        value={{
+          startTime: 30,
+          setHasGameStarted,
+          setShowHighScore,
+          setShowSectionToggle,
+          setShouldShowResultSection,
+          shouldShowResultSection: false,
+          isBlockCaret: false,
+          showHighScore: false,
+          showSectionToggle: true,
+          highScore: {} as ResultInterface,
+          setHighScore,
+        }}
+      >
+        {component}
+      </AppCont.Provider>
+    ),
     inputEl: screen.getByTestId("main-input"),
   };
 };

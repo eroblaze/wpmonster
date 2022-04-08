@@ -3,10 +3,10 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import Input from "../../src/Components/Input/InputField";
+import Input from "../../Components/Input/InputField";
 
-import { TInputEvent } from "../../src/types/TypeTypes";
-import { TypeContext } from "../../src/Components/Type/Type";
+import { TInputEvent } from "../../types/TypeTypes";
+import { TypeContext } from "../../Components/Type/Type";
 
 const mockedFn = jest.fn((e: TInputEvent) => undefined);
 const clickFn = jest.fn(() => undefined);
