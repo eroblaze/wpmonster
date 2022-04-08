@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 
-import Type from "../Type";
+import Type from "../../src/Components/Type/Type";
 /**
  * userEvent ^14.0.0-beta is unstable and some things which are working in ^13.5.0 are misbehaving there
  */
@@ -13,6 +13,8 @@ import Type from "../Type";
  * {They don't allow combining modifiers - Ctrl, Shift, e.t.c } but the event they fire will be sent to your code. e.g:
  * userEvent.type(inputEl, "{shift}a{/shift}") will send a through the event object and also that the 'shiftKey: true' but 'a' won't be capitalized
  */
+const green = "#10f318";
+const red = "rgb(226, 5, 5)";
 
 const words = "this is the typing test";
 
@@ -36,7 +38,7 @@ describe("Type main Component", () => {
     expect(secondSpan).toHaveStyle("color: ''");
   });
 
-  test("Test that as the user types, the GREEN color shows in the Div if he/she is correct", async () => {
+  test("Test that as the user types, the GREEN color shows in the Div if he/she is correct", () => {
     const { inputEl } = setup(<Type passedWords={words} />);
 
     const firstSpan = screen.getByTestId("div0");
@@ -47,11 +49,11 @@ describe("Type main Component", () => {
 
     const firstSpanAgain = screen.getByTestId("div0");
 
-    expect(firstSpanAgain).toHaveStyle("color: #10f318");
+    expect(firstSpanAgain).toHaveStyle(`color: ${green}`);
     userEvent.type(inputEl, "{selectall}{backspace}"); // a work-around for Ctrl + backspace
   });
 
-  test("Test that as the user types, the RED color shows in the Div background if he/she is wrong", async () => {
+  test("Test that as the user types, the RED color shows in the Div background if he/she is wrong", () => {
     const { inputEl } = setup(<Type passedWords={words} />);
 
     const firstSpan = screen.getByTestId("div0");
@@ -60,11 +62,11 @@ describe("Type main Component", () => {
     userEvent.type(inputEl, "s");
 
     const firstSpanAgain = screen.getByTestId("div0");
-    expect(firstSpanAgain).toHaveStyle("background-color: rgb(226, 5, 5)");
+    expect(firstSpanAgain).toHaveStyle(`background-color: ${red}`);
     userEvent.type(inputEl, "{selectall}{backspace}"); // a work-around for Ctrl + backspace
   });
 
-  test("Test that any additional character after the initial word rendered gets appended into the div", async () => {
+  test("Test that any additional character after the initial word rendered gets appended into the div", () => {
     const { inputEl } = setup(<Type passedWords={words} />);
 
     expect(screen.getAllByTestId(/^div\d+$/)).toHaveLength(23); // Starts at 0
@@ -74,7 +76,7 @@ describe("Type main Component", () => {
     const firstExtraLetter = screen.getByTestId("div4");
     expect(firstExtraLetter).toHaveTextContent("w");
     expect(screen.getByTestId("div5")).toHaveTextContent("r");
-    expect(firstExtraLetter).toHaveStyle("background-color: rgb(226, 5, 5)");
+    expect(firstExtraLetter).toHaveStyle(`background-color: ${red}`);
     expect(screen.getAllByTestId(/^div\d+$/)).toHaveLength(25);
 
     userEvent.type(inputEl, "{selectall}{backspace}"); // a work-around for Ctrl + backspace
@@ -97,6 +99,17 @@ describe("Type main Component", () => {
     userEvent.type(inputEl, "{selectall}{backspace}");
   });
 
+  test.todo(
+    "Test that when the time is up, the form automatically gets submitted"
+  );
+  test.todo(
+    "Test that when the form gets submitted, there is a loading state being displayed in the screen"
+  );
+  test.todo(
+    "Test that there is no words on the screen just like it is in 10fastfingers"
+  );
+
+  // For now, this test should be the last one
   test("Test that when the user initially presses a space, the whole first word turns red", () => {
     const { inputEl } = setup(<Type passedWords={words} />);
 
@@ -107,15 +120,15 @@ describe("Type main Component", () => {
     const thirdSpan = screen.getByTestId("div2");
     const fourthSpan = screen.getByTestId("div3");
 
-    expect(firstSpan).toHaveStyle("background-color: rgb(226, 5, 5)");
-    expect(secondSpan).toHaveStyle("background-color: rgb(226, 5, 5)");
-    expect(thirdSpan).toHaveStyle("background-color: rgb(226, 5, 5)");
-    expect(fourthSpan).toHaveStyle("background-color: rgb(226, 5, 5)");
+    expect(firstSpan).toHaveStyle(`background-color: ${red}`);
+    expect(secondSpan).toHaveStyle(`background-color: ${red}`);
+    expect(thirdSpan).toHaveStyle(`background-color: ${red}`);
+    expect(fourthSpan).toHaveStyle(`background-color: ${red}`);
   });
 
   /*
 
-  Can't test this because of react-testing-library foolishness
+  Can't test this because of react-testing-library 
 
   test.todo(
     "Test that holding ctrl and pressing the backspace key causes everything on the input to clear and then clears that in the display"
@@ -125,14 +138,4 @@ describe("Type main Component", () => {
   );
 
   */
-
-  test.todo(
-    "Test that when the time is up, the form automatically gets submitted"
-  );
-  test.todo(
-    "Test that when the form gets submitted, there is a loading state being displayed in the screen"
-  );
-  test.todo(
-    "Test that there is no words on the screen just like it is in 10fastfingers"
-  );
 });

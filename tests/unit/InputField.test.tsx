@@ -3,23 +3,24 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import Input from "../InputField";
+import Input from "../../src/Components/Input/InputField";
 
-import { TInputEvent } from "../../Type/TypeTypes";
-import { TypeContext } from "../../Type/Type";
+import { TInputEvent } from "../../src/types/TypeTypes";
+import { TypeContext } from "../../src/Components/Type/Type";
 
 const mockedFn = jest.fn((e: TInputEvent) => undefined);
+const clickFn = jest.fn(() => undefined);
 
 const setup = (Component: React.ReactElement) => {
   return {
     ...render(
       <TypeContext.Provider
         value={{
+          derivedWrongWords: [""],
           words: "",
           pastColor: [""],
           userIn: "",
           onInput: mockedFn,
-          time: 1,
         }}
       >
         {Component}
@@ -31,23 +32,23 @@ const setup = (Component: React.ReactElement) => {
 
 describe("InputField Component", () => {
   test("Test the input field renders to the dom", () => {
-    const { inputEl } = setup(<Input />);
+    const { inputEl } = setup(<Input click={clickFn} />);
     expect(inputEl).toBeTruthy();
   });
 
   test("Test that the input field is empty when initially rendered", () => {
-    const { inputEl } = setup(<Input />);
+    const { inputEl } = setup(<Input click={clickFn} />);
     expect(inputEl).toHaveValue("");
   });
 
   test("Test the user sees what he/she is typing", () => {
-    const { inputEl } = setup(<Input />);
+    const { inputEl } = setup(<Input click={clickFn} />);
     userEvent.type(inputEl, "p");
     expect(mockedFn).toHaveBeenCalledTimes(2); // Because of the two Events : keyDown and Change
   });
 
   test("Test that the input field once rendered has immediate focus", () => {
-    const { inputEl } = setup(<Input />);
+    const { inputEl } = setup(<Input click={clickFn} />);
     expect(inputEl).toHaveFocus;
   });
 });

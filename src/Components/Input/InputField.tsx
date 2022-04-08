@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { TypeContext } from "../Type/Type";
-import { TInputEvent } from "../Type/TypeTypes";
+import { TInputEvent } from "../../types/TypeTypes";
 
 const Input = ({ click }: { click: () => void }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement | null>(null);

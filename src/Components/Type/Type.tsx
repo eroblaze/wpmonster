@@ -27,7 +27,7 @@ import {
   TColor,
   TContext,
   TInputEvent,
-} from "./TypeTypes";
+} from "../../types/TypeTypes";
 import { AppCont, wordsArrayRandom } from "../../App";
 
 // useful variables / bindings

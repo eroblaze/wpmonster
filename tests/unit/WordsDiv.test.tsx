@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
-import Div from "../WordsDiv";
+import Div from "../../src/Components/Div/WordsDiv";
 
-import { TypeContext } from "../../Type/Type";
-import { TInputEvent } from "../../Type/TypeTypes";
+import { TypeContext } from "../../src/Components/Type/Type";
+import { TInputEvent } from "../../src/types/TypeTypes";
 
 const words = "what is the meaning of this?";
 const pastColor = ["red", "green", "blue"];
@@ -16,7 +16,13 @@ const setup = (Component: React.ReactElement) => {
   return {
     ...render(
       <TypeContext.Provider
-        value={{ words, pastColor, userIn: "", onInput: mockedFn, time: 1 }}
+        value={{
+          derivedWrongWords: [""],
+          words,
+          pastColor,
+          userIn: "",
+          onInput: mockedFn,
+        }}
       >
         {Component}
       </TypeContext.Provider>
@@ -26,19 +32,19 @@ const setup = (Component: React.ReactElement) => {
 
 describe("WordsDiv Component", () => {
   test("Test the WordsDiv component renders", () => {
-    setup(<Div />);
+    setup(<Div spaceCount={0} />);
     const divEl = screen.getByTestId("words-div");
     expect(divEl).toBeInTheDocument();
   });
 
   test("Test that it displays the words array to the screen", () => {
-    setup(<Div />);
+    setup(<Div spaceCount={0} />);
     const divEl = screen.getByText("w");
     expect(divEl).toBeInTheDocument();
   });
 
   test("Test that the colors of the characters can change", () => {
-    setup(<Div />);
+    setup(<Div spaceCount={0} />);
     const divEl = screen.getByText("w");
     expect(divEl).toHaveStyle("color: red");
   });

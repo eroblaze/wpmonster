@@ -40,5 +40,5 @@ export type TContext = {
   restart?: boolean;
   caretRef?: React.RefObject<HTMLSpanElement>;
   isOver?: boolean;
-  setIsOver: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOver?: React.Dispatch<React.SetStateAction<boolean>>;
 };

@@ -2,10 +2,10 @@ import { useState, createContext } from "react";
 
 import Type from "./Components/Type/Type";
 
-import { AppContextInterface } from "../src/AppTypes";
+import { AppContextInterface } from "./types/AppTypes";
 import Header from "./Components/Header/Header";
 
-import { ResultInterface } from "./Components/Type/TypeTypes";
+import { ResultInterface } from "./types/TypeTypes";
 
 export const wordsArrayRandom = [
   "one two",

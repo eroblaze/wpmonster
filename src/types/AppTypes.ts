@@ -1,4 +1,4 @@
-import { ResultInterface } from "./Components/Type/TypeTypes";
+import { ResultInterface } from "./TypeTypes";
 
 export interface AppContextInterface {
   startTime: number;

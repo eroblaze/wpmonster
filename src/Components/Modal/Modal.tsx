@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ResultInterface } from "../Type/TypeTypes";
+import { ResultInterface } from "../../types/TypeTypes";
 
 export interface ModalProps extends ResultInterface {
   highScore?: boolean;
