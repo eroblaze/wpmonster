@@ -7,6 +7,7 @@ import Input from "../../Components/Input/InputField";
 
 import { TInputEvent } from "../../types/TypeTypes";
 import { TypeContext } from "../../Components/Type/Type";
+import { setIsOver } from "./WordsDiv.test";
 
 const mockedFn = jest.fn((e: TInputEvent) => undefined);
 const clickFn = jest.fn(() => undefined);
@@ -21,6 +22,7 @@ const setup = (Component: React.ReactElement) => {
           pastColor: [""],
           userIn: "",
           onInput: mockedFn,
+          setIsOver,
         }}
       >
         {Component}

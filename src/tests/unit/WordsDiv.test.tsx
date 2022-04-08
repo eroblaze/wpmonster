@@ -11,6 +11,9 @@ const words = "what is the meaning of this?";
 const pastColor = ["red", "green", "blue"];
 
 const mockedFn = jest.fn((e: TInputEvent) => undefined);
+export const setIsOver = jest
+  .fn()
+  .mockImplementation((e: React.SetStateAction<boolean>) => undefined);
 
 const setup = (Component: React.ReactElement) => {
   return {
@@ -22,6 +25,7 @@ const setup = (Component: React.ReactElement) => {
           pastColor,
           userIn: "",
           onInput: mockedFn,
+          setIsOver,
         }}
       >
         {Component}

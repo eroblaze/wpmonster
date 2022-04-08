@@ -36,12 +36,13 @@ const setHighScore = jest
   .fn()
   .mockImplementation((e: React.SetStateAction<ResultInterface>) => undefined);
 
-const setup = (component: React.ReactElement) => {
+const setup = (component: React.ReactElement, time: number = 30) => {
+  // isBlockCaret has to be false since I'm testing for the background color
   return {
     ...render(
       <AppCont.Provider
         value={{
-          startTime: 30,
+          startTime: time,
           setHasGameStarted,
           setShowHighScore,
           setShowSectionToggle,
@@ -134,10 +135,14 @@ describe("Type main Component", () => {
 
     userEvent.type(inputEl, "{selectall}{backspace}");
   });
-
-  test.todo(
-    "Test that when the time is up, the form automatically gets submitted"
-  );
+  // Look into this test
+  test("Test that when the time is up, the form automatically gets submitted", async () => {
+    const { inputEl } = setup(<Type passedWords={words} />, 2);
+    userEvent.type(inputEl, "t");
+    const timer = await screen.findByText(/0s/);
+    expect(timer).toBeInTheDocument();
+    userEvent.type(inputEl, "{selectall}{backspace}");
+  });
   test.todo(
     "Test that when the form gets submitted, there is a loading state being displayed in the screen"
   );
