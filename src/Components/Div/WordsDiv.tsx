@@ -11,7 +11,6 @@ let wordsPrevLength = 0;
 let pastColorPrevLength = 0;
 let caretChanged = false;
 let spaceCountPrev = 0;
-let previousColors: string[][] = [[]];
 let pastColorHasChanged = false;
 interface DicInterface {
   spaceCount: number;
@@ -36,13 +35,26 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
     caretChanged = isBlockCaret;
   }
 
-  let pCIdx = -1; // To get the colors from pastColor array
-
   // Testing
   useEffect(() => {
     // console.log("mainState changed", mainState.length);
   }, [mainState]);
   // EndTesting
+
+  useEffect(() => {
+    initialRendering();
+  }, []);
+
+  useEffect(() => {
+    if (restart) {
+      wordsPrevLength = 0;
+      pastColorPrevLength = 0;
+      caretChanged = false;
+      spaceCountPrev = 0;
+      pastColorHasChanged = false;
+      initialRendering();
+    }
+  }, [restart]);
 
   useEffect(() => {
     // This is important so as to prevent it from scrolling back after the words-container div has been scrolled up
@@ -75,49 +87,6 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
   });
 
   useEffect(() => {
-    const lastIdx = wordsArr.length - 1; // last word index in the array
-
-    const output = wordsArr.map((word, idx) => {
-      // [div/, div/]
-      const isCurrentWord = idx === spaceCount;
-      const letterArr = word.split("");
-
-      return (
-        <div
-          className="each-word"
-          key={idx}
-          ref={isCurrentWord ? currentWordRef : null}
-        >
-          {isCurrentWord && (
-            <Caret ref={caretRef} putBlockClass={isBlockCaret} />
-          )}
-
-          {letterArr.map((letter, index) => {
-            pCIdx++;
-
-            const returnLetterSpan = (
-              <span key={index} data-testid={`div${pCIdx}`}>
-                {letter}
-              </span>
-            );
-
-            return returnLetterSpan;
-          })}
-          {idx !== lastIdx ? (
-            <span data-testid={`div${pCIdx}`} className="spaces">
-              {"s"}
-            </span>
-          ) : (
-            ""
-          )}
-        </div>
-      );
-    });
-
-    setMainState(output);
-  }, []);
-
-  useEffect(() => {
     if (isOver) {
       if (wordsContainerRef.current) {
         // This scrolls the wordsContainer back to the top if not, it breaks
@@ -125,6 +94,36 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
       }
     }
   }, [isOver]);
+
+  function initialRendering() {
+    const lastIdx = wordsArr.length - 1; // last word index in the array
+
+    const output = wordsArr.map((word, idx) => {
+      const isCurrentWord = idx === spaceCount;
+      const letterArr = word.split("");
+
+      return (
+        <div
+          className="each-word"
+          key={uuidv4()}
+          ref={isCurrentWord ? currentWordRef : null}
+        >
+          {isCurrentWord && (
+            <Caret ref={caretRef} putBlockClass={isBlockCaret} />
+          )}
+
+          {letterArr.map((letter) => {
+            const returnLetterSpan = <span key={uuidv4()}>{letter}</span>;
+
+            return returnLetterSpan;
+          })}
+          {idx !== lastIdx ? <span className="spaces">{"s"}</span> : ""}
+        </div>
+      );
+    });
+
+    setMainState(output);
+  }
 
   function mainAction(removeCaret: boolean = false): void {
     // Get the current word from the state and update it with the new color
@@ -148,7 +147,7 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
             {toChange.split("").map((letter, index) => {
               const returnLetterSpan = (
                 <span
-                  key={index}
+                  key={uuidv4()}
                   style={{
                     color:
                       pastColor[pick][index] === "rgb(226, 5, 5)"
@@ -172,9 +171,7 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
               return returnLetterSpan;
             })}
             {spaceCount <= wordsArr.length - 1 ? (
-              <span data-testid={`div${pCIdx}`} className="spaces">
-                {"s"}
-              </span>
+              <span className="spaces">{"s"}</span>
             ) : (
               ""
             )}
