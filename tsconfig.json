@@ -6,7 +6,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -17,7 +17,12 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src",
+    "src"
+    // "src/tests/unit/InputField.test.tsx",
+    // "src/tests/unit/WordsDiv.test.tsx",
+    // "src/tests/integration/Type.test.tsx"
+  ],
+  "exclude": [
     "src/tests/unit/InputField.test.tsx",
     "src/tests/unit/WordsDiv.test.tsx",
     "src/tests/integration/Type.test.tsx"

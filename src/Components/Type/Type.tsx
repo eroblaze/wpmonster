@@ -54,6 +54,8 @@ let valueLenInd: number;
 let isWrong = false;
 // When to show Result Section
 let isSubmitting = false;
+let spaceCountPrev = 0;
+let previousArray = [[], []];
 
 function clearAllEntries(): void {
   everyIndexBeforeSpace = [];
@@ -80,6 +82,7 @@ interface TypeProps {
 export const TypeContext = createContext<TContext>({} as TContext);
 
 function Type({ passedWords }: TypeProps) {
+  // console.count("type rendered");
   const {
     setHasGameStarted,
     startTime,
@@ -467,6 +470,32 @@ function Type({ passedWords }: TypeProps) {
     clearAllEntries();
   };
 
+  const previousSpaces = () => {
+    // job is to return the previous word
+    // ["a", "b", "blue", "e", "f", "g", "blue"]
+
+    if (spaceEnteredByUser === spaceCountPrev) {
+      previousArray[1] = [
+        ...pastColor.slice(pastColor.lastIndexOf("blue") + 1),
+      ];
+      // console.log("in first", previousArray);
+      return previousArray;
+    } else {
+      let pArray = [];
+      for (let i = pastColor.length - 2; i >= 0; i--) {
+        if (pastColor[i] === "blue") {
+          break;
+        }
+        pArray.push(pastColor[i]);
+      }
+      pArray.reverse();
+      previousArray[0] = pArray;
+      spaceCountPrev = spaceEnteredByUser;
+      // console.log("in second", previousArray);
+      return previousArray;
+    }
+  };
+
   function checkCtrl(
     e: React.KeyboardEvent<HTMLInputElement> & KeyDownExtension
   ): void {
@@ -527,7 +556,7 @@ function Type({ passedWords }: TypeProps) {
       <TypeContext.Provider
         value={{
           words: wordsToDisplay,
-          pastColor,
+          pastColor: previousSpaces(),
           userIn,
           onInput: handleUserInput,
           results,

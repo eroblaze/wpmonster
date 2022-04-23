@@ -31,7 +31,7 @@ export interface ResultInterface {
 export type TContext = {
   derivedWrongWords: string[] | null;
   words: string;
-  pastColor: string[];
+  pastColor: string[][];
   userIn: string;
   onInput: (e: TInputEvent) => void;
   setIsOver: React.Dispatch<React.SetStateAction<boolean>>;

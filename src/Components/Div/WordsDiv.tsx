@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import Cover from "../Cover/Cover";
 import Caret from "../Caret/Caret";
@@ -6,20 +7,42 @@ import Caret from "../Caret/Caret";
 import { TypeContext } from "../Type/Type";
 import { AppCont } from "../../App";
 
+let wordsPrevLength = 0;
+let pastColorPrevLength = 0;
+let caretChanged = false;
+let spaceCountPrev = 0;
+let previousColors: string[][] = [[]];
+let pastColorHasChanged = false;
 interface DicInterface {
   spaceCount: number;
 }
 
 const Div = ({ spaceCount }: DicInterface): JSX.Element => {
+  const [mainState, setMainState] = useState<JSX.Element[]>([]);
+
   // console.count("WordsDiv component rendered");
   const { isBlockCaret } = useContext(AppCont);
   const { isOver } = useContext(TypeContext);
   const { words, pastColor, restart, caretRef } = useContext(TypeContext);
+  const wordsArr = words.split(" ");
 
   const wordsContainerRef = useRef<HTMLDivElement>(null);
   const currentWordRef = useRef<HTMLDivElement>(null);
 
+  if (wordsPrevLength === 0) wordsPrevLength = words.length;
+  if (!pastColorHasChanged) {
+    pastColorPrevLength = pastColor[1].length;
+    pastColorHasChanged = true;
+    caretChanged = isBlockCaret;
+  }
+
   let pCIdx = -1; // To get the colors from pastColor array
+
+  // Testing
+  useEffect(() => {
+    // console.log("mainState changed", mainState.length);
+  }, [mainState]);
+  // EndTesting
 
   useEffect(() => {
     // This is important so as to prevent it from scrolling back after the words-container div has been scrolled up
@@ -32,7 +55,67 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
         });
       }
     }
+
+    if (
+      pastColor[1].length !== pastColorPrevLength ||
+      words.length !== wordsPrevLength ||
+      isBlockCaret !== caretChanged ||
+      spaceCount !== spaceCountPrev
+    ) {
+      // Remove caret from previous word
+      if (spaceCount !== spaceCountPrev) {
+        console.log("spacebar");
+        mainAction(true);
+        spaceCountPrev = spaceCount;
+        // console.log(pastColor);
+      }
+      mainAction();
+      // End Action
+    }
   });
+
+  useEffect(() => {
+    const lastIdx = wordsArr.length - 1; // last word index in the array
+
+    const output = wordsArr.map((word, idx) => {
+      // [div/, div/]
+      const isCurrentWord = idx === spaceCount;
+      const letterArr = word.split("");
+
+      return (
+        <div
+          className="each-word"
+          key={idx}
+          ref={isCurrentWord ? currentWordRef : null}
+        >
+          {isCurrentWord && (
+            <Caret ref={caretRef} putBlockClass={isBlockCaret} />
+          )}
+
+          {letterArr.map((letter, index) => {
+            pCIdx++;
+
+            const returnLetterSpan = (
+              <span key={index} data-testid={`div${pCIdx}`}>
+                {letter}
+              </span>
+            );
+
+            return returnLetterSpan;
+          })}
+          {idx !== lastIdx ? (
+            <span data-testid={`div${pCIdx}`} className="spaces">
+              {"s"}
+            </span>
+          ) : (
+            ""
+          )}
+        </div>
+      );
+    });
+
+    setMainState(output);
+  }, []);
 
   useEffect(() => {
     if (isOver) {
@@ -43,63 +126,75 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
     }
   }, [isOver]);
 
-  const wordsArr = words.split(" ");
-  const lastIdx = wordsArr.length - 1; // last word index in the array
+  function mainAction(removeCaret: boolean = false): void {
+    // Get the current word from the state and update it with the new color
+    const pick = !removeCaret ? 1 : 0;
 
-  const output = wordsArr.map((word, idx) => {
-    const isCurrentWord = idx === spaceCount;
-    const letterArr = word.split("");
+    setMainState((prev) => {
+      let toChange = !removeCaret
+        ? wordsArr[spaceCount]
+        : wordsArr[spaceCount - 1];
+      if (toChange) {
+        const output = (
+          <div
+            className="each-word"
+            key={uuidv4()}
+            ref={!removeCaret ? currentWordRef : null}
+          >
+            {!removeCaret && (
+              <Caret ref={caretRef} putBlockClass={isBlockCaret} />
+            )}
 
-    return (
-      <div
-        className="each-word"
-        key={idx}
-        ref={isCurrentWord ? currentWordRef : null}
-      >
-        {isCurrentWord && <Caret ref={caretRef} putBlockClass={isBlockCaret} />}
+            {toChange.split("").map((letter, index) => {
+              const returnLetterSpan = (
+                <span
+                  key={index}
+                  style={{
+                    color:
+                      pastColor[pick][index] === "rgb(226, 5, 5)"
+                        ? isBlockCaret
+                          ? pastColor[pick][index]
+                          : "black"
+                        : pastColor[pick][index],
 
-        {letterArr.map((letter, index) => {
-          pCIdx++;
+                    backgroundColor:
+                      pastColor[pick][index] === "rgb(226, 5, 5)"
+                        ? isBlockCaret
+                          ? undefined
+                          : pastColor[pick][index]
+                        : undefined,
+                  }}
+                >
+                  {letter}
+                </span>
+              );
 
-          const returnLetterSpan = (
-            <span
-              key={index}
-              data-testid={`div${pCIdx}`}
-              style={{
-                color:
-                  pastColor[pCIdx] === "rgb(226, 5, 5)"
-                    ? isBlockCaret
-                      ? pastColor[pCIdx]
-                      : "black"
-                    : pastColor[pCIdx],
-                backgroundColor:
-                  pastColor[pCIdx] === "rgb(226, 5, 5)"
-                    ? isBlockCaret
-                      ? undefined
-                      : pastColor[pCIdx]
-                    : undefined,
-              }}
-            >
-              {letter}
-            </span>
-          );
+              return returnLetterSpan;
+            })}
+            {spaceCount <= wordsArr.length - 1 ? (
+              <span data-testid={`div${pCIdx}`} className="spaces">
+                {"s"}
+              </span>
+            ) : (
+              ""
+            )}
+          </div>
+        );
 
-          if (index === letterArr.length - 1) {
-            // This is important inorder to get the space index in pastColor array
-            pCIdx++;
-          }
-          return returnLetterSpan;
-        })}
-        {idx !== lastIdx ? (
-          <span data-testid={`div${pCIdx}`} className="spaces">
-            {"s"}
-          </span>
-        ) : (
-          ""
-        )}
-      </div>
-    );
-  });
+        const before = !removeCaret
+          ? prev.slice(0, spaceCount)
+          : prev.slice(0, spaceCount - 1);
+        const after = !removeCaret
+          ? prev.slice(spaceCount + 1)
+          : prev.slice(spaceCount);
+        return [...before, output, ...after];
+      } else return prev;
+    });
+
+    wordsPrevLength = words.length;
+    pastColorPrevLength = pastColor[1].length;
+    caretChanged = isBlockCaret;
+  }
 
   return (
     <div
@@ -109,7 +204,7 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
     >
       {isOver && <Cover />}
       {restart && <Cover />}
-      {output}
+      {mainState}
     </div>
   );
 };
