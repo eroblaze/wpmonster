@@ -1,18 +1,25 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 
 import Type from "./Components/Type/Type";
-
-import { AppContextInterface } from "./types/AppTypes";
 import Header from "./Components/Header/Header";
 
+import { AppContextInterface } from "./types/AppTypes";
 import { ResultInterface } from "./types/TypeTypes";
 
-export const wordsArrayRandom = [
-  "one two",
-  "mother ".repeat(400),
-  "what is the reason for this it's to prepare for more features",
-  "this project from learning react to working on this project and then almost giving up when things were not working as planned to learning typescript and tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently what do you know? when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently what do you know? when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently",
-];
+import Data from "../src/Data/words.json";
+
+function formatWords(data: string[] = Data) {
+  const newData = data.sort(() => Math.random() - 0.5);
+  const wordString = newData.join(" ");
+  return wordString;
+}
+
+// export const wordsArrayRandom = [
+//   // "one two",
+//   "mother ".repeat(400),
+//   // "what is the reason for this it's to prepare for more features",
+//   "this project from learning react to working on this project and then almost giving up when things were not working as planned to learning typescript and tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently what do you know? when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently what do you know? when the time comes you will testify of the goodness of God and you will surely share your testimony so don't be worried better days are ahead of you the tell me something girl are you tired tryna feel that void talk is cheap show me the code this is a very wise word once said by me then afterwards, i made it longer so I can have lots more stuffs to type in this world you come and you go i made up my mind to do the right thing and grind continously doing the right thing consistently",
+// ];
 
 const timeArray = [15, 30, 60];
 
@@ -30,7 +37,7 @@ const App = () => {
   const [shouldShowResultSection, setShouldShowResultSection] = useState(false);
   const [showSectionToggle, setShowSectionToggle] = useState(true);
   const [showHighScore, setShowHighScore] = useState(false);
-  const wordsToDisplay = wordsArrayRandom[0];
+  const appWords = formatWords();
 
   const handleTimeChange = (time: number) => {
     if (!hasGameStarted) setStartTime(time);
@@ -38,6 +45,11 @@ const App = () => {
 
   const handleCaretClick = (caret: boolean) => {
     if (!hasGameStarted && caret !== isBlockCaret) setIsBlockCaret(caret);
+  };
+
+  const handleWordsRestart = () => {
+    const fetchedWords = formatWords();
+    return fetchedWords;
   };
 
   return (
@@ -63,7 +75,7 @@ const App = () => {
           onTimeChange={handleTimeChange}
           onCaretClick={handleCaretClick}
         />
-        <Type passedWords={wordsToDisplay} />
+        <Type passedWords={appWords} onAppRestart={handleWordsRestart} />
         {/* Footer component goes here */}
       </AppCont.Provider>
     </>

@@ -28,7 +28,7 @@ import {
   TContext,
   TInputEvent,
 } from "../../types/TypeTypes";
-import { AppCont, wordsArrayRandom } from "../../App";
+import { AppCont } from "../../App";
 
 // useful variables / bindings
 let everyIndexBeforeSpace: number[] = [];
@@ -79,11 +79,12 @@ function clearAllEntries(): void {
 
 interface TypeProps {
   passedWords: string;
+  onAppRestart: () => string;
 }
 
 export const TypeContext = createContext<TContext>({} as TContext);
 
-function Type({ passedWords }: TypeProps) {
+function Type({ passedWords, onAppRestart }: TypeProps) {
   // console.count("type rendered");
   const {
     setHasGameStarted,
@@ -140,6 +141,7 @@ function Type({ passedWords }: TypeProps) {
   );
 
   // start initialization
+
   useEffect(() => {
     // Listen for esc being pressed in the window
     window.addEventListener("keydown", onWindowKeyDown);
@@ -467,14 +469,14 @@ function Type({ passedWords }: TypeProps) {
     setIsOver(false);
     setRestart(true);
     setTimeout(() => setRestart(false), loadTime);
-    setWordsToDisplay(wordsArrayRandom[Math.floor(Math.random() * 4)]); // Fetching is going to take place here
+    // setWordsToDisplay(wordsArrayRandom[Math.floor(Math.random() * 2)]); // Fetching is going to take place here
+    setWordsToDisplay(onAppRestart()); // fetch new words
     setColor({} as TColor);
     clearAllEntries();
   };
 
   const previousSpaces = () => {
     // job is to return the previous word
-
     if (spaceEnteredByUser === spaceCountPrev) {
       previousArray[1] = [
         ...pastColor.slice(pastColor.lastIndexOf("blue") + 1),

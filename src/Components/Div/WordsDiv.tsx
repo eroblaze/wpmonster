@@ -78,7 +78,6 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
     ) {
       // Remove caret from previous word
       if (spaceCount !== spaceCountPrev) {
-        console.log("spacebar");
         mainAction(true);
         spaceCountPrev = spaceCount;
         // console.log(pastColor);

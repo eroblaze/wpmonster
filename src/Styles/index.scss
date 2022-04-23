@@ -212,7 +212,8 @@ header {
   font-size: $words-container-fs;
   font-family: $primary-font-typing;
   height: fit-content;
-  max-height: 99px;
+  // max-height: 99px;
+  height: 99px;
   overflow: hidden; /* necessary for the typing animation */
 }
 
