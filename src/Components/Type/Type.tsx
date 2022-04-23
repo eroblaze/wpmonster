@@ -467,14 +467,13 @@ function Type({ passedWords }: TypeProps) {
     setIsOver(false);
     setRestart(true);
     setTimeout(() => setRestart(false), loadTime);
-    setWordsToDisplay(wordsArrayRandom[Math.floor(Math.random() * 3)]); // Fetching is going to take place here
+    setWordsToDisplay(wordsArrayRandom[Math.floor(Math.random() * 4)]); // Fetching is going to take place here
     setColor({} as TColor);
     clearAllEntries();
   };
 
   const previousSpaces = () => {
     // job is to return the previous word
-    // ["a", "b", "blue", "e", "f", "g", "blue"]
 
     if (spaceEnteredByUser === spaceCountPrev) {
       previousArray[1] = [

@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef } from "react";
 import { AppCont } from "../../App";
 // For the warning notification
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 
 interface HeaderInterface {
   startTime: number;
@@ -133,7 +134,7 @@ const Header = ({
             time:
             {timeArray.map((time) => (
               <span
-                key={time}
+                key={uuidv4()}
                 onClick={verifyTime}
                 className={startTime === time ? "time-selected" : ""}
                 data-timevalue={time}

@@ -18,6 +18,7 @@ interface DicInterface {
 
 const Div = ({ spaceCount }: DicInterface): JSX.Element => {
   const [mainState, setMainState] = useState<JSX.Element[]>([]);
+  const [showWords, setShowWords] = useState(false);
 
   // console.count("WordsDiv component rendered");
   const { isBlockCaret } = useContext(AppCont);
@@ -43,6 +44,7 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
 
   useEffect(() => {
     initialRendering();
+    setTimeout(() => setShowWords(true), 1000);
   }, []);
 
   useEffect(() => {
@@ -201,6 +203,7 @@ const Div = ({ spaceCount }: DicInterface): JSX.Element => {
     >
       {isOver && <Cover />}
       {restart && <Cover />}
+      {!showWords && <Cover />}
       {mainState}
     </div>
   );
