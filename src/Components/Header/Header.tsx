@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AppCont } from "../../App";
 // For the warning notification
 import { toast } from "react-toastify";
@@ -25,8 +25,27 @@ const Header = ({
     setShowHighScore,
     highScore,
   } = useContext(AppCont);
+
+  const [selectTime, setSelectTime] = useState<JSX.Element[]>([]);
+
   const hiderRef = useRef<SVGSVGElement | null>(null);
   const canStart = useRef(0);
+
+  // To store the time options and prevent unneccessary rerendering
+  useEffect(() => {
+    const output = timeArray.map((time) => (
+      <span
+        key={uuidv4()}
+        onClick={verifyTime}
+        className={startTime === time ? "time-selected" : ""}
+        data-timevalue={time}
+      >
+        {" "}
+        {time}
+      </span>
+    ));
+    setSelectTime(output);
+  }, [startTime]);
 
   useEffect(() => {
     if (hiderRef.current) {
@@ -42,7 +61,16 @@ const Header = ({
         }
       }
     }
+    // For the Ctrl + Enter toggle feature
+    window.addEventListener("keydown", handleKeysCombination);
+    return () => {
+      window.removeEventListener("keydown", handleKeysCombination);
+    };
   }, [shouldShowResultSection]);
+
+  function handleKeysCombination(e: KeyboardEvent) {
+    if (e.key === "Enter" && e.ctrlKey) handleHiderClick();
+  }
 
   const verifyTime = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     const target = e.target as HTMLSpanElement;
@@ -54,12 +82,12 @@ const Header = ({
     }
   };
 
-  const handleHiderClick = () => {
+  function handleHiderClick() {
     if (canStart.current) {
       setShouldShowResultSection(!shouldShowResultSection);
       setShowSectionToggle((former) => !former);
     }
-  };
+  }
 
   const handleHighScore = () => {
     if (highScore.WPM) setShowHighScore((former) => !former);
@@ -132,17 +160,19 @@ const Header = ({
           </li>
           <li>
             time:
-            {timeArray.map((time) => (
-              <span
-                key={uuidv4()}
-                onClick={verifyTime}
-                className={startTime === time ? "time-selected" : ""}
-                data-timevalue={time}
-              >
-                {" "}
-                {time}
-              </span>
-            ))}
+            {selectTime.length === 0
+              ? timeArray.map((time) => (
+                  <span
+                    key={uuidv4()}
+                    onClick={verifyTime}
+                    className={startTime === time ? "time-selected" : ""}
+                    data-timevalue={time}
+                  >
+                    {" "}
+                    {time}
+                  </span>
+                ))
+              : selectTime}
           </li>
         </ul>
       </nav>

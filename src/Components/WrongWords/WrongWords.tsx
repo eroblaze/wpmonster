@@ -7,7 +7,7 @@ const WrongWords = () => {
   const [showWrongWords, setShowWrongWords] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
-    if (isOver) {
+    if (isOver && derivedWrongWords) {
       const output = derivedWrongWords.map((el) => (
         <span key={uuidv4()}>{el}</span>
       ));
@@ -16,10 +16,12 @@ const WrongWords = () => {
   }, [isOver, derivedWrongWords]);
 
   useEffect(() => {
-    const output = derivedWrongWords.map((el) => (
-      <span key={uuidv4()}>{el}</span>
-    ));
-    setShowWrongWords(output);
+    if (derivedWrongWords) {
+      const output = derivedWrongWords.map((el) => (
+        <span key={uuidv4()}>{el}</span>
+      ));
+      setShowWrongWords(output);
+    }
   }, []);
 
   if (derivedWrongWords) {

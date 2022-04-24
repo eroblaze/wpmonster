@@ -467,6 +467,14 @@ div[class="sect-1"] {
   height: 25px;
   background-color: silver;
   border: 1px solid grey;
+  display: grid;
+  place-content: center;
+}
+#crown2 {
+  fill: green;
+  width: 18px;
+  height: 18px;
+  margin-left: 40px;
 }
 // .wpm-labels,
 // .wpm-scores {
