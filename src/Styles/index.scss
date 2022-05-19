@@ -165,8 +165,9 @@ header {
 }
 
 .timer-container {
-  /* border: 1px solid violet; */
+  // border: 1px solid violet;
   width: 100%;
+  height: 35px;
   border-radius: $general-b-radius;
   background-color: $timer-words-bg-color;
   font-size: $small-font;
@@ -364,24 +365,19 @@ header {
     height: 45px;
     padding: 5px;
 
-    button {
+    svg {
+      fill: #f3f3f3;
       position: absolute;
       right: 0;
       cursor: pointer;
-      width: 25px;
-      height: 25px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #f3f3f3;
+      width: 20px;
+      height: 20px;
       border: none;
-      border-radius: 2px;
-      color: black;
+      border-radius: 100%;
       transition: all 0.25s ease;
 
       &:hover {
-        background-color: $general-red;
-        color: #f3f3f3;
+        fill: silver;
       }
     }
   }
@@ -474,7 +470,7 @@ div[class="sect-1"] {
   fill: green;
   width: 18px;
   height: 18px;
-  margin-left: 40px;
+  margin-left: 50px;
 }
 // .wpm-labels,
 // .wpm-scores {

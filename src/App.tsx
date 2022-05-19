@@ -76,7 +76,6 @@ const App = () => {
           onCaretClick={handleCaretClick}
         />
         <Type passedWords={appWords} onAppRestart={handleWordsRestart} />
-        {/* Footer component goes here */}
       </AppCont.Provider>
     </>
   );

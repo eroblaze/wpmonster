@@ -55,7 +55,7 @@ let isWrong = false;
 // When to show Result Section
 let isSubmitting = false;
 let spaceCountPrev = 0;
-let previousArray = [[], []];
+let previousArray: string[][] = [[], []];
 
 function clearAllEntries(): void {
   everyIndexBeforeSpace = [];

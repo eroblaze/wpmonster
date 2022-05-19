@@ -10,6 +10,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
+    "gsap": "^3.10.4",
     "node-sass": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -42,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.4"
   }
 }
