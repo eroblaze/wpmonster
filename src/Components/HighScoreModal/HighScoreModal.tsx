@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import "../../Styles/ResultModal.scss";
 
 import ResultPresentationalModal from "../ResultPresentationalModal/ResultPresentationModal";
 import { ResultModalProps } from "../ResultModal/ResultModal";

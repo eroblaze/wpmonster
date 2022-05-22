@@ -30,15 +30,6 @@
   }
 }
 
-@keyframes animateWidth {
-  0% {
-    width: 0%;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
 @keyframes rotateOnce {
   100% {
     transform: rotate(360deg);

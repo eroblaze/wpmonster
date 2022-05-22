@@ -25,7 +25,7 @@ const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
     tl.current = gsap
       .timeline()
       .from(".menu-div", {
-        duration: 1,
+        duration: 0.5,
         autoAlpha: 0,
         scale: 0,
         ease: "back",

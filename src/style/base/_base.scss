@@ -38,13 +38,16 @@ body {
 }
 
 /* The Header Component*/
-
 header {
   // border: 1px solid orange;
   height: $header-height;
-  display: grid;
-  grid-template-columns: 30% 70%;
-  place-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > * {
+    flex: 1;
+  }
 
   h1 {
     font-size: rem(30);
@@ -73,15 +76,13 @@ header {
 
   ul {
     display: flex;
-    justify-content: space-evenly;
-    height: 100%;
-
+    width: 100%;
+    padding: 0;
     li {
       width: 100%;
-      // border: rem(1) solid lime;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
 
       &:last-child {
         justify-content: flex-end;
@@ -110,24 +111,7 @@ header {
   height: rem(2);
 }
 
-.time-selected {
-  cursor: auto;
-  transition: none;
-  &::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: rem(3);
-    background-color: $modal-second-color;
-    animation: animateWidth 0.25s linear forwards;
-  }
-  &:hover {
-    color: white;
-  }
-}
-
 /* End Header Component*/
-
 .main-body {
   // border: 1px solid white;
   min-height: calc(100vh - #{$header-height});
