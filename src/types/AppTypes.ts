@@ -12,4 +12,7 @@ export interface AppContextInterface {
   setShowHighScore: React.Dispatch<React.SetStateAction<boolean>>;
   highScore: ResultInterface;
   setHighScore: React.Dispatch<React.SetStateAction<ResultInterface>>;
+  timeArray: number[];
+  onTimeChange: (e: number) => void;
+  onCaretClick: (isBlockCaret: boolean) => void;
 }

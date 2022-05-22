@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import "../../Styles/ResultModal.scss";
 
 import ResultPresentationalModal from "../ResultPresentationalModal/ResultPresentationModal";
 import { TypeContext } from "../Type/Type";

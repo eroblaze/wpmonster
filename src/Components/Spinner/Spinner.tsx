@@ -1,5 +1,3 @@
-import "../../Styles/SpinnerStyle.scss";
-
 function Spinner() {
   return (
     <div id="spinner">

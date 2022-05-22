@@ -67,14 +67,12 @@ const App = () => {
           setShowHighScore,
           highScore,
           setHighScore,
+          timeArray,
+          onTimeChange: handleTimeChange,
+          onCaretClick: handleCaretClick,
         }}
       >
-        <Header
-          timeArray={timeArray}
-          startTime={startTime}
-          onTimeChange={handleTimeChange}
-          onCaretClick={handleCaretClick}
-        />
+        <Header />
         <Type passedWords={appWords} onAppRestart={handleWordsRestart} />
       </AppCont.Provider>
     </>
