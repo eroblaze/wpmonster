@@ -76,7 +76,17 @@ const Header = () => {
     <header>
       <div className="logo">
         <h1>
-          <span id="wpm-green">wpm</span>onster{" "}
+          <span id="wpm-green">
+            <span className="site-title">w</span>
+            <span className="site-title">p</span>
+            <span className="site-title">m</span>
+          </span>
+          <span className="site-title">o</span>
+          <span className="site-title">n</span>
+          <span className="site-title">s</span>
+          <span className="site-title">t</span>
+          <span className="site-title">e</span>
+          <span className="site-title">r</span>{" "}
           <span>
             <svg
               id="typing-box-2-hider-svg"

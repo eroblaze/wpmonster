@@ -80,7 +80,6 @@ const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
   const handleClick = (cartegory: string) => {
     const stringEnd = cartegory.split("-")[1];
     showMenu[stringEnd] = !showMenu[stringEnd];
-    console.log("Before", previouslyOpened, cartegory, showMenu[stringEnd]);
 
     if (
       showMenu[stringEnd] &&
@@ -93,8 +92,6 @@ const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
     }
 
     previouslyOpened = cartegory !== previouslyOpened ? cartegory : undefined;
-    console.log("After", previouslyOpened, cartegory, showMenu[stringEnd]);
-
     animate(`.${cartegory}`, showMenu[stringEnd]);
   };
 

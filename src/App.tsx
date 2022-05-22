@@ -1,4 +1,5 @@
 import { useState, createContext, useEffect } from "react";
+import { gsap } from "gsap";
 
 import Type from "./Components/Type/Type";
 import Header from "./Components/Header/Header";
@@ -6,7 +7,7 @@ import Header from "./Components/Header/Header";
 import { AppContextInterface } from "./types/AppTypes";
 import { ResultInterface } from "./types/TypeTypes";
 
-import Data from "../src/Data/words.json";
+import Data from "../src/Data/words2.json";
 
 function formatWords(data: string[] = Data) {
   const newData = data.sort(() => Math.random() - 0.5);
@@ -27,7 +28,7 @@ export const AppCont = createContext<AppContextInterface>(
   {} as AppContextInterface
 );
 
-const App = () => {
+function App() {
   const [highScore, setHighScore] = useState<ResultInterface>(
     {} as ResultInterface
   );
@@ -38,6 +39,16 @@ const App = () => {
   const [showSectionToggle, setShowSectionToggle] = useState(true);
   const [showHighScore, setShowHighScore] = useState(false);
   const appWords = formatWords();
+
+  useEffect(() => {
+    // on page load animation :)
+    gsap.from(".site-title", {
+      duration: 1,
+      stagger: 0.2,
+      scale: -1,
+      autoAlpha: 0,
+    });
+  }, []);
 
   const handleTimeChange = (time: number) => {
     if (!hasGameStarted) setStartTime(time);
@@ -77,6 +88,6 @@ const App = () => {
       </AppCont.Provider>
     </>
   );
-};
+}
 
 export default App;
