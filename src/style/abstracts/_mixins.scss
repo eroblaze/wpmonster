@@ -1,0 +1,40 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+@use "variables" as *;
+@use "functions" as *;
+
+@mixin caret($oneForBlock) {
+  position: absolute;
+  height: 89%;
+  transform: translateY(rem(0.9));
+  transition: left 0.1s ease;
+
+  // if it's 2, that means it is thinCaret
+  @if ($oneForBlock == 1) {
+    width: fit-content;
+    font-size: $words-container-fs;
+    border: none;
+    background-color: $secondary-color;
+  } @else {
+    z-index: 5;
+    margin-left: rem(-1);
+    border-left: rem(2) solid $secondary-color;
+    border-radius: rem(50);
+  }
+}
+
+@mixin placement {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  // width: 100%;
+  // height: 100%;
+}
+@mixin svgIcons {
+  fill: white;
+  width: rem(18);
+  height: rem(18);
+}

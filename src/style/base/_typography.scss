@@ -1,0 +1,11 @@
+/**
+ * Basic typography style for copy text
+ */
+@use "../abstracts" as *;
+
+@import url("https://fonts.googleapis.com/css2?family=B612+Mono&family=Oxygen+Mono&family=PT+Mono&family=Roboto+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+body {
+  font-family: $general-font;
+}

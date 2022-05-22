@@ -1,0 +1,164 @@
+@use "../abstracts" as *;
+
+.menu-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(rem(200), rem(300), rem(300));
+  min-height: rem(500);
+  background-color: white;
+  z-index: 12;
+  color: white;
+  border-radius: $general-b-radius;
+  background-color: $timer-words-bg-color;
+  padding: rem(20);
+  display: grid;
+  grid-template-rows: rem(30) 1fr;
+  visibility: hidden;
+  // margin-top: 100px;
+}
+
+.menu-close {
+  div {
+    cursor: pointer;
+    width: fit-content;
+    height: 100%;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transition: 0.25s transform;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    span {
+      height: rem(3);
+      background-color: $modal-second-color;
+      width: rem(30);
+    }
+    span:nth-of-type(2) {
+      transform: translate(0, rem(5));
+      width: rem(20);
+      background-color: $secondary-color;
+    }
+    span:nth-of-type(3) {
+      transform: translate(0, rem(10));
+      width: rem(10);
+    }
+  }
+}
+
+.menu-menu {
+  // border: 1px solid yellow;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  section {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: column;
+    // border: rem(1) solid blue;
+    min-height: rem(80);
+
+    h1 {
+      font-size: rem(30);
+      cursor: pointer;
+      visibility: hidden;
+      transition: 0.4s text-shadow;
+      &:hover {
+        text-shadow: 0 0 rem(20) black;
+      }
+    }
+
+    .background {
+      position: absolute;
+      width: rem(200);
+      height: 100%;
+      // border: 1px solid red;
+      margin: 0 auto;
+      display: grid;
+      place-content: center;
+      // margin-inline: auto;
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+      z-index: -1;
+      span {
+        height: rem(2);
+        background-color: $modal-second-color;
+        width: 100%;
+        display: block;
+        transform: translate(0, rem(-5));
+        visibility: hidden;
+      }
+      span:nth-of-type(2) {
+        transform: translate(0, 0);
+        width: 90%;
+      }
+      span:nth-of-type(3) {
+        transform: translate(0, rem(5));
+        width: 80%;
+      }
+    }
+  }
+  .menu-caret {
+    p {
+      padding: rem(3.5) 0;
+    }
+    span {
+      display: block;
+      height: rem(20);
+    }
+  }
+  .menu-options-div {
+    // border: 1px solid red;
+    height: 0;
+    overflow: hidden;
+    p {
+      position: relative;
+      // border: 1px solid yellow;
+      width: 100%;
+      border-radius: $general-b-radius;
+      background-color: $modal-second-color;
+      margin-bottom: rem(5);
+      color: white;
+      cursor: pointer;
+      transition: 0.4s background-color;
+      display: flex;
+      justify-content: center;
+      &:hover {
+        background-color: lighten($modal-second-color, 10);
+      }
+    }
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+    .menu-selected {
+      cursor: default;
+      color: black;
+      background-color: $secondary-color;
+      &:hover {
+        background-color: $secondary-color;
+      }
+    }
+
+    // p::after {
+    //   content: " ";
+    //   position: absolute;
+    //   top: 50%;
+    //   left: 50%;
+    //   transform: translate(-50%, -50%);
+    //   display: block;
+    //   width: 80%;
+    //   height: rem(2);
+    //   background-color: $secondary-color;
+    //   margin: auto;
+    //   z-index: -1;
+    // }
+  }
+}

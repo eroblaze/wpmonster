@@ -1,0 +1,509 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+@use "../abstracts" as *;
+@use "../components/popupmenu" as *;
+
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  width: 100%;
+  height: 100%;
+  color: white;
+  background-color: $overall-bg-color;
+  font-size: rem(18);
+
+  &::-webkit-scrollbar {
+    width: rem(12);
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 rem(5) grey;
+    border-radius: rem(10);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $timer-words-bg-color;
+    border-radius: rem(10);
+    box-shadow: inset 0 0 rem(5) #f3f3f3;
+  }
+}
+
+/* This is the root div*/
+#root {
+  width: 70%;
+  height: 100%;
+  margin: auto;
+  /* border: 1px solid pink; */
+}
+
+/* The Header Component*/
+
+header {
+  // border: 1px solid orange;
+  height: $header-height;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  place-content: center;
+
+  h1 {
+    font-size: rem(30);
+    #wpm-green {
+      color: $secondary-color;
+    }
+
+    #typing-box-2-hider-svg {
+      @include svgIcons();
+    }
+    .hider-active {
+      animation: hiderActive 0.25s linear forwards;
+    }
+    .hider-deactivate {
+      animation: hiderDeactivate 0.25s linear reverse;
+    }
+    .hoverable {
+      cursor: pointer;
+      transition: 0.25s fill ease;
+
+      &:hover {
+        fill: $modal-second-color !important;
+      }
+    }
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-evenly;
+    height: 100%;
+
+    li {
+      width: 100%;
+      // border: rem(1) solid lime;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:last-child {
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+// For the svg icons
+#crown,
+#menu-icon {
+  @include svgIcons();
+  cursor: pointer;
+  transition: 0.25s all ease;
+  &:hover {
+    fill: $modal-second-color;
+  }
+}
+#rotate-right {
+  @include svgIcons();
+}
+// End svg icons
+
+// For the toastify component
+.toastify-progress-height {
+  height: rem(2);
+}
+
+.time-selected {
+  cursor: auto;
+  transition: none;
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: rem(3);
+    background-color: $modal-second-color;
+    animation: animateWidth 0.25s linear forwards;
+  }
+  &:hover {
+    color: white;
+  }
+}
+
+/* End Header Component*/
+
+.main-body {
+  // border: 1px solid white;
+  min-height: calc(100vh - #{$header-height});
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.typing-box-1 {
+  /* border: 1px solid green; */
+  width: 100%;
+}
+
+.timer-container {
+  // border: 1px solid violet;
+  width: 100%;
+  height: rem(35);
+  border-radius: $general-b-radius;
+  background-color: $timer-words-bg-color;
+  font-size: $small-font;
+  p {
+    padding: rem(5) $main-typing-box-padding rem(5) $main-typing-box-padding;
+    /* border: 1px solid white; */
+  }
+}
+.time-flow {
+  width: 100%;
+  border: 1px solid $secondary-color;
+  border-radius: rem(50);
+  transform: translateY(50%);
+  animation: time-flow-animation-decrement 30s linear forwards;
+  animation-play-state: paused; /*Change this with javascript*/
+}
+
+.main-typing-box {
+  /* border: 1px solid red; */
+  margin-top: rem(15);
+  padding: $main-typing-box-padding;
+  background-color: $timer-words-bg-color;
+}
+.output-sibling {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: $overall-bg-color;
+  display: grid;
+  place-content: center;
+  z-index: 10;
+  /* border: 1px solid red; */
+}
+
+.words-container {
+  position: relative;
+  /* border: 1px solid limegreen; */
+  padding: rem(1) rem(5);
+  // line-height: 1.5;
+  margin-bottom: $main-typing-box-padding;
+  font-size: $words-container-fs;
+  font-family: $primary-font-typing;
+  height: fit-content;
+  // max-height: 99px;
+  height: rem(99);
+  overflow: hidden; /* necessary for the typing animation */
+}
+
+.each-word {
+  display: inline-block;
+  position: relative;
+  /* border: 1px solid red; */
+
+  span {
+    position: relative;
+    /* border: 1px solid pink; */
+  }
+}
+
+.spaces {
+  visibility: hidden;
+}
+
+// For the caret styling in the header and in the words-container
+.block-caret-span {
+  width: rem(10);
+  border: rem(1) solid white;
+  height: rem(25);
+  margin: 0 rem(10);
+  transition: 0.25s ease;
+
+  &:hover {
+    background-color: $modal-second-color;
+    border-color: $modal-second-color;
+  }
+}
+
+.thin-caret-span {
+  width: rem(5);
+  height: rem(25);
+  border-left: rem(2) solid white;
+  transition: 0.25s ease;
+
+  &:hover {
+    border-left-color: $modal-second-color;
+  }
+}
+
+.block-caret-active {
+  background-color: $modal-second-color;
+  border-color: $modal-second-color;
+  &:hover {
+    cursor: auto;
+    background-color: none;
+    border-color: none;
+  }
+}
+.thin-caret-active {
+  border-left-color: $modal-second-color;
+  &:hover {
+    cursor: auto;
+    border-left-color: none;
+  }
+}
+
+#blockCaret {
+  @include caret(1);
+
+  span {
+    visibility: hidden;
+  }
+}
+#thinCaret {
+  @include caret(2);
+}
+
+.blink {
+  animation: blink 1.1s infinite 1s;
+}
+// End of caret styling
+
+.input-restart {
+  /* border: 1px solid blue; */
+  display: flex;
+  justify-content: space-between;
+  gap: $main-typing-box-padding;
+  input {
+    color: white;
+    width: 100%;
+    padding: $input-restart-padding;
+    border: none;
+    border-radius: $general-b-radius;
+    background-color: $overall-bg-color;
+    font-size: $words-container-fs;
+    font-family: $primary-font-typing;
+
+    &:focus {
+      outline: rem(2) solid $secondary-color;
+    }
+  }
+}
+
+.to-restart {
+  font-family: $general-font;
+  letter-spacing: rem(2);
+  font-size: rem(19);
+}
+
+.restart-span {
+  /* border: 1px solid brown; */
+  cursor: pointer;
+  border-radius: $general-b-radius;
+  display: grid;
+  place-content: center;
+  width: rem(70);
+  padding: $input-restart-padding;
+  background-color: $overall-bg-color;
+  transition: 0.5s all ease;
+
+  &:hover {
+    transform: translate(-1 * rem(3));
+    background-color: #232527;
+    #rotate-right {
+      animation: rotateOnce 0.5s linear;
+    }
+  }
+}
+
+.typing-box-2 {
+  width: 100%;
+  // border: 1px solid red;
+  height: rem(280);
+  margin-top: rem(30);
+  display: flex;
+  justify-content: center;
+}
+
+/* Beginning of modal*/
+.result-div {
+  font-family: $general-font;
+  line-height: normal;
+  font-size: initial;
+  /* height: 350px; */
+  width: rem(300);
+  border-radius: $general-b-radius;
+  margin-right: rem(40);
+
+  .result-title {
+    position: relative;
+    background-color: green;
+    border-radius: $general-b-radius $general-b-radius 0 0;
+    display: flex;
+    height: rem(45);
+    padding: rem(5);
+
+    svg {
+      fill: #f3f3f3;
+      position: absolute;
+      right: 0;
+      cursor: pointer;
+      width: rem(20);
+      height: rem(20);
+      border: none;
+      border-radius: 100%;
+      transition: all 0.25s ease;
+
+      &:hover {
+        fill: silver;
+      }
+    }
+  }
+
+  .result-inner-div {
+    position: relative;
+    width: rem(250);
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    color: #f3f3f3;
+  }
+
+  .result-body {
+    height: fit-content;
+    /* border: 1px solid violet; */
+  }
+}
+
+div[class^="sect"] {
+  /* border: 1px solid red; */
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  height: rem(50);
+
+  &:last-of-type {
+    border-radius: 0 0 $general-b-radius $general-b-radius;
+  }
+}
+
+.wpm-container {
+  width: rem(250);
+  margin: auto;
+  /* border: 1px solid red; */
+}
+
+div[class="sect-1"] {
+  text-align: center;
+  overflow: hidden;
+  border-radius: $general-b-radius $general-b-radius 0 0;
+  height: rem(80);
+}
+.wpm-scores {
+  float: right;
+  display: flex;
+  align-items: center;
+}
+.wpm-correct {
+  color: $secondary-color;
+}
+.wpm-wrong {
+  color: $general-red;
+}
+
+.sect-1,
+.sect-3,
+.sect-5 {
+  background-color: $timer-words-bg-color;
+}
+.sect-2,
+.sect-4 {
+  background-color: $modal-second-color;
+}
+.wpm-small {
+  font-size: rem(14);
+}
+.wpm-big {
+  position: relative;
+  font-size: 2.3em;
+  line-height: 1;
+}
+.high-score {
+  position: absolute;
+  margin-right: -1 * rem(50);
+  margin-top: -1 * rem(20);
+  right: 0;
+  top: 0;
+  transform: rotate(30deg);
+  width: rem(150);
+  height: rem(25);
+  background-color: silver;
+  border: rem(1) solid grey;
+  display: grid;
+  place-content: center;
+}
+#crown2 {
+  fill: green;
+  width: rem(18);
+  height: rem(18);
+  margin-left: rem(50);
+}
+// .wpm-labels,
+// .wpm-scores {
+//   // font-size: 19px;
+// }
+.wpm-shrink {
+  font-size: rem(14);
+  margin-right: rem(10);
+}
+
+/* End of modal */
+
+.wrong-words-container {
+  width: calc(100% - rem(340));
+  height: fit-content;
+  /* border: 1px solid blue; */
+  background-color: $timer-words-bg-color;
+  padding: rem(10) $main-typing-box-padding $main-typing-box-padding
+    $main-typing-box-padding;
+  border-radius: $general-b-radius;
+}
+.wrong-words-title {
+  /* border: 1px solid blue; */
+  margin-bottom: $main-typing-box-padding;
+}
+.wrong-words {
+  /* border: 1px solid yellow; */
+  display: flex;
+  gap: rem(20);
+  flex-wrap: wrap;
+  max-height: rem(203);
+  overflow-y: auto;
+
+  span {
+    border: rem(2) solid $general-red;
+    border-radius: $general-b-radius;
+    padding: rem(4);
+    background-color: $wrong-words-bg;
+    font-size: rem(16);
+  }
+
+  &::-webkit-scrollbar {
+    width: rem(10);
+  }
+  &::-webkit-scrollbar-track {
+    background-color: $modal-second-color;
+    box-shadow: inset 0 0 rem(5) #f3f3f3;
+    border-radius: rem(10);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $overall-bg-color;
+    border-radius: rem(10);
+    box-shadow: inset 0 0 rem(3) #f3f3f3;
+  }
+  &::-webkit-scrollbar-corner {
+    display: none;
+  }
+}
