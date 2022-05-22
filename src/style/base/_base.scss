@@ -308,7 +308,7 @@ header {
   transition: 0.5s all ease;
 
   &:hover {
-    transform: translate(-1 * rem(3));
+    transform: translate(rem(-3));
     background-color: #232527;
     #rotate-right {
       animation: rotateOnce 0.5s linear;
@@ -432,8 +432,8 @@ div[class="sect-1"] {
 }
 .high-score {
   position: absolute;
-  margin-right: -1 * rem(50);
-  margin-top: -1 * rem(20);
+  margin-right: rem(-50);
+  margin-top: rem(-20);
   right: 0;
   top: 0;
   transform: rotate(30deg);

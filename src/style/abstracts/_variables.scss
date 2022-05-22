@@ -1,11 +1,12 @@
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass variables.
 // -----------------------------------------------------------------------------
+@use "functions" as *;
 
-$header-height: 80px;
-$main-typing-box-padding: 20px;
-$general-b-radius: 3px;
-$input-restart-padding: 10px;
+$header-height: rem(80);
+$main-typing-box-padding: rem(20);
+$general-b-radius: rem(3);
+$input-restart-padding: rem(10);
 $timer-words-bg-color: #323437;
 $modal-second-color: #585d64;
 $overall-bg-color: #202020;
@@ -16,7 +17,7 @@ $wrong-words-bg: rgb(104, 59, 59);
 $words-container-fs: 21px;
 $general-font: "Poppins", sans-serif;
 $primary-font-typing: "Oxygen Mono", monospace;
-$small-font: 15px;
+$small-font: rem(15);
 
 :root {
   --current-width-of-timeFlow: 0; /* Going to be changed in the Timer Component*/
