@@ -109,7 +109,7 @@ const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
 
   return (
     <>
-      <div className="modal-sibling"></div>
+      <div className="modal-sibling on-top"></div>
 
       <div className="menu-div" ref={menuRef}>
         <div className="menu-close">

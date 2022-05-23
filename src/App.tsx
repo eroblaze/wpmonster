@@ -60,8 +60,22 @@ function App() {
         },
         "fade-in"
       )
-      .from(".typing-box-1", { duration: 1, y: -10, autoAlpha: 0 }, "fade-in");
-    // menu-icon and crown
+      .from(
+        ".typing-box-1",
+        {
+          duration: 1,
+          y: -10,
+          autoAlpha: 0,
+          onStart: () => {
+            // Give the main input field its focus back
+            const input = document.querySelector(
+              "#main-input-type"
+            ) as HTMLInputElement;
+            input.focus();
+          },
+        },
+        "fade-in"
+      );
   }, []);
 
   const handleTimeChange = (time: number) => {

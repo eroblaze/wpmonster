@@ -8,5 +8,10 @@
  * 2. Center it in the viewport
  * 3. Leave some space on the edges, especially valuable on small screens
  */
-.container {
+.invisible {
+  visibility: hidden;
+}
+
+div.on-top {
+  z-index: 13;
 }

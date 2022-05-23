@@ -30,6 +30,7 @@ const Input = ({ click }: { click: () => void }): JSX.Element => {
         autoComplete="off"
         data-testid="main-input"
         ref={inputRef}
+        id="main-input-type"
       />
       <span
         className="restart-span"
