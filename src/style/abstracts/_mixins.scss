@@ -38,3 +38,36 @@
   width: rem(18);
   height: rem(18);
 }
+
+%menu-share {
+  cursor: pointer;
+  width: fit-content;
+  height: 100%;
+  float: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  &:hover {
+    span {
+      background-color: $secondary-color;
+    }
+  }
+
+  span {
+    height: rem(3);
+    width: rem(30);
+    border-radius: rem(10);
+    background-color: $modal-second-color;
+    transition: 0.25s background-color;
+  }
+  span:nth-of-type(2) {
+    transform: translate(0, rem(5));
+    width: rem(20);
+    background-color: $secondary-color;
+  }
+  span:nth-of-type(3) {
+    transform: translate(0, rem(10));
+    width: rem(10);
+  }
+}

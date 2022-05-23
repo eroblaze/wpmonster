@@ -21,33 +21,7 @@
 
 .menu-close {
   div {
-    cursor: pointer;
-    width: fit-content;
-    height: 100%;
-    float: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    transition: 0.25s transform;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-
-    span {
-      height: rem(3);
-      background-color: $modal-second-color;
-      width: rem(30);
-    }
-    span:nth-of-type(2) {
-      transform: translate(0, rem(5));
-      width: rem(20);
-      background-color: $secondary-color;
-    }
-    span:nth-of-type(3) {
-      transform: translate(0, rem(10));
-      width: rem(10);
-    }
+    @extend %menu-share;
   }
 }
 
@@ -89,9 +63,10 @@
       flex-direction: column;
       z-index: -1;
       span {
-        height: rem(2);
-        background-color: $modal-second-color;
         width: 100%;
+        height: rem(2);
+        border-radius: rem(10);
+        background-color: $modal-second-color;
         display: block;
         transform: translate(0, rem(-5));
         visibility: hidden;

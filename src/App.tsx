@@ -53,7 +53,7 @@ function App() {
       })
       .addLabel("fade-in")
       .from(
-        ["#menu-icon", "#crown"],
+        [".menu-logo", "#crown"],
         {
           duration: 1,
           autoAlpha: 0,

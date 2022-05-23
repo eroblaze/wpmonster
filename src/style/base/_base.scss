@@ -83,6 +83,11 @@ header {
       display: flex;
       align-items: center;
 
+      .menu-logo {
+        @extend %menu-share;
+        width: rem(22);
+        height: rem(20);
+      }
       &:last-child {
         justify-content: flex-end;
       }
@@ -91,8 +96,7 @@ header {
 }
 
 // For the svg icons
-#crown,
-#menu-icon {
+#crown {
   @include svgIcons();
   cursor: pointer;
   transition: 0.25s all ease;
@@ -103,11 +107,7 @@ header {
 #rotate-right {
   @include svgIcons();
 }
-#menu-icon {
-  fill: $secondary-color;
-  width: rem(22);
-  height: rem(20);
-}
+
 // End svg icons
 
 // For the toastify component
