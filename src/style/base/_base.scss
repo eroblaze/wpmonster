@@ -103,6 +103,11 @@ header {
 #rotate-right {
   @include svgIcons();
 }
+#menu-icon {
+  fill: $secondary-color;
+  width: rem(22);
+  height: rem(20);
+}
 // End svg icons
 
 // For the toastify component

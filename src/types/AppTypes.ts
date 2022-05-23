@@ -2,6 +2,7 @@ import { ResultInterface } from "./TypeTypes";
 
 export interface AppContextInterface {
   startTime: number;
+  hasGameStarted: boolean;
   setHasGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
   isBlockCaret: boolean;
   shouldShowResultSection: boolean;

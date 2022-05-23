@@ -49,10 +49,17 @@ const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
         "-=2.5"
       );
 
+    // Listen for esc being pressed in the window
+    window.addEventListener("keydown", onWindowKeyDown);
     return () => {
       if (tl.current) tl.current.kill(); // kill all animations on unmount
+      window.removeEventListener("keydown", onWindowKeyDown);
     };
   }, []);
+
+  function onWindowKeyDown(e: KeyboardEvent) {
+    if (e.key === "Escape") handleCloseMenu();
+  }
 
   const verifyTime = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     const target = e.target as HTMLSpanElement;

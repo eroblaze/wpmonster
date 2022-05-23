@@ -7,7 +7,7 @@ import Header from "./Components/Header/Header";
 import { AppContextInterface } from "./types/AppTypes";
 import { ResultInterface } from "./types/TypeTypes";
 
-import Data from "../src/Data/words2.json";
+import Data from "../src/Data/words.json";
 
 function formatWords(data: string[] = Data) {
   const newData = data.sort(() => Math.random() - 0.5);
@@ -76,6 +76,10 @@ function App() {
         },
         "fade-in"
       );
+
+    return () => {
+      if (tl.current) tl.current.kill(); // kill all animations on unmount
+    };
   }, []);
 
   const handleTimeChange = (time: number) => {
@@ -97,6 +101,7 @@ function App() {
         value={{
           isBlockCaret,
           startTime,
+          hasGameStarted,
           setHasGameStarted,
           shouldShowResultSection,
           setShouldShowResultSection,

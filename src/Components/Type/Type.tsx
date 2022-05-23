@@ -45,7 +45,7 @@ let extraCount = 0;
 // For the timer
 let timeHasStarted = false;
 // const startTime = 30;
-const loadTime = 2000;
+const loadTime = 1000;
 // For the main function's context
 let char: string;
 let value: string;
@@ -87,6 +87,9 @@ export const TypeContext = createContext<TContext>({} as TContext);
 function Type({ passedWords, onAppRestart }: TypeProps) {
   // console.count("type rendered");
   const {
+    isBlockCaret,
+    onCaretClick,
+    hasGameStarted,
     setHasGameStarted,
     startTime,
     shouldShowResultSection,
@@ -134,22 +137,24 @@ function Type({ passedWords, onAppRestart }: TypeProps) {
 
   const onWindowKeyDown = useCallback(
     (e) => {
+      if (e.key === "/" && e.ctrlKey && !hasGameStarted)
+        onCaretClick(!isBlockCaret);
       if (e.key === "Escape" && modalIsOpen) setModalIsOpen(false);
       if (e.key === "Escape" && showHighScore) setShowHighScore(false);
     },
-    [modalIsOpen, showHighScore]
+    [modalIsOpen, showHighScore, isBlockCaret, hasGameStarted]
   );
 
   // start initialization
 
   useEffect(() => {
-    // Listen for esc being pressed in the window
+    // Listen for esc or ctrl + q being pressed in the window
     window.addEventListener("keydown", onWindowKeyDown);
 
     return () => {
       window.removeEventListener("keydown", onWindowKeyDown);
     };
-  }, [modalIsOpen, showHighScore]);
+  }, [modalIsOpen, showHighScore, isBlockCaret, hasGameStarted]);
 
   // This is necessary inorder to set the highScore state to what was retrieved from the local storage
   useEffect(() => {
