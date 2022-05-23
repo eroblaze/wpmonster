@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 import Type from "./Components/Type/Type";
@@ -39,15 +39,29 @@ function App() {
   const [showSectionToggle, setShowSectionToggle] = useState(true);
   const [showHighScore, setShowHighScore] = useState(false);
   const appWords = formatWords();
+  const tl = useRef<GSAPTimeline>();
 
   useEffect(() => {
     // on page load animation :)
-    gsap.from(".site-title", {
-      duration: 1,
-      stagger: 0.2,
-      scale: -1,
-      autoAlpha: 0,
-    });
+    tl.current = gsap
+      .timeline()
+      .from(".site-title", {
+        duration: 0.5,
+        stagger: 0.2,
+        scale: -1,
+        autoAlpha: 0,
+      })
+      .addLabel("fade-in")
+      .from(
+        ["#menu-icon", "#crown"],
+        {
+          duration: 1,
+          autoAlpha: 0,
+        },
+        "fade-in"
+      )
+      .from(".typing-box-1", { duration: 1, y: -10, autoAlpha: 0 }, "fade-in");
+    // menu-icon and crown
   }, []);
 
   const handleTimeChange = (time: number) => {

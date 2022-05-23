@@ -577,7 +577,7 @@ function Type({ passedWords, onAppRestart }: TypeProps) {
             <HighScoreModal setModalIsOpen={setShowHighScore} />
           )}
           {modalIsOpen && <ResultModal setModalIsOpen={setModalIsOpen} />}
-          <div className="typing-box-1">
+          <div className="typing-box-1 invisible">
             <Timer
               timeDelay={loadTime}
               startAnimating={startAnimating}
