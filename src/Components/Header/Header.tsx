@@ -87,7 +87,7 @@ const Header = () => {
           <span className="site-title">t</span>
           <span className="site-title">e</span>
           <span className="site-title">r</span>{" "}
-          <span>
+          <span className="site-title">
             <svg
               id="typing-box-2-hider-svg"
               className={
