@@ -14,8 +14,15 @@ let showMenu: Record<string, boolean> = {
 let previouslyOpened: string | undefined;
 
 const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
-  const { isBlockCaret, startTime, timeArray, onTimeChange, onCaretClick } =
-    useContext(AppCont);
+  const {
+    mode,
+    setMode,
+    isBlockCaret,
+    startTime,
+    timeArray,
+    onTimeChange,
+    onCaretClick,
+  } = useContext(AppCont);
 
   const menuRef = useRef<HTMLDivElement>(null);
   const q = gsap.utils.selector(menuRef);
@@ -141,8 +148,18 @@ const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
             </h1>
           </section>
           <div className="menu-options-div  menu-mode">
-            <p className="menu-selected">simple</p>
-            <p>complex</p>
+            <p
+              className={mode === "common" ? "menu-selected" : ""}
+              onClick={() => setMode("common")}
+            >
+              common
+            </p>
+            <p
+              className={mode === "complex" ? "menu-selected" : ""}
+              onClick={() => setMode("complex")}
+            >
+              complex
+            </p>
           </div>
           <section>
             <div className="background">

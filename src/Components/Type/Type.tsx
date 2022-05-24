@@ -56,6 +56,7 @@ let isWrong = false;
 let isSubmitting = false;
 let spaceCountPrev = 0;
 let previousArray: string[][] = [[], []];
+let previousMode = "";
 
 function clearAllEntries(): void {
   everyIndexBeforeSpace = [];
@@ -79,7 +80,7 @@ function clearAllEntries(): void {
 
 interface TypeProps {
   passedWords: string;
-  onAppRestart: () => string;
+  onAppRestart: (appMode: string) => string;
 }
 
 export const TypeContext = createContext<TContext>({} as TContext);
@@ -87,6 +88,7 @@ export const TypeContext = createContext<TContext>({} as TContext);
 function Type({ passedWords, onAppRestart }: TypeProps) {
   // console.count("type rendered");
   const {
+    mode,
     isBlockCaret,
     onCaretClick,
     hasGameStarted,
@@ -158,11 +160,19 @@ function Type({ passedWords, onAppRestart }: TypeProps) {
 
   // This is necessary inorder to set the highScore state to what was retrieved from the local storage
   useEffect(() => {
+    previousMode = mode;
     const highScoreObj: ResultInterface = JSON.parse(
       localStorage.getItem("highScore") || JSON.stringify({})
     );
     setHighScore(highScoreObj);
   }, []);
+
+  useEffect(() => {
+    if (mode !== previousMode) {
+      handleRestart(mode);
+      previousMode = mode;
+    }
+  }, [mode]);
 
   useEffect(() => {
     splittedArr = wordsToDisplay.split("");
@@ -466,7 +476,7 @@ function Type({ passedWords, onAppRestart }: TypeProps) {
 
   // To restart the game
 
-  const handleRestart = () => {
+  const handleRestart = (appMode = previousMode) => {
     setWasDoneEarly(false);
     setStartAnimating(false); // For the timer animation
     setUserIn("");
@@ -475,7 +485,7 @@ function Type({ passedWords, onAppRestart }: TypeProps) {
     setRestart(true);
     setTimeout(() => setRestart(false), loadTime);
     // setWordsToDisplay(wordsArrayRandom[Math.floor(Math.random() * 2)]); // Fetching is going to take place here
-    setWordsToDisplay(onAppRestart()); // fetch new words
+    setWordsToDisplay(onAppRestart(appMode)); // fetch new words
     setColor({} as TColor);
     clearAllEntries();
   };

@@ -1,7 +1,10 @@
 import { ResultInterface } from "./TypeTypes";
 
+export type Mode = "common" | "complex";
 export interface AppContextInterface {
   startTime: number;
+  mode: string;
+  setMode: React.Dispatch<React.SetStateAction<Mode>>;
   hasGameStarted: boolean;
   setHasGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
   isBlockCaret: boolean;

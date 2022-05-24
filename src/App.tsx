@@ -4,10 +4,11 @@ import { gsap } from "gsap";
 import Type from "./Components/Type/Type";
 import Header from "./Components/Header/Header";
 
-import { AppContextInterface } from "./types/AppTypes";
+import { AppContextInterface, Mode } from "./types/AppTypes";
 import { ResultInterface } from "./types/TypeTypes";
 
-import Data from "../src/Data/words.json";
+import Data from "../src/Data/common/words.json";
+import ComplexData from "../src/Data/complex/complex.json";
 
 function formatWords(data: string[] = Data) {
   const newData = data.sort(() => Math.random() - 0.5);
@@ -38,6 +39,7 @@ function App() {
   const [shouldShowResultSection, setShouldShowResultSection] = useState(false);
   const [showSectionToggle, setShowSectionToggle] = useState(true);
   const [showHighScore, setShowHighScore] = useState(false);
+  const [mode, setMode] = useState<Mode>("common");
   const appWords = formatWords();
   const tl = useRef<GSAPTimeline>();
 
@@ -90,8 +92,13 @@ function App() {
     if (!hasGameStarted && caret !== isBlockCaret) setIsBlockCaret(caret);
   };
 
-  const handleWordsRestart = () => {
-    const fetchedWords = formatWords();
+  const handleWordsRestart = (mode: string) => {
+    let fetchedWords = "";
+    if (mode === "common") {
+      fetchedWords = formatWords();
+    } else if (mode === "complex") {
+      fetchedWords = formatWords(ComplexData);
+    }
     return fetchedWords;
   };
 
@@ -99,6 +106,8 @@ function App() {
     <>
       <AppCont.Provider
         value={{
+          mode,
+          setMode,
           isBlockCaret,
           startTime,
           hasGameStarted,
