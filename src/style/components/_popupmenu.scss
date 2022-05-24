@@ -122,6 +122,18 @@
       }
     }
 
+    .binds-div {
+      margin-bottom: rem(5);
+      font-size: rem(14);
+
+      code {
+        font-size: rem(13);
+        padding: rem(2) rem(6);
+        background-color: $modal-second-color;
+        border-radius: rem(2);
+      }
+    }
+
     // p::after {
     //   content: " ";
     //   position: absolute;

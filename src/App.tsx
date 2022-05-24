@@ -39,7 +39,7 @@ function App() {
   const [shouldShowResultSection, setShouldShowResultSection] = useState(false);
   const [showSectionToggle, setShowSectionToggle] = useState(true);
   const [showHighScore, setShowHighScore] = useState(false);
-  const [mode, setMode] = useState<Mode>("common");
+  const [mode, setMode] = useState<string>("common");
   const appWords = formatWords();
   const tl = useRef<GSAPTimeline>();
 

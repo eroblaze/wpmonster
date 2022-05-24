@@ -4,7 +4,7 @@ export type Mode = "common" | "complex";
 export interface AppContextInterface {
   startTime: number;
   mode: string;
-  setMode: React.Dispatch<React.SetStateAction<Mode>>;
+  setMode: React.Dispatch<React.SetStateAction<string>>;
   hasGameStarted: boolean;
   setHasGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
   isBlockCaret: boolean;

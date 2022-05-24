@@ -144,7 +144,7 @@ const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
               className="menu-headings"
               onClick={() => handleClick("menu-mode")}
             >
-              MODE
+              WORDS
             </h1>
           </section>
           <div className="menu-options-div  menu-mode">
@@ -241,9 +241,21 @@ const PopUpMenu = ({ closeMenu }: { closeMenu: () => void }) => {
             </h1>
           </section>
           <div className="menu-options-div  menu-keybinds">
-            <p>15</p>
+            {/* <p>15</p>
             <p className="menu-selected">30</p>
-            <p>60</p>
+            <p>60</p> */}
+            <div className="binds-div">
+              <code>f5</code> - restart test
+            </div>
+            <div className="binds-div">
+              <code>esc</code> - close modal
+            </div>
+            <div className="binds-div">
+              <code>ctrl/cmd</code> + <code>/</code> - toggle caret
+            </div>
+            <div className="binds-div">
+              <code>ctrl/cmd</code> + <code>enter</code> - toggle result
+            </div>
           </div>
         </div>
       </div>
