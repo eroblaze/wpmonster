@@ -1,0 +1,9 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass functions.
+// -----------------------------------------------------------------------------
+@use "sass:math";
+
+// Convert 'px' units to 'rem'
+@function rem($px) {
+  @return math.div($px, 16) + rem;
+}

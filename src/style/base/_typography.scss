@@ -1,0 +1,27 @@
+/**
+ * Basic typography style for  text
+ */
+// Convert 'px' to 'rem' unit
+@use "../abstracts/functions" as f;
+@use "../abstracts/variables" as v;
+
+$base-size: v.$base-size;
+$type-scale: 1.333; // initial scale
+$elements: h4, h3, h2, h1;
+
+body {
+  --user-font-scale: 1rem - 16px;
+  font-size: clamp(
+    1rem,
+    1.0309vw + 0.4626rem + var(--user-font-scale),
+    1.125rem
+  ); // Gotten from Web Dev Simplified website;
+}
+
+@each $el in $elements {
+  $base-size: $base-size * $type-scale !global;
+
+  .#{$el} {
+    font-size: f.rem($base-size);
+  }
+}

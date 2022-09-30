@@ -1,0 +1,22 @@
+// -----------------------------------------------------------------------------
+// This file contains CSS helper classes.
+// -----------------------------------------------------------------------------
+
+.container {
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+// Hides content and makes it only available to screen readers.
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
