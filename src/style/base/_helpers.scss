@@ -1,12 +1,51 @@
-// -----------------------------------------------------------------------------
-// This file contains CSS helper classes.
-// -----------------------------------------------------------------------------
+@use "../abstracts/functions" as f;
+@use "../abstracts/breakpoints" as b;
 
 .container {
+  $w: #{f.rem(1000)};
+  width: 100%;
+  max-width: $w;
+  margin-inline: auto;
+
+  @include b.breakpoint($w, max-width) {
+    padding-inline: var(--general-padding);
+  }
+}
+
+.visible {
+  visibility: visible !important;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.small {
+  font-size: f.rem(14);
+}
+
+.anchor {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.icon__hover {
+  transition: 150ms color ease-in-out;
+  svg {
+    path:last-of-type {
+      transition: 150ms fill ease-in-out;
+    }
+  }
+  &:hover:not(.logo) {
+    color: var(--white-50);
+  }
+  &:hover svg {
+    path:last-of-type {
+      fill: var(--white-50);
+    }
+  }
 }
 
 // Hides content and makes it only available to screen readers.

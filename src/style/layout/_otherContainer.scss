@@ -1,0 +1,24 @@
+@use "../abstracts/functions" as f;
+@use "../abstracts/breakpoints" as b;
+
+.otherContainer {
+  --children-height: #{f.rem(352)};
+  --spacing: #{f.rem(42)};
+
+  display: flex;
+  flex-flow: row;
+  gap: var(--spacing);
+  color: white;
+  margin-top: var(--spacing);
+
+  > * {
+    flex-basis: f.rem(288);
+  }
+
+  @include b.breakpoint(f.rem(500), max-width) {
+    flex-flow: column;
+    > .wrongWords {
+      flex-basis: 0;
+    }
+  }
+}

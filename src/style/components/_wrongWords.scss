@@ -1,0 +1,40 @@
+@use "../abstracts/functions" as f;
+@use "../abstracts/breakpoints" as b;
+
+.wrongWords {
+  flex-grow: 1;
+  height: fit-content;
+  max-height: var(--children-height);
+
+  display: flex;
+  flex-direction: column;
+  gap: f.rem(42);
+  padding: var(--general-padding);
+  padding-top: f.rem(42);
+  background-color: var(--tertiary);
+  border-radius: var(--general-b-radius);
+
+  &__title {
+    text-align: center;
+    @include b.breakpoint(md) {
+      text-align: left;
+    }
+  }
+  &__div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: f.rem(12);
+    overflow-y: auto;
+
+    @include b.breakpoint(md) {
+      gap: f.rem(16);
+    }
+
+    span {
+      padding: f.rem(2) f.rem(6);
+      background-color: rgba(230, 23, 53, 0.17);
+      border: f.rem(3) solid var(--error);
+      border-radius: var(--general-b-radius);
+    }
+  }
+}

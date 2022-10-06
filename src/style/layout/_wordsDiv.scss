@@ -1,0 +1,84 @@
+@use "../abstracts/functions" as f;
+@use "../abstracts/breakpoints" as b;
+@use "../abstracts/mixins" as m;
+
+.wordsDivContainer {
+  --height: 100%;
+  margin-top: var(--wordsDivContainer-m-top);
+}
+
+.timer {
+  position: relative;
+  border-radius: var(--general-b-radius) var(--general-b-radius) f.rem(4)
+    f.rem(4);
+  padding: f.rem(8) var(--general-padding);
+  background-color: var(--tertiary);
+  margin-bottom: f.rem(16);
+
+  &::after {
+    $height: 3;
+    content: "";
+    position: absolute;
+    height: f.rem($height);
+    width: 50%;
+    inset: calc(100% - #{f.rem($height)} / 2) 0 0;
+    background-color: var(--secondary);
+    border-radius: 100vmax;
+    animation: timerAnimation 5s forwards;
+  }
+}
+
+.wordsDiv {
+  padding: var(--general-padding);
+  border-radius: var(--general-b-radius);
+  background-color: var(--tertiary);
+}
+
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  height: f.rem(98);
+  word-wrap: break-word;
+  line-height: 1.5;
+  //   border: 1px solid blue;
+  overflow: hidden;
+  margin-bottom: f.rem(32);
+}
+
+.input-div {
+  display: grid;
+  grid-template-columns: 1fr #{f.rem(80)};
+  height: f.rem(50);
+  gap: f.rem(16);
+
+  @include b.breakpoint(md) {
+    gap: f.rem(32);
+  }
+
+  @include b.breakpoint(sm, max-width) {
+    grid-template-columns: 1fr #{f.rem(64)};
+  }
+
+  > * {
+    border: none;
+    border-radius: var(--general-b-radius);
+    background-color: var(--primary);
+    &:focus {
+      outline-offset: f.rem(2);
+      outline: f.rem(2) solid var(--secondary);
+    }
+  }
+  input {
+    min-width: 0;
+    padding-inline: var(--general-padding);
+    caret-color: var(--secondary);
+    font-family: "Oxygen Mono";
+  }
+  button {
+    min-width: 0ch;
+
+    svg {
+      @include m.svgIcon();
+    }
+  }
+}

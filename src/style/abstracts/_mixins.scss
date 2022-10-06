@@ -1,4 +1,10 @@
-// -----------------------------------------------------------------------------
-// This file contains all application-wide Sass mixins.
-// -----------------------------------------------------------------------------
+@use "functions" as f;
 
+@mixin svgIcon {
+  width: f.rem(18);
+  height: f.rem(18);
+
+  path:last-of-type {
+    fill: var(--white);
+  }
+}

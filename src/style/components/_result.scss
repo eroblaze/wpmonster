@@ -1,0 +1,45 @@
+@use "../abstracts/functions" as f;
+@use "../abstracts/breakpoints" as b;
+
+.result {
+  display: grid;
+  grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
+  //   height: f.rem(400);
+  height: var(--children-height);
+
+  > * {
+    padding: var(--general-padding);
+    background-color: var(--tertiary);
+  }
+  > *:not(:first-child) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  > :nth-child(2n) {
+    background-color: var(--modal-second-color);
+  }
+
+  h4 {
+    display: grid;
+    place-content: center;
+    font-weight: 400;
+    border-radius: var(--general-b-radius) var(--general-b-radius) 0 0;
+  }
+
+  > :last-child {
+    border-radius: 0 0 var(--general-b-radius) var(--general-b-radius);
+  }
+
+  &__number {
+    font-weight: bold;
+  }
+
+  .correct {
+    color: var(--secondary);
+  }
+  .wrong {
+    color: var(--error);
+  }
+}

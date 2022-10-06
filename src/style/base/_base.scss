@@ -1,7 +1,31 @@
-// -----------------------------------------------------------------------------
-// This file contains very basic styles.
-// -----------------------------------------------------------------------------
-
 body {
-  background-color: red;
+  color: var(--white);
+  background-color: var(--primary);
+  font-family: "Josefin Sans";
+}
+::selection {
+  color: var(--primary);
+  background-color: var(--secondary);
+}
+
+#root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.words-font {
+  color: white;
+  font-family: "Oxygen Mono";
+}
+
+main.onlyWords {
+  // border: 1px solid tan;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  > section:first-of-type {
+    margin-top: 0;
+  }
 }

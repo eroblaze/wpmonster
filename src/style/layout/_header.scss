@@ -1,3 +1,154 @@
-// -----------------------------------------------------------------------------
-// This file contains all styles related to the header of the site/application.
-// -----------------------------------------------------------------------------
+@use "../abstracts/functions" as f;
+@use "../abstracts/mixins" as m;
+@use "../abstracts/breakpoints" as b;
+
+header {
+  --header-padding: #{f.rem(16)};
+  padding-block: var(--header-padding);
+  border-bottom: f.rem(1) solid var(--white-20);
+}
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // border: 1px solid red;
+
+  .logo {
+    font-weight: bold;
+  }
+
+  &--green {
+    color: var(--secondary);
+  }
+  &__icon {
+    @include m.svgIcon();
+    transform: translateY(3%);
+  }
+}
+
+.menu__hamburger {
+  --width: #{f.rem(23)};
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: f.rem(23);
+
+  min-width: auto;
+  min-height: auto;
+  border: none;
+  background-color: transparent;
+
+  span {
+    width: var(--width);
+    height: f.rem(2.5);
+    border-radius: f.rem(10);
+    background-color: var(--white-50);
+  }
+
+  span:nth-of-type(2) {
+    background-color: var(--secondary);
+  }
+  span:first-child,
+  span:last-child {
+    --width: #{f.rem(17)};
+  }
+  * + span {
+    margin-top: f.rem(4);
+  }
+
+  @include b.breakpoint(md) {
+    display: none;
+  }
+}
+
+.menu {
+  --margin: #{f.rem(15)};
+  display: flex;
+  align-items: center;
+  gap: calc(var(--margin) * 2);
+
+  svg path:last-of-type {
+    // fill: var(--white-50);
+  }
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: f.rem(8);
+  }
+
+  &-logo-label {
+    transform: translateY(5%);
+  }
+
+  svg {
+    @include m.svgIcon();
+  }
+
+  @include b.breakpoint(md, max-width) {
+    --height: 120%;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    inset: calc(
+        100% + var(--header-padding) + var(--wordsDivContainer-m-top) -
+          var(--height) / 2
+      )
+      0 0 auto;
+    height: var(--height);
+    z-index: 2;
+
+    background: hsla(0, 0%, 0%, 0.6);
+    background-blend-mode: overlay;
+
+    padding: f.rem(8) f.rem(25);
+    border-radius: 100vmax;
+    gap: var(--margin);
+
+    svg {
+      width: f.rem(21);
+      height: f.rem(22);
+    }
+
+    &-logo-label {
+      display: none;
+    }
+
+    &::after {
+      content: "";
+      width: f.rem(1);
+      background-color: var(--white-20);
+      border-radius: 100vmax;
+      align-self: stretch;
+    }
+
+    span:last-child {
+      order: 1;
+    }
+  }
+}
+
+.fadeIn {
+  @include b.breakpoint(md, max-width) {
+    animation: fadeIn 0.5s forwards;
+  }
+}
+
+.fadeOut {
+  @include b.breakpoint(md, max-width) {
+    animation: fadeOut 0.5s forwards;
+  }
+}
+
+.menu__invisible {
+  @include b.breakpoint(md, max-width) {
+    visibility: hidden !important;
+  }
+}
+.menu__visible {
+  @include b.breakpoint(md, max-width) {
+    visibility: visible !important;
+  }
+}

@@ -1,8 +1,26 @@
-// -----------------------------------------------------------------------------
-// This file contains all application-wide Sass variables.
-// -----------------------------------------------------------------------------
+@use "./functions" as f;
 
 $base-size: 16; // in 'px' unit
 
 :root {
+  --primary: hsl(0, 0%, 13%);
+  --secondary: hsl(166, 100%, 45%);
+  --gradient: linear-gradient(
+    90deg,
+    var(--secondary) -8.5%,
+    var(--primary) 108%
+  );
+  --tertiary: hsl(244, 12%, 23%);
+  --modal-second-color: hsl(218, 8%, 28%);
+  --error: hsl(9, 100%, 64%);
+
+  --white: hsl(0, 0%, 73%);
+  --white-50: hsla(0, 0%, 73%, 0.5);
+  --white-20: hsla(0, 0%, 73%, 0.2);
+  --white-5: hsla(0, 0%, 73%, 0.05);
+
+  --general-padding: #{f.rem(16)};
+  --general-b-radius: #{f.rem(8)};
+  --wordsDivContainer-m-top: #{f.rem(32)};
+  --timer-current-width: 100%;
 }

@@ -1,3 +1,27 @@
-// -----------------------------------------------------------------------------
-// This file contains all styles related to the footer of the site/application.
-// -----------------------------------------------------------------------------
+@use "../abstracts/functions" as f;
+@use "../abstracts/breakpoints" as b;
+@use "../abstracts/mixins" as m;
+
+footer {
+  padding: f.rem(24) var(--general-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--wordsDivContainer-m-top);
+  border-top: f.rem(1) solid var(--white-20);
+
+  @include b.breakpoint(md, max-width) {
+    justify-content: center;
+    gap: f.rem(22);
+  }
+
+  a {
+    gap: f.rem(8);
+    svg {
+      @include m.svgIcon();
+    }
+    span {
+      transform: translateY(10%);
+    }
+  }
+}
