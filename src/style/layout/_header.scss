@@ -4,8 +4,16 @@
 
 header {
   --header-padding: #{f.rem(16)};
+  // position: relative;
   padding-block: var(--header-padding);
   border-bottom: f.rem(1) solid var(--white-20);
+  // &::after {
+  //   content: "";
+  //   position: absolute;
+  //   height: f.rem(1);
+  //   background: var(--gradient);
+  //   inset: 100% 0 0 0;
+  // }
 }
 .header {
   position: relative;
@@ -14,16 +22,13 @@ header {
   align-items: center;
   // border: 1px solid red;
 
-  .logo {
-    font-weight: bold;
-  }
-
   &--green {
     color: var(--secondary);
   }
   &__icon {
     @include m.svgIcon();
     transform: translateY(3%);
+    margin-left: f.rem(1);
   }
 }
 
@@ -69,9 +74,6 @@ header {
   align-items: center;
   gap: calc(var(--margin) * 2);
 
-  svg path:last-of-type {
-    // fill: var(--white-50);
-  }
   span {
     display: flex;
     align-items: center;
@@ -132,13 +134,13 @@ header {
 
 .fadeIn {
   @include b.breakpoint(md, max-width) {
-    animation: fadeIn 0.5s forwards;
+    animation: fadeIn 0.8s forwards;
   }
 }
 
 .fadeOut {
   @include b.breakpoint(md, max-width) {
-    animation: fadeOut 0.5s forwards;
+    animation: fadeOut 0.8s forwards;
   }
 }
 

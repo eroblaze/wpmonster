@@ -3,13 +3,21 @@
 @use "../abstracts/mixins" as m;
 
 footer {
-  padding: f.rem(24) var(--general-padding);
+  // position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: f.rem(24) var(--general-padding);
   margin-top: var(--wordsDivContainer-m-top);
   border-top: f.rem(1) solid var(--white-20);
 
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   height: f.rem(1);
+  //   background: var(--gradient);
+  //   inset: 0 0 100% 0;
+  // }
   @include b.breakpoint(md, max-width) {
     justify-content: center;
     gap: f.rem(22);

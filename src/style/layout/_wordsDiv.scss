@@ -37,7 +37,7 @@
 .words {
   display: flex;
   flex-wrap: wrap;
-  height: f.rem(98);
+  max-height: f.rem(98);
   word-wrap: break-word;
   line-height: 1.5;
   //   border: 1px solid blue;
@@ -47,7 +47,7 @@
 
 .input-div {
   display: grid;
-  grid-template-columns: 1fr #{f.rem(80)};
+  grid-template-columns: 1fr #{f.rem(75)};
   height: f.rem(50);
   gap: f.rem(16);
 

@@ -20,7 +20,10 @@ $base-size: 16; // in 'px' unit
   --white-5: hsla(0, 0%, 73%, 0.05);
 
   --general-padding: #{f.rem(16)};
-  --general-b-radius: #{f.rem(8)};
+  --general-b-radius: #{f.rem(4)};
   --wordsDivContainer-m-top: #{f.rem(32)};
   --timer-current-width: 100%;
+  --children-width: #{f.rem(288)};
+  --modal-m-top: #{f.rem(92)};
+  --settings-element-height: 0; // changed in javascript
 }

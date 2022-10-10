@@ -1,7 +1,22 @@
+@use "../abstracts/functions" as f;
+
 body {
   color: var(--white);
   background-color: var(--primary);
   font-family: "Josefin Sans";
+
+  &::-webkit-scrollbar {
+    width: f.rem(12);
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 f.rem(5) grey;
+    border-radius: f.rem(10);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--modal-second-color);
+    border-radius: f.rem(10);
+    box-shadow: inset 0 0 f.rem(5) var(--white);
+  }
 }
 ::selection {
   color: var(--primary);
@@ -28,4 +43,11 @@ main.onlyWords {
   > section:first-of-type {
     margin-top: 0;
   }
+}
+
+code {
+  font-size: f.rem(13);
+  padding: f.rem(2) f.rem(6);
+  background-color: var(--modal-second-color);
+  border-radius: f.rem(2);
 }

@@ -3,7 +3,7 @@ import WordsDiv from "./WordsDiv";
 
 const WordsDivContainer = () => {
   return (
-    <section className="wordsDivContainer">
+    <section className="wordsDivContainer invisible">
       <Timer />
       <WordsDiv />
     </section>

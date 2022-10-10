@@ -1,7 +1,7 @@
 const Timer = () => {
   return (
     <div className="timer">
-      time <span>30</span>s
+      time left: <span>30</span>s
     </div>
   );
 };

@@ -1,0 +1,152 @@
+@use "../abstracts/functions" as f;
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(100%, var(--children-width));
+  min-height: f.rem(430);
+  border-radius: var(--general-b-radius);
+  background-color: var(--tertiary);
+  padding: var(--general-padding);
+  margin-top: var(--modal-m-top);
+  cursor: auto;
+
+  section {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: column;
+    // border: f.rem(1) solid blue;
+    min-height: f.rem(70);
+    cursor: pointer;
+
+    .background {
+      position: absolute;
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+      place-content: center;
+      width: min(100%, f.rem(200));
+      height: 100%;
+      margin-inline: auto;
+
+      span {
+        display: block;
+        width: 100%;
+        height: f.rem(2);
+        border-radius: 100vmax;
+        background-color: var(--modal-second-color);
+        transform: translate(0, f.rem(-5));
+      }
+      span:nth-of-type(2) {
+        transform: translate(0, 0);
+        width: 90%;
+        background: var(--gradient);
+        filter: brightness(0.8);
+      }
+      span:nth-of-type(3) {
+        transform: translate(0, f.rem(5));
+        width: 80%;
+      }
+    }
+  }
+  &__heading {
+    transition: 0.4s text-shadow;
+    z-index: 1;
+    &:hover {
+      text-shadow: 0 0 f.rem(20) black;
+    }
+  }
+  &__options-div {
+    // border: 1px solid red;
+    max-height: 0;
+    transition: max-height 300ms linear;
+    overflow: hidden;
+
+    > div {
+      margin-bottom: f.rem(5);
+    }
+    p {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      border-radius: var(--general-b-radius);
+      background-color: var(--modal-second-color);
+      margin-bottom: f.rem(5);
+      cursor: pointer;
+      transition: 0.4s background-color;
+
+      &:hover {
+        background-color: lighten(hsl(218, 8%, 28%), 10);
+      }
+
+      &.settings--selected {
+        cursor: default;
+        color: var(--primary);
+        background-color: var(--secondary);
+        &:hover {
+          background-color: var(--secondary);
+        }
+      }
+    }
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  &__caret {
+    p {
+      padding-block: f.rem(3.5);
+    }
+    span {
+      display: block;
+      height: f.rem(20);
+    }
+  }
+}
+
+// For the caret styling in the header and in the words-container
+.thin__caret {
+  width: f.rem(5);
+  height: f.rem(25);
+  border-left: f.rem(2) solid var(--white);
+  transition: 0.25s ease;
+
+  &:hover {
+    border-left-color: var(--modal-second-color);
+  }
+
+  &--active {
+    border-left-color: var(--modal-second-color);
+    &:hover {
+      cursor: auto;
+      border-left-color: none;
+    }
+  }
+}
+
+.block__caret {
+  width: f.rem(10);
+  border: f.rem(1) solid var(--white);
+  height: f.rem(25);
+  margin: 0 f.rem(10);
+  transition: 0.25s ease;
+
+  &:hover {
+    background-color: var(--modal-second-color);
+    border-color: var(--modal-second-color);
+  }
+
+  &--active {
+    background-color: var(--modal-second-color);
+    border-color: var(--modal-second-color);
+    &:hover {
+      cursor: auto;
+      background-color: none;
+      border-color: none;
+    }
+  }
+}

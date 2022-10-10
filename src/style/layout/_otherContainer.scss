@@ -7,12 +7,14 @@
 
   display: flex;
   flex-flow: row;
+  // align-items: center;
+  justify-content: center;
   gap: var(--spacing);
   color: white;
   margin-top: var(--spacing);
 
   > * {
-    flex-basis: f.rem(288);
+    flex-basis: var(--children-width);
   }
 
   @include b.breakpoint(f.rem(500), max-width) {

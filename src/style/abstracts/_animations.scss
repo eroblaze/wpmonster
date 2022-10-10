@@ -1,3 +1,23 @@
+@use "./functions" as f;
+
+.open {
+  max-height: var(--settings-element-height) !important;
+}
+
+.fade-out {
+  animation: fadeOut 150ms linear forwards !important;
+}
+.wrong-click {
+  animation: wrongClick 200ms;
+}
+
+.hider-active {
+  animation: hiderActive 0.25s linear forwards;
+}
+.hider-passive {
+  animation: hiderPassive 0.25s linear reverse;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -22,5 +42,26 @@
   to {
     width: 0;
     background-color: var(--error);
+  }
+}
+
+@keyframes wrongClick {
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes hiderActive {
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes hiderPassive {
+  100% {
+    transform: rotate(90deg);
   }
 }

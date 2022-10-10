@@ -3,7 +3,7 @@ import OtherContainer from "./OtherContainer";
 
 const Body = ({ show }: { show: boolean }) => {
   return (
-    <main className="container">
+    <main className="container onlyWords">
       <WordsDivContainer />
       {show && <OtherContainer />}
     </main>

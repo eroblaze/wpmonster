@@ -15,6 +15,13 @@
 .visible {
   visibility: visible !important;
 }
+.invisible {
+  visibility: hidden;
+}
+
+#no-overflow {
+  overflow: hidden !important;
+}
 
 .clickable {
   cursor: pointer;

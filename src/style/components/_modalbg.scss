@@ -1,0 +1,12 @@
+.modal-bg {
+  position: fixed;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeIn 150ms linear forwards;
+  z-index: 4;
+}

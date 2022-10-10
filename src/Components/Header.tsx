@@ -1,21 +1,27 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
+import Result from "./Result";
+import Settings from "./Settings";
+
 import gsap from "gsap";
 
-let mount = 0;
 let clicked = false;
 
 const Header = ({
+  showOtherContainer,
   toggleOtherContainer,
 }: {
+  showOtherContainer: boolean;
   toggleOtherContainer: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const [showHighscore, setShowHighscore] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const hiderRef = useRef<SVGSVGElement | null>(null);
   const menuTlRef = useRef<gsap.core.Timeline>();
+  const canStart = useRef(0);
 
   useEffect(() => {
-    mount++;
-    if (mount === 1) return;
     menuTlRef.current = gsap
       .timeline({ paused: true })
       .to(
@@ -40,19 +46,73 @@ const Header = ({
           width: 2,
         }
       );
+
+    return () => {
+      menuTlRef.current = undefined;
+    };
   }, []);
 
+  useEffect(() => {
+    // console.log(showOtherContainer);
+    // console.log("mounting", showOtherContainer);
+
+    if (hiderRef.current) {
+      const { current } = hiderRef;
+
+      if (showOtherContainer) {
+        if (!canStart.current) canStart.current = 1;
+        current.classList.add("hider-active");
+        current.classList.remove("hider-passive");
+      } else {
+        if (canStart.current) {
+          current.classList.remove("hider-active");
+          current.classList.add("hider-passive");
+        }
+      }
+    }
+    // For the Ctrl + Enter toggle feature
+    window.addEventListener("keydown", handleKeysCombination);
+    return () => {
+      // console.log("unmounting");
+      window.removeEventListener("keydown", handleKeysCombination);
+    };
+  }, [showOtherContainer]);
+
+  function handleKeysCombination(e: KeyboardEvent) {
+    if (e.key === "Enter" && e.ctrlKey) {
+      // console.log("called hkcombination");
+
+      toggle();
+    }
+  }
+
+  function toggle() {
+    // TESTING !
+    // showOtherContainer will only become true when the user has typed and a result is generated
+    // if (canStart.current) {
+    toggleOtherContainer((prev) => !prev);
+    // console.log("called toggle", e);
+
+    const mainBody = document.querySelector(
+      "main:first-of-type"
+    ) as HTMLElement;
+    mainBody.classList.toggle("onlyWords");
+  }
+
   const animationEnd = () => {
-    menuRef.current?.classList.remove("menu__visible");
-    menuRef.current?.classList.add("menu__invisible");
+    // check if menu was toggled quickly
+    if (!menuRef.current?.classList.contains("fadeIn")) {
+      menuRef.current?.classList.remove("menu__visible");
+      menuRef.current?.classList.add("menu__invisible");
+    }
   };
 
   const handleMenuClicked = () => {
     switch (clicked) {
       case false:
-        menuTlRef.current?.timeScale(2).play();
-
         menuRef.current?.removeEventListener("animationend", animationEnd);
+
+        menuTlRef.current?.timeScale(4).play();
 
         menuRef.current?.classList.remove("menu__invisible");
         menuRef.current?.classList.remove("fadeOut");
@@ -62,7 +122,7 @@ const Header = ({
         break;
 
       default:
-        menuTlRef.current?.reverse();
+        menuTlRef.current?.timeScale(4).reverse();
 
         menuRef.current?.classList.remove("fadeIn");
         menuRef.current?.classList.add("fadeOut");
@@ -74,42 +134,42 @@ const Header = ({
     }
   };
 
-  const toggle = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    // TESTING !
-
-    toggleOtherContainer((prev) => !prev);
-
-    const mainBody = document.querySelector(
-      "main:first-of-type"
-    ) as HTMLElement;
-    mainBody.classList.toggle("onlyWords");
-  };
   return (
     <header className="container">
       <nav className="header">
-        <a href="" onClick={toggle} className="anchor icon__hover logo">
+        <h1
+          onClick={toggle}
+          className={
+            canStart.current || showOtherContainer
+              ? "clickable anchor icon__hover logo"
+              : "anchor logo"
+          }
+        >
           <p className="h3">
-            <span className="header--green">w</span>
-            <span className="header--green">p</span>
-            <span className="header--green">m</span>
-            <span>o</span>
-            <span>n</span>
-            <span>s</span>
-            <span>t</span>
-            <span>e</span>
-            <span>r</span>
+            <span className="header--green site-title invisible">w</span>
+            <span className="header--green site-title invisible">p</span>
+            <span className="header--green site-title invisible">m</span>
+            <span className="site-title invisible">o</span>
+            <span className="site-title invisible">n</span>
+            <span className="site-title invisible">s</span>
+            <span className="site-title invisible">t</span>
+            <span className="site-title invisible">e</span>
+            <span className="site-title invisible">r</span>
           </p>
           <svg
-            className="header__icon"
+            ref={hiderRef}
+            className="site-title invisible header__icon"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 256 512"
           >
             <path d="M118.6 105.4l128 127.1C252.9 239.6 256 247.8 256 255.1s-3.125 16.38-9.375 22.63l-128 127.1c-9.156 9.156-22.91 11.9-34.88 6.943S64 396.9 64 383.1V128c0-12.94 7.781-24.62 19.75-29.58S109.5 96.23 118.6 105.4z" />
           </svg>
-        </a>
+        </h1>
         <div className="menu" ref={menuRef}>
-          <span className="clickable icon__hover">
+          <span
+            className="invisible clickable icon__hover"
+            onClick={() => setShowHighscore((prev) => !prev)}
+          >
             <svg
               viewBox="0 0 24 25"
               fill="none"
@@ -158,7 +218,10 @@ const Header = ({
             <p className="menu-logo-label">highscore</p>
           </span>
 
-          <span className="clickable icon__hover">
+          <span
+            className="invisible clickable icon__hover"
+            onClick={() => setShowSettings((prev) => !prev)}
+          >
             <svg
               viewBox="0 0 24 25"
               fill="none"
@@ -170,7 +233,7 @@ const Header = ({
           </span>
         </div>
         <button
-          className="menu__hamburger clickable"
+          className="invisible menu__hamburger clickable"
           aria-label="Menu toggle"
           aria-controls="menu"
           onClick={handleMenuClicked}
@@ -181,6 +244,20 @@ const Header = ({
           <span></span>
         </button>
       </nav>
+
+      {showHighscore && (
+        <Result
+          isHighscore={true}
+          setShowHighscore={setShowHighscore}
+          handleMenuClicked={handleMenuClicked}
+        />
+      )}
+      {showSettings && (
+        <Settings
+          setShowSettings={setShowSettings}
+          handleMenuClicked={handleMenuClicked}
+        />
+      )}
     </header>
   );
 };
