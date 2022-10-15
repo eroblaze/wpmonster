@@ -1,4 +1,5 @@
 @use "../abstracts/functions" as f;
+@use "../abstracts/breakpoints" as b;
 
 body {
   color: var(--white);
@@ -41,7 +42,9 @@ main.onlyWords {
   justify-content: center;
 
   > section:first-of-type {
-    margin-top: 0;
+    @include b.breakpoint(md) {
+      margin-top: 0;
+    }
   }
 }
 
