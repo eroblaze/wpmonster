@@ -61,7 +61,6 @@ let value: string;
 let valueLen: number;
 let valueLenInd: number;
 let isWrong = false;
-let backspace = false;
 // When to show Result Section
 let isSubmitting = false;
 let spaceCountPrev = 0;
@@ -83,7 +82,6 @@ function clearAllEntries(): void {
   valueLen = 0;
   valueLenInd = 0;
   isWrong = false;
-  backspace = false;
   spaceCountPrev = 0;
 }
 
@@ -190,10 +188,13 @@ const WordsDivContainer = () => {
         // Only show Other container if it was already being displayed
         if (showOtherContainerIfItWasShown) {
           dispatch(setShouldShowOtherContainer(true));
-          const mainBody = document.querySelector(
-            "main:first-of-type"
-          ) as HTMLElement;
-          mainBody.classList.remove("onlyWords");
+          // const mainBody = document.querySelector(
+          //   "main:first-of-type"
+          // ) as HTMLElement;
+          // mainBody.classList.remove("onlyWords");
+
+          const root = document.querySelector("#root") as HTMLElement;
+          root.classList.remove("onlyWords");
         }
       }, loadTime); // For the Modal Result
       allCallbackIds.push(id, id2);
@@ -230,10 +231,13 @@ const WordsDivContainer = () => {
       // Only show Other container if it was already being displayed
       if (showOtherContainerIfItWasShown) {
         dispatch(setShouldShowOtherContainer(true));
-        const mainBody = document.querySelector(
-          "main:first-of-type"
-        ) as HTMLElement;
-        mainBody.classList.remove("onlyWords");
+        // const mainBody = document.querySelector(
+        //   "main:first-of-type"
+        // ) as HTMLElement;
+        // mainBody.classList.remove("onlyWords");
+
+        const root = document.querySelector("#root") as HTMLElement;
+        root.classList.remove("onlyWords");
       }
     }, loadTime);
 
@@ -362,9 +366,7 @@ const WordsDivContainer = () => {
 
   function ifNormalKeysPressed(): void {
     // This needs to be here for some reason
-    if (backspace === true) {
-      backspace = false;
-      console.log("backspace pressed");
+    if (char === "") {
       backKeyPressed++;
       // To get how many letters to remove and the number of colors to pop off
       const num = userIn.length - value.length;
@@ -541,11 +543,6 @@ const WordsDivContainer = () => {
       return;
     }
 
-    if (e.key === "Backspace" || e.key === "Delete") {
-      if (userIn) {
-        backspace = true;
-      }
-    }
     if (e.key === "Backspace" && e.ctrlKey) isWrong = false;
     else if (e.key === "Delete" && e.ctrlKey) isWrong = false;
     else if (e.ctrlKey) isWrong = true;
@@ -559,12 +556,17 @@ const WordsDivContainer = () => {
     if (e.type === "input") {
       const data = e.nativeEvent.data;
 
-      if (!backspace) char = data[data.length - 1];
-      else char = "";
       // To prevent a user from typing while pressing the ctrl key
       // And to prevent whatever is typed from being process after the time is over
       if (!isWrong && !isOver && !restart && !showHighScore) {
         value = (e.target as HTMLInputElement).value;
+
+        if (value.length > userIn.length) {
+          char = data[data.length - 1];
+        } else {
+          // Backspace or Delete was pressed
+          char = "";
+        }
 
         if (!timeHasStarted) {
           dispatch(setStartAnimating(true));
@@ -580,7 +582,6 @@ const WordsDivContainer = () => {
             allCallbackIds.push(id);
           }
 
-          console.log("char", char);
           if (char === " ") {
             ifSpaceBarPressed();
           } else {

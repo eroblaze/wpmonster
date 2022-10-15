@@ -30,22 +30,36 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
-.words-font {
-  color: white;
-  font-family: var(--secondary-ff);
-}
+#root.onlyWords {
+  header {
+    margin-bottom: var(--spacing);
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-main.onlyWords {
-  // border: 1px solid tan;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  > section:first-of-type {
-    @include b.breakpoint(md) {
+    > section:first-of-type {
       margin-top: 0;
     }
   }
+}
+
+// main.onlyWords {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+
+//   > section:first-of-type {
+//     @include b.breakpoint(md) {
+//       margin-top: 0;
+//     }
+//   }
+// }
+
+.words-font {
+  color: white;
+  font-family: var(--secondary-ff);
 }
 
 code {

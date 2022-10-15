@@ -12,8 +12,6 @@ let wordsPrevLength = 0;
 let pastColorPrevLength = 0;
 let caretChanged = false;
 let spaceCountPrev = 0;
-// let pastColorHasChanged = false;
-let intervalId = 0;
 
 interface WordsI {
   spaceCount: number;
@@ -54,7 +52,6 @@ const Words = ({ spaceCount, caretRef }: WordsI) => {
       pastColorPrevLength = 0;
       caretChanged = false;
       spaceCountPrev = 0;
-      // pastColorHasChanged = false;
       initialRendering();
     }
   }, [restart]);
@@ -133,7 +130,6 @@ const Words = ({ spaceCount, caretRef }: WordsI) => {
     const pick = !removeCaret ? 1 : 0;
 
     setMainState((prev) => {
-      console.log("setting main state");
       let toChange = !removeCaret
         ? wordsArr[spaceCount]
         : wordsArr[spaceCount - 1];

@@ -3,7 +3,7 @@
 @use "../abstracts/variables" as v;
 
 $base-size: v.$base-size;
-$type-scale: 1.333; // initial scale
+$type-scale: 1.414; // initial scale
 $elements: h4, h3, h2, h1;
 
 body {

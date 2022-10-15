@@ -11,7 +11,7 @@ const Body = () => {
   const { displayPopUpResult } = useAppSelector(optimizedSelectWordsState);
 
   return (
-    <main className="container onlyWords">
+    <main className="container">
       {displayPopUpResult && <Result popUp={true} />}
       <WordsDivContainer />
       {shouldShowOtherContainer && <OtherContainer />}

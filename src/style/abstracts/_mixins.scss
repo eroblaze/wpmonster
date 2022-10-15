@@ -23,7 +23,6 @@
     background-color: var(--secondary);
   } @else {
     z-index: 2;
-    margin-left: f.rem(-0.5);
     border-left: f.rem(2.5) solid var(--secondary);
     border-radius: 100vmalx;
   }

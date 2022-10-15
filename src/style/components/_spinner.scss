@@ -12,8 +12,8 @@
     height: f.rem(13);
 
     @include b.breakpoint(sm, max-width) {
-      width: f.rem(10);
-      height: f.rem(10);
+      width: f.rem(12);
+      height: f.rem(12);
     }
 
     background-color: var(--white);

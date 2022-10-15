@@ -130,13 +130,13 @@ const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
             className={mode === "common" ? "settings--selected" : "ignore"}
             onClick={() => dispatch(changeMode("common"))}
           >
-            common
+            <span>common</span>
           </p>
           <p
             className={mode === "complex" ? "settings--selected" : "ignore"}
             onClick={() => dispatch(changeMode("complex"))}
           >
-            complex
+            <span>complex</span>
           </p>
         </div>
         <section
@@ -159,7 +159,7 @@ const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
               className={startTime === time ? "settings--selected" : "ignore"}
               data-timevalue={time}
             >
-              {time}
+              <span>{time}</span>
             </p>
           ))}
         </div>

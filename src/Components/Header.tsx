@@ -100,10 +100,13 @@ const Header = () => {
         setShowOtherContainerIfItWasShown(!showOtherContainerIfItWasShown)
       );
 
-      const mainBody = document.querySelector(
-        "main:first-of-type"
-      ) as HTMLElement;
-      mainBody.classList.toggle("onlyWords");
+      // const mainBody = document.querySelector(
+      // "main:first-of-type"
+      // ) as HTMLElement;
+      // mainBody.classList.toggle("onlyWords");
+
+      const root = document.querySelector("#root") as HTMLElement;
+      root.classList.toggle("onlyWords");
     }
   }
 
@@ -172,7 +175,7 @@ const Header = () => {
               : "anchor logo"
           }
         >
-          <p className="h3">
+          <p>
             <span className="header--green site-title invisible">w</span>
             <span className="header--green site-title invisible">p</span>
             <span className="header--green site-title invisible">m</span>

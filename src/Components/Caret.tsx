@@ -9,7 +9,7 @@ const Caret = forwardRef<HTMLSpanElement>((_, ref) => {
 
   let caretLeft = 0;
 
-  if (userIn) caretLeft = userIn.length * 12.5789;
+  if (userIn) caretLeft = userIn.length * 13.5;
 
   return (
     <span

@@ -4,16 +4,8 @@
 
 header {
   --header-padding: #{f.rem(16)};
-  // position: relative;
   padding-block: var(--header-padding);
   border-bottom: f.rem(1) solid var(--white-20);
-  // &::after {
-  //   content: "";
-  //   position: absolute;
-  //   height: f.rem(1);
-  //   background: var(--gradient);
-  //   inset: 100% 0 0 0;
-  // }
 }
 .header {
   position: relative;
@@ -21,6 +13,10 @@ header {
   justify-content: space-between;
   align-items: center;
   // border: 1px solid red;
+
+  h1 {
+    font-size: f.rem(28.43);
+  }
 
   &--green {
     color: var(--secondary);

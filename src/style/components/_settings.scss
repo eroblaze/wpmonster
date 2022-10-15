@@ -1,4 +1,5 @@
 @use "../abstracts/functions" as f;
+@use "../abstracts/breakpoints" as b;
 
 .settings {
   display: flex;
@@ -70,15 +71,18 @@
       margin-bottom: f.rem(5);
     }
     p {
+      --padding-t-b: #{f.rem(4)};
+
       position: relative;
-      display: flex;
-      justify-content: center;
+      display: grid;
+      place-content: center;
       width: 100%;
       border-radius: var(--general-b-radius);
       background-color: var(--modal-second-color);
       margin-bottom: f.rem(5);
       cursor: pointer;
       transition: 0.4s background-color;
+      padding-block: var(--padding-t-b);
 
       &:hover {
         background-color: lighten(hsl(218, 8%, 28%), 10);
@@ -115,6 +119,7 @@
   height: f.rem(25);
   border-left: f.rem(2) solid var(--white);
   transition: 0.25s ease;
+  margin-block: var(--padding-t-b);
 
   &:hover {
     border-left-color: var(--modal-second-color);
@@ -135,6 +140,7 @@
   height: f.rem(25);
   margin: 0 f.rem(10);
   transition: 0.25s ease;
+  margin-block: var(--padding-t-b);
 
   &:hover {
     background-color: var(--modal-second-color);

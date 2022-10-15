@@ -11,7 +11,9 @@ const Input = ({
   handleRestart: () => void;
   onInput: (e: TInputEvent) => void;
 }) => {
-  const { resultIsOpen, userIn } = useAppSelector(optimizedSelectWordsState);
+  const { resultIsOpen, userIn, restart } = useAppSelector(
+    optimizedSelectWordsState
+  );
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   // A type Predicate ( just for fun )
@@ -42,8 +44,10 @@ const Input = ({
       <button
         className="icon__hover"
         onClick={() => {
-          inputRef.current?.focus();
-          handleRestart();
+          if (!restart) {
+            inputRef.current?.focus();
+            handleRestart();
+          }
         }}
       >
         {/* <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
