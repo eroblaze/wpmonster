@@ -9,7 +9,8 @@ import {
 } from "../features/wordsSlice";
 
 let haveStarted = false;
-let timeClear: NodeJS.Timeout;
+// let timeClear: NodeJS.Timeout;
+let timeClear = 0;
 
 const Timer = ({
   finishedEarly,
