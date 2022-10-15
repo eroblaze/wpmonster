@@ -9,7 +9,7 @@ type TData = {
 };
 
 export type TNativeEvent = {
-  type: "change";
+  type: "input";
   nativeEvent: TData;
 };
 
@@ -19,7 +19,7 @@ export type TColor = {
 
 export type TInputEvent =
   | (React.KeyboardEvent<HTMLInputElement> & KeyDownExtension)
-  | (React.ChangeEvent<HTMLInputElement> & TNativeEvent);
+  | (React.FormEvent<HTMLInputElement> & TNativeEvent);
 
 export interface WordsI {
   wordsToDisplay: string;

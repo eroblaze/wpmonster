@@ -61,6 +61,7 @@ let value: string;
 let valueLen: number;
 let valueLenInd: number;
 let isWrong = false;
+let backspace = false;
 // When to show Result Section
 let isSubmitting = false;
 let spaceCountPrev = 0;
@@ -82,6 +83,7 @@ function clearAllEntries(): void {
   valueLen = 0;
   valueLenInd = 0;
   isWrong = false;
+  backspace = false;
   spaceCountPrev = 0;
 }
 
@@ -360,7 +362,9 @@ const WordsDivContainer = () => {
 
   function ifNormalKeysPressed(): void {
     // This needs to be here for some reason
-    if (char === null) {
+    if (backspace === true) {
+      backspace = false;
+      console.log("backspace pressed");
       backKeyPressed++;
       // To get how many letters to remove and the number of colors to pop off
       const num = userIn.length - value.length;
@@ -536,6 +540,12 @@ const WordsDivContainer = () => {
       handleRestart();
       return;
     }
+
+    if (e.key === "Backspace" || e.key === "Delete") {
+      if (userIn) {
+        backspace = true;
+      }
+    }
     if (e.key === "Backspace" && e.ctrlKey) isWrong = false;
     else if (e.key === "Delete" && e.ctrlKey) isWrong = false;
     else if (e.ctrlKey) isWrong = true;
@@ -545,13 +555,16 @@ const WordsDivContainer = () => {
   // Main function handler
   const handleUserInput = (e: TInputEvent): void => {
     // Using union discrimination
-    // change event
-    if (e.type === "change") {
-      char = e.nativeEvent.data;
+    // input event
+    if (e.type === "input") {
+      const data = e.nativeEvent.data;
+
+      if (!backspace) char = data[data.length - 1];
+      else char = "";
       // To prevent a user from typing while pressing the ctrl key
       // And to prevent whatever is typed from being process after the time is over
       if (!isWrong && !isOver && !restart && !showHighScore) {
-        value = e.target.value;
+        value = (e.target as HTMLInputElement).value;
 
         if (!timeHasStarted) {
           dispatch(setStartAnimating(true));
@@ -567,6 +580,7 @@ const WordsDivContainer = () => {
             allCallbackIds.push(id);
           }
 
+          console.log("char", char);
           if (char === " ") {
             ifSpaceBarPressed();
           } else {

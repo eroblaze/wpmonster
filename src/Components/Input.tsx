@@ -31,7 +31,7 @@ const Input = ({
         type="text"
         value={userIn}
         onKeyDown={(e) => onInput(e as TInputEvent)}
-        onChange={(e) => onInput(e as TInputEvent)}
+        onInput={(e) => onInput(e as TInputEvent)}
         onPaste={(e) => e.preventDefault()}
         onDrop={(e) => e.preventDefault()}
         autoFocus
