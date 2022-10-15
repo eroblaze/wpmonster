@@ -2,6 +2,16 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import ModalBackground from "./ModalBackground";
 
+import { nanoid } from "@reduxjs/toolkit";
+
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import {
+  optimizedSelectAppState,
+  setStartTime,
+  setIsBlockCaret,
+} from "../features/appSlice";
+import { optimizedSelectWordsState, changeMode } from "../features/wordsSlice";
+
 let showMenu: Record<string, boolean> = {
   mode: false,
   time: false,
@@ -11,19 +21,33 @@ let showMenu: Record<string, boolean> = {
 
 let previouslyOpened: string | undefined;
 
-const Settings = ({
-  setShowSettings,
-  handleMenuClicked,
-}: {
-  setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
-  handleMenuClicked: () => void;
-}) => {
+const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
+  const dispatch = useAppDispatch();
+  const { hasGameStarted, isBlockCaret, startTime, timeArray } = useAppSelector(
+    optimizedSelectAppState
+  );
+  const { mode } = useAppSelector(optimizedSelectWordsState);
+
   const settingsRef = useRef<HTMLDivElement>(null);
   const q = gsap.utils.selector(settingsRef);
 
-  //   function onWindowKeyDown(e: KeyboardEvent) {
-  //     if (e.key === "Escape") handleCloseMenu();
-  //   }
+  const handleTimeChange = (time: number) => {
+    if (!hasGameStarted && time !== startTime) dispatch(setStartTime(time));
+  };
+
+  const handleCaretClick = (caret: boolean) => {
+    if (!hasGameStarted && caret !== isBlockCaret)
+      dispatch(setIsBlockCaret(caret));
+  };
+
+  const verifyTime = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const target = e.target as HTMLSpanElement;
+    const time = target.getAttribute("data-timevalue");
+
+    if (time) {
+      handleTimeChange(+time);
+    }
+  };
 
   const animate = (element: string, display: boolean) => {
     if (display) {
@@ -41,6 +65,19 @@ const Settings = ({
   const closePreviouslyOpened = (element: string) => {
     q(element)[0].classList.remove("open");
   };
+
+  // const animate = (element: string, display: boolean) => {
+  //   if (display) {
+  //     gsap.set(q(element), { height: "auto" });
+  //     gsap.from(q(element), { duration: 1, height: 0 });
+  //   } else {
+  //     gsap.to(q(element), { duration: 1, height: 0 });
+  //   }
+  // };
+
+  // const closePreviouslyOpened = (element: string) => {
+  //   gsap.to(q(element), { duration: 1, height: 0 });
+  // };
 
   const handleClick = (cartegory: string) => {
     const stringEnd = cartegory.split("-")[1];
@@ -72,7 +109,7 @@ const Settings = ({
   return (
     <ModalBackground
       childRef={settingsRef}
-      toggleModal={setShowSettings}
+      whichModal="settings"
       closeAllSettings={handleCloseSettings}
       handleMenuClicked={handleMenuClicked}
     >
@@ -89,8 +126,18 @@ const Settings = ({
           <h4 className="settings__heading h3">WORDS</h4>
         </section>
         <div className="settings__options-div  settings-mode">
-          <p className="settings--selected">common</p>
-          <p className="ignore">complex</p>
+          <p
+            className={mode === "common" ? "settings--selected" : "ignore"}
+            onClick={() => dispatch(changeMode("common"))}
+          >
+            common
+          </p>
+          <p
+            className={mode === "complex" ? "settings--selected" : "ignore"}
+            onClick={() => dispatch(changeMode("complex"))}
+          >
+            complex
+          </p>
         </div>
         <section
           className="section-bg"
@@ -105,9 +152,16 @@ const Settings = ({
         </section>
 
         <div className="settings__options-div  settings-time">
-          <p className="settings--selected">15</p>
-          <p className="ignore">30</p>
-          <p className="ignore">60</p>
+          {timeArray.map((time) => (
+            <p
+              key={nanoid()}
+              onClick={verifyTime}
+              className={startTime === time ? "settings--selected" : "ignore"}
+              data-timevalue={time}
+            >
+              {time}
+            </p>
+          ))}
         </div>
 
         <section
@@ -121,14 +175,34 @@ const Settings = ({
           </div>
           <h4 className="settings__heading h3 clickable">CARET</h4>
         </section>
+
         <div className="settings__options-div  settings__caret">
-          <p className="ignore">
-            <span className={"thin__caret"}></span>
+          <p
+            onClick={() => handleCaretClick(false)}
+            className={!isBlockCaret ? "settings--selected" : "ignore"}
+          >
+            <span
+              className={
+                !isBlockCaret
+                  ? "thin__caret thin__caret--active"
+                  : "thin__caret"
+              }
+            ></span>
           </p>
-          <p className="settings--selected">
-            <span className="block__caret block__caret--active"></span>
+          <p
+            onClick={() => handleCaretClick(true)}
+            className={isBlockCaret ? "settings--selected" : "ignore"}
+          >
+            <span
+              className={
+                isBlockCaret
+                  ? "block__caret block__caret--active"
+                  : "block__caret"
+              }
+            ></span>
           </p>
         </div>
+
         <section
           className="section-bg"
           onClick={() => handleClick("settings-keybinds")}
@@ -141,9 +215,6 @@ const Settings = ({
           <h4 className="settings__heading h3 clickable">KEYBINDS</h4>
         </section>
         <div className="settings__options-div  settings-keybinds">
-          {/* <p>15</p>
-            <p className="settings--selected">30</p>
-            <p>60</p> */}
           <div className="small">
             <code>f5</code> - restart test
           </div>

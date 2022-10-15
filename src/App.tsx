@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 import Header from "./Components/Header";
@@ -6,7 +6,6 @@ import Body from "./Components/Body";
 import Footer from "./Components/Footer";
 
 function App() {
-  const [showOtherContainer, setShowOtherContainer] = useState(false);
   const tl = useRef<GSAPTimeline>();
 
   useEffect(() => {
@@ -39,7 +38,7 @@ function App() {
             const input = document.querySelector(
               ".input-div>input"
             ) as HTMLInputElement;
-            input.focus();
+            if (input) input.focus();
           },
         },
         "fade-in"
@@ -56,11 +55,8 @@ function App() {
 
   return (
     <>
-      <Header
-        showOtherContainer={showOtherContainer}
-        toggleOtherContainer={setShowOtherContainer}
-      />
-      <Body show={showOtherContainer} />
+      <Header />
+      <Body />
       <Footer />
     </>
   );

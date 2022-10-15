@@ -16,15 +16,17 @@
   margin-bottom: f.rem(16);
 
   &::after {
-    $height: 3;
+    $height: 2;
     content: "";
     position: absolute;
     height: f.rem($height);
-    width: 50%;
+    width: 100%;
     inset: calc(100% - #{f.rem($height)} / 2) 0 0;
     background-color: var(--secondary);
     border-radius: 100vmax;
-    animation: timerAnimation 5s forwards;
+    animation: var(--timer-animation-name) var(--timer-animation-duration)
+      forwards linear;
+    animation-play-state: var(--timer-animation-play-state);
   }
 }
 
@@ -35,6 +37,7 @@
 }
 
 .words {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   max-height: f.rem(98);
@@ -70,9 +73,9 @@
   }
   input {
     min-width: 0;
-    padding-inline: var(--general-padding);
+    padding-inline: calc(var(--general-padding) / 2);
     caret-color: var(--secondary);
-    font-family: "Oxygen Mono";
+    font-family: var(--secondary-ff);
   }
   button {
     min-width: 0ch;
@@ -81,4 +84,45 @@
       @include m.svgIcon();
     }
   }
+}
+
+#blockCaret {
+  @include m.caret(1);
+
+  span {
+    visibility: hidden;
+  }
+}
+#thinCaret {
+  @include m.caret(2);
+}
+
+.each-word {
+  display: inline-block;
+  position: relative;
+  /* border: 1px solid red; */
+
+  span {
+    position: relative;
+    /* border: 1px solid pink; */
+  }
+}
+.spaces {
+  visibility: hidden;
+}
+
+// error color of typed letters when caret is thin
+.red {
+  color: black;
+  background-color: var(--error);
+}
+
+// error color of typed letters when caret is block
+.red.blockCaret {
+  color: var(--error);
+  background-color: unset;
+}
+
+.green {
+  color: var(--secondary);
 }

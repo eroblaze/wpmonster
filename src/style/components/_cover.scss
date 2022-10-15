@@ -1,0 +1,16 @@
+.to-restart {
+  font-family: var(--primary-ff);
+  // letter-spacing: rem(2);
+  // font-size: rem(1);
+  color: var(--white);
+}
+
+.cover-bg {
+  position: absolute;
+  inset: 0;
+  background-color: var(--primary);
+  display: grid;
+  place-content: center;
+  z-index: 3;
+  // border: 1px solid red;
+}

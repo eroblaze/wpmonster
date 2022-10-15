@@ -1,771 +1,204 @@
-const Words = () => {
+import React, { useEffect, useRef, useState } from "react";
+
+import { nanoid } from "@reduxjs/toolkit";
+import { useAppSelector } from "../app/hooks";
+import { optimizedSelectWordsState } from "../features/wordsSlice";
+import { optimizedSelectAppState } from "../features/appSlice";
+
+import Caret from "./Caret";
+import Cover from "./Cover";
+
+let wordsPrevLength = 0;
+let pastColorPrevLength = 0;
+let caretChanged = false;
+let spaceCountPrev = 0;
+// let pastColorHasChanged = false;
+let intervalId = 0;
+
+interface WordsI {
+  spaceCount: number;
+  caretRef: React.RefObject<HTMLSpanElement>;
+}
+
+const Words = ({ spaceCount, caretRef }: WordsI) => {
+  const { isBlockCaret } = useAppSelector(optimizedSelectAppState);
+  const {
+    isOver,
+    wordsToDisplay: words,
+    previousColor: pastColor,
+    restart,
+  } = useAppSelector(optimizedSelectWordsState);
+
+  const [mainState, setMainState] = useState<JSX.Element[]>([]);
+
+  const wordsArr = words.split(" ");
+
+  const wordsContainerRef = useRef<HTMLDivElement>(null);
+  const currentWordRef = useRef<HTMLDivElement>(null);
+
+  if (wordsPrevLength === 0) wordsPrevLength = words.length;
+
+  // Testing
+  useEffect(() => {
+    // console.log("mainState changed", mainState.length);
+  }, [mainState]);
+  // EndTesting
+
+  useEffect(() => {
+    initialRendering();
+  }, []);
+
+  useEffect(() => {
+    if (restart) {
+      wordsPrevLength = 0;
+      pastColorPrevLength = 0;
+      caretChanged = false;
+      spaceCountPrev = 0;
+      // pastColorHasChanged = false;
+      initialRendering();
+    }
+  }, [restart]);
+
+  useEffect(() => {
+    // This is important so as to prevent it from scrolling back after the words-container div has been scrolled up
+    if (!isOver) {
+      if (currentWordRef.current) {
+        // On every render, scroll the current word to the center
+        const { current } = currentWordRef;
+        current.scrollIntoView({
+          block: "center",
+          // behavior: "smooth",
+        });
+      }
+    }
+
+    if (pastColor.length) {
+      if (
+        pastColor[1].length !== pastColorPrevLength ||
+        words.length !== wordsPrevLength ||
+        isBlockCaret !== caretChanged ||
+        spaceCount !== spaceCountPrev
+      ) {
+        // Remove caret from previous word
+        if (spaceCount !== spaceCountPrev) {
+          mainAction(true);
+          spaceCountPrev = spaceCount;
+        }
+
+        mainAction();
+        // End Action
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (restart || isOver) {
+      if (wordsContainerRef.current) {
+        // This scrolls the wordsContainer back to the top if not, it breaks
+        wordsContainerRef.current.scrollTo(0, 0);
+      }
+    }
+  }, [isOver, restart]);
+
+  function initialRendering() {
+    const lastIdx = wordsArr.length - 1; // last word index in the array
+
+    const output = wordsArr.map((word, idx) => {
+      const isCurrentWord = idx === spaceCount;
+      const letterArr = word.split("");
+
+      return (
+        <div
+          className="each-word"
+          key={nanoid()}
+          ref={isCurrentWord ? currentWordRef : null}
+        >
+          {isCurrentWord && <Caret ref={caretRef} />}
+
+          {letterArr.map((letter) => {
+            const returnLetterSpan = <span key={nanoid()}>{letter}</span>;
+
+            return returnLetterSpan;
+          })}
+          {idx !== lastIdx ? <span className="spaces">{"s"}</span> : ""}
+        </div>
+      );
+    });
+
+    setMainState(output);
+  }
+
+  function mainAction(removeCaret: boolean = false): void {
+    // Get the current word from the state and update it with the new color
+    const pick = !removeCaret ? 1 : 0;
+
+    setMainState((prev) => {
+      console.log("setting main state");
+      let toChange = !removeCaret
+        ? wordsArr[spaceCount]
+        : wordsArr[spaceCount - 1];
+
+      if (toChange) {
+        const output = (
+          <div
+            className="each-word"
+            key={nanoid()}
+            ref={!removeCaret ? currentWordRef : null}
+          >
+            {!removeCaret && <Caret ref={caretRef} />}
+
+            {toChange.split("").map((letter, index) => {
+              const letterClass = pastColor[pick][index];
+
+              const returnLetterSpan = (
+                <span
+                  key={nanoid()}
+                  className={
+                    isBlockCaret
+                      ? `${letterClass} blockCaret`
+                      : `${letterClass}`
+                  }
+                >
+                  {letter}
+                </span>
+              );
+
+              return returnLetterSpan;
+            })}
+            {spaceCount <= wordsArr.length - 1 ? (
+              <span className="spaces">{"s"}</span>
+            ) : (
+              ""
+            )}
+          </div>
+        );
+
+        const before = !removeCaret
+          ? prev.slice(0, spaceCount)
+          : prev.slice(0, spaceCount - 1);
+        const after = !removeCaret
+          ? prev.slice(spaceCount + 1)
+          : prev.slice(spaceCount);
+        return [...before, output, ...after];
+      } else return prev;
+    });
+
+    wordsPrevLength = words.length;
+    pastColorPrevLength = pastColor[1].length;
+    caretChanged = isBlockCaret;
+  }
+
   return (
-    <div className="h4 words-font words">
-      <span>L</span>
-      <span>o</span>
-      <span>r</span>
-      <span>e</span>
-      <span>m</span>
-      <span> </span>
-      <span>i</span>
-      <span>p</span>
-      <span>s</span>
-      <span>u</span>
-      <span>m</span>
-      <span> </span>
-      <span>d</span>
-      <span>o</span>
-      <span>l</span>
-      <span>o</span>
-      <span>r</span>
-      <span> </span>
-      <span>s</span>
-      <span>i</span>
-      <span>t</span>
-      <span> </span>
-      <span>a</span>
-      <span>m</span>
-      <span>e</span>
-      <span>t</span>
-      <span>,</span>
-      <span> </span>
-      <span>c</span>
-      <span>o</span>
-      <span>n</span>
-      <span>s</span>
-      <span>e</span>
-      <span>c</span>
-      <span>t</span>
-      <span>e</span>
-      <span>t</span>
-      <span>u</span>
-      <span>r</span>
-      <span> </span>
-      <span>a</span>
-      <span>d</span>
-      <span>i</span>
-      <span>p</span>
-      <span>i</span>
-      <span>s</span>
-      <span>i</span>
-      <span>c</span>
-      <span>i</span>
-      <span>n</span>
-      <span>g</span>
-      <span> </span>
-      <span>e</span>
-      <span>l</span>
-      <span>i</span>
-      <span>t</span>
-      <span>.</span>
-      <span> </span>
-      <span>S</span>
-      <span>i</span>
-      <span>n</span>
-      <span>t</span>
-      <span> </span>
-      <span>a</span>
-      <span>l</span>
-      <span>i</span>
-      <span>q</span>
-      <span>u</span>
-      <span>i</span>
-      <span>d</span>
-      <span> </span>
-      <span>f</span>
-      <span>a</span>
-      <span>c</span>
-      <span>i</span>
-      <span>l</span>
-      <span>i</span>
-      <span>s</span>
-      <span> </span>
-      <span>a</span>
-      <span>s</span>
-      <span>s</span>
-      <span>u</span>
-      <span>m</span>
-      <span>e</span>
-      <span>n</span>
-      <span>d</span>
-      <span>a</span>
-      <span>,</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>o</span>
-      <span>s</span>
-      <span> </span>
-      <span>e</span>
-      <span>s</span>
-      <span>s</span>
-      <span>e</span>
-      <span> </span>
-      <span>v</span>
-      <span>o</span>
-      <span>l</span>
-      <span>u</span>
-      <span>p</span>
-      <span>t</span>
-      <span>a</span>
-      <span>t</span>
-      <span>e</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>c</span>
-      <span>u</span>
-      <span>s</span>
-      <span>a</span>
-      <span>n</span>
-      <span>d</span>
-      <span>a</span>
-      <span>e</span>
-      <span> </span>
-      <span>d</span>
-      <span>o</span>
-      <span>l</span>
-      <span>o</span>
-      <span>r</span>
-      <span>i</span>
-      <span>b</span>
-      <span>u</span>
-      <span>s</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>m</span>
-      <span> </span>
-      <span>t</span>
-      <span>o</span>
-      <span>t</span>
-      <span>a</span>
-      <span>m</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>o</span>
-      <span> </span>
-      <span>p</span>
-      <span>l</span>
-      <span>a</span>
-      <span>c</span>
-      <span>e</span>
-      <span>a</span>
-      <span>t</span>
-      <span> </span>
-      <span>n</span>
-      <span>o</span>
-      <span>s</span>
-      <span>t</span>
-      <span>r</span>
-      <span>u</span>
-      <span>m</span>
-      <span> </span>
-      <span>m</span>
-      <span>a</span>
-      <span>x</span>
-      <span>i</span>
-      <span>m</span>
-      <span>e</span>
-      <span> </span>
-      <span>i</span>
-      <span>l</span>
-      <span>l</span>
-      <span>o</span>
-      <span> </span>
-      <span>e</span>
-      <span>x</span>
-      <span>p</span>
-      <span>l</span>
-      <span>i</span>
-      <span>c</span>
-      <span>a</span>
-      <span>b</span>
-      <span>o</span>
-      <span> </span>
-      <span>t</span>
-      <span>e</span>
-      <span>n</span>
-      <span>e</span>
-      <span>t</span>
-      <span>u</span>
-      <span>r</span>
-      <span>.</span>
-      <span> </span>
-      <span>E</span>
-      <span>x</span>
-      <span>p</span>
-      <span>l</span>
-      <span>i</span>
-      <span>c</span>
-      <span>a</span>
-      <span>b</span>
-      <span>o</span>
-      <span> </span>
-      <span>a</span>
-      <span>l</span>
-      <span>i</span>
-      <span>q</span>
-      <span>u</span>
-      <span>i</span>
-      <span>d</span>
-      <span> </span>
-      <span>e</span>
-      <span>a</span>
-      <span> </span>
-      <span>i</span>
-      <span>n</span>
-      <span>c</span>
-      <span>i</span>
-      <span>d</span>
-      <span>u</span>
-      <span>n</span>
-      <span>t</span>
-      <span> </span>
-      <span>c</span>
-      <span>u</span>
-      <span>l</span>
-      <span>p</span>
-      <span>a</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>i</span>
-      <span>d</span>
-      <span>e</span>
-      <span>m</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>i</span>
-      <span>s</span>
-      <span>,</span>
-      <span> </span>
-      <span>n</span>
-      <span>e</span>
-      <span>m</span>
-      <span>o</span>
-      <span> </span>
-      <span>e</span>
-      <span>x</span>
-      <span>e</span>
-      <span>r</span>
-      <span>c</span>
-      <span>i</span>
-      <span>t</span>
-      <span>a</span>
-      <span>t</span>
-      <span>i</span>
-      <span>o</span>
-      <span>n</span>
-      <span>e</span>
-      <span>m</span>
-      <span> </span>
-      <span>a</span>
-      <span>r</span>
-      <span>c</span>
-      <span>h</span>
-      <span>i</span>
-      <span>t</span>
-      <span>e</span>
-      <span>c</span>
-      <span>t</span>
-      <span>o</span>
-      <span> </span>
-      <span>b</span>
-      <span>l</span>
-      <span>a</span>
-      <span>n</span>
-      <span>d</span>
-      <span>i</span>
-      <span>t</span>
-      <span>i</span>
-      <span>i</span>
-      <span>s</span>
-      <span> </span>
-      <span>n</span>
-      <span>e</span>
-      <span>q</span>
-      <span>u</span>
-      <span>e</span>
-      <span> </span>
-      <span>p</span>
-      <span>l</span>
-      <span>a</span>
-      <span>c</span>
-      <span>e</span>
-      <span>a</span>
-      <span>t</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>p</span>
-      <span>u</span>
-      <span>d</span>
-      <span>i</span>
-      <span>a</span>
-      <span>n</span>
-      <span>d</span>
-      <span>a</span>
-      <span>e</span>
-      <span> </span>
-      <span>i</span>
-      <span>n</span>
-      <span>v</span>
-      <span>e</span>
-      <span>n</span>
-      <span>t</span>
-      <span>o</span>
-      <span>r</span>
-      <span>e</span>
-      <span>?</span>
-      <span> </span>
-      <span>Q</span>
-      <span>u</span>
-      <span>o</span>
-      <span>s</span>
-      <span> </span>
-      <span>e</span>
-      <span>n</span>
-      <span>i</span>
-      <span>m</span>
-      <span> </span>
-      <span>v</span>
-      <span>e</span>
-      <span>n</span>
-      <span>i</span>
-      <span>a</span>
-      <span>m</span>
-      <span> </span>
-      <span>o</span>
-      <span>f</span>
-      <span>f</span>
-      <span>i</span>
-      <span>c</span>
-      <span>i</span>
-      <span>a</span>
-      <span> </span>
-      <span>a</span>
-      <span>l</span>
-      <span>i</span>
-      <span>q</span>
-      <span>u</span>
-      <span>a</span>
-      <span>m</span>
-      <span> </span>
-      <span>m</span>
-      <span>o</span>
-      <span>d</span>
-      <span>i</span>
-      <span> </span>
-      <span>e</span>
-      <span>r</span>
-      <span>r</span>
-      <span>o</span>
-      <span>r</span>
-      <span> </span>
-      <span>l</span>
-      <span>i</span>
-      <span>b</span>
-      <span>e</span>
-      <span>r</span>
-      <span>o</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>p</span>
-      <span>e</span>
-      <span>l</span>
-      <span>l</span>
-      <span>e</span>
-      <span>n</span>
-      <span>d</span>
-      <span>u</span>
-      <span>s</span>
-      <span> </span>
-      <span>t</span>
-      <span>e</span>
-      <span>m</span>
-      <span>p</span>
-      <span>o</span>
-      <span>r</span>
-      <span>a</span>
-      <span> </span>
-      <span>a</span>
-      <span>t</span>
-      <span>q</span>
-      <span>u</span>
-      <span>e</span>
-      <span> </span>
-      <span>f</span>
-      <span>a</span>
-      <span>c</span>
-      <span>i</span>
-      <span>l</span>
-      <span>i</span>
-      <span>s</span>
-      <span> </span>
-      <span>p</span>
-      <span>r</span>
-      <span>a</span>
-      <span>e</span>
-      <span>s</span>
-      <span>e</span>
-      <span>n</span>
-      <span>t</span>
-      <span>i</span>
-      <span>u</span>
-      <span>m</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>o</span>
-      <span> </span>
-      <span>a</span>
-      <span>s</span>
-      <span>p</span>
-      <span>e</span>
-      <span>r</span>
-      <span>i</span>
-      <span>o</span>
-      <span>r</span>
-      <span>e</span>
-      <span>s</span>
-      <span>,</span>
-      <span> </span>
-      <span>o</span>
-      <span>p</span>
-      <span>t</span>
-      <span>i</span>
-      <span>o</span>
-      <span> </span>
-      <span>p</span>
-      <span>o</span>
-      <span>r</span>
-      <span>r</span>
-      <span>o</span>
-      <span> </span>
-      <span>s</span>
-      <span>i</span>
-      <span>m</span>
-      <span>i</span>
-      <span>l</span>
-      <span>i</span>
-      <span>q</span>
-      <span>u</span>
-      <span>e</span>
-      <span> </span>
-      <span>e</span>
-      <span>u</span>
-      <span>m</span>
-      <span> </span>
-      <span>s</span>
-      <span>i</span>
-      <span>n</span>
-      <span>t</span>
-      <span> </span>
-      <span>m</span>
-      <span>i</span>
-      <span>n</span>
-      <span>i</span>
-      <span>m</span>
-      <span>a</span>
-      <span> </span>
-      <span>d</span>
-      <span>e</span>
-      <span>b</span>
-      <span>i</span>
-      <span>t</span>
-      <span>i</span>
-      <span>s</span>
-      <span> </span>
-      <span>d</span>
-      <span>o</span>
-      <span>l</span>
-      <span>o</span>
-      <span>r</span>
-      <span>i</span>
-      <span>b</span>
-      <span>u</span>
-      <span>s</span>
-      <span> </span>
-      <span>d</span>
-      <span>i</span>
-      <span>g</span>
-      <span>n</span>
-      <span>i</span>
-      <span>s</span>
-      <span>s</span>
-      <span>i</span>
-      <span>m</span>
-      <span>o</span>
-      <span>s</span>
-      <span> </span>
-      <span>v</span>
-      <span>o</span>
-      <span>l</span>
-      <span>u</span>
-      <span>p</span>
-      <span>t</span>
-      <span>a</span>
-      <span>s</span>
-      <span>?</span>
-      <span> </span>
-      <span>D</span>
-      <span>u</span>
-      <span>c</span>
-      <span>i</span>
-      <span>m</span>
-      <span>u</span>
-      <span>s</span>
-      <span> </span>
-      <span>s</span>
-      <span>u</span>
-      <span>n</span>
-      <span>t</span>
-      <span> </span>
-      <span>e</span>
-      <span>x</span>
-      <span>c</span>
-      <span>e</span>
-      <span>p</span>
-      <span>t</span>
-      <span>u</span>
-      <span>r</span>
-      <span>i</span>
-      <span> </span>
-      <span>p</span>
-      <span>r</span>
-      <span>o</span>
-      <span>v</span>
-      <span>i</span>
-      <span>d</span>
-      <span>e</span>
-      <span>n</span>
-      <span>t</span>
-      <span> </span>
-      <span>m</span>
-      <span>o</span>
-      <span>l</span>
-      <span>e</span>
-      <span>s</span>
-      <span>t</span>
-      <span>i</span>
-      <span>a</span>
-      <span>e</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>p</span>
-      <span>e</span>
-      <span>l</span>
-      <span>l</span>
-      <span>e</span>
-      <span>n</span>
-      <span>d</span>
-      <span>u</span>
-      <span>s</span>
-      <span> </span>
-      <span>i</span>
-      <span>u</span>
-      <span>r</span>
-      <span>e</span>
-      <span>,</span>
-      <span> </span>
-      <span>s</span>
-      <span>e</span>
-      <span>d</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>r</span>
-      <span>u</span>
-      <span>m</span>
-      <span> </span>
-      <span>c</span>
-      <span>u</span>
-      <span>m</span>
-      <span> </span>
-      <span>v</span>
-      <span>o</span>
-      <span>l</span>
-      <span>u</span>
-      <span>p</span>
-      <span>t</span>
-      <span>a</span>
-      <span>t</span>
-      <span>i</span>
-      <span>b</span>
-      <span>u</span>
-      <span>s</span>
-      <span> </span>
-      <span>v</span>
-      <span>e</span>
-      <span>l</span>
-      <span>i</span>
-      <span>t</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>p</span>
-      <span>r</span>
-      <span>e</span>
-      <span>h</span>
-      <span>e</span>
-      <span>n</span>
-      <span>d</span>
-      <span>e</span>
-      <span>r</span>
-      <span>i</span>
-      <span>t</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>i</span>
-      <span> </span>
-      <span>a</span>
-      <span>b</span>
-      <span> </span>
-      <span>i</span>
-      <span>d</span>
-      <span> </span>
-      <span>s</span>
-      <span>a</span>
-      <span>e</span>
-      <span>p</span>
-      <span>e</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>i</span>
-      <span>d</span>
-      <span>e</span>
-      <span>m</span>
-      <span> </span>
-      <span>t</span>
-      <span>e</span>
-      <span>m</span>
-      <span>p</span>
-      <span>o</span>
-      <span>r</span>
-      <span>i</span>
-      <span>b</span>
-      <span>u</span>
-      <span>s</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>p</span>
-      <span>e</span>
-      <span>l</span>
-      <span>l</span>
-      <span>a</span>
-      <span>t</span>
-      <span> </span>
-      <span>d</span>
-      <span>i</span>
-      <span>s</span>
-      <span>t</span>
-      <span>i</span>
-      <span>n</span>
-      <span>c</span>
-      <span>t</span>
-      <span>i</span>
-      <span>o</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>o</span>
-      <span>d</span>
-      <span> </span>
-      <span>c</span>
-      <span>o</span>
-      <span>r</span>
-      <span>p</span>
-      <span>o</span>
-      <span>r</span>
-      <span>i</span>
-      <span>s</span>
-      <span> </span>
-      <span>r</span>
-      <span>e</span>
-      <span>c</span>
-      <span>u</span>
-      <span>s</span>
-      <span>a</span>
-      <span>n</span>
-      <span>d</span>
-      <span>a</span>
-      <span>e</span>
-      <span> </span>
-      <span>a</span>
-      <span>m</span>
-      <span>e</span>
-      <span>t</span>
-      <span>.</span>
-      <span> </span>
-      <span>A</span>
-      <span>s</span>
-      <span>s</span>
-      <span>u</span>
-      <span>m</span>
-      <span>e</span>
-      <span>n</span>
-      <span>d</span>
-      <span>a</span>
-      <span> </span>
-      <span>e</span>
-      <span>u</span>
-      <span>m</span>
-      <span> </span>
-      <span>n</span>
-      <span>e</span>
-      <span>q</span>
-      <span>u</span>
-      <span>e</span>
-      <span> </span>
-      <span>e</span>
-      <span>a</span>
-      <span>q</span>
-      <span>u</span>
-      <span>e</span>
-      <span>!</span>
-      <span> </span>
-      <span>C</span>
-      <span>o</span>
-      <span>r</span>
-      <span>p</span>
-      <span>o</span>
-      <span>r</span>
-      <span>i</span>
-      <span>s</span>
-      <span> </span>
-      <span>p</span>
-      <span>a</span>
-      <span>r</span>
-      <span>i</span>
-      <span>a</span>
-      <span>t</span>
-      <span>u</span>
-      <span>r</span>
-      <span> </span>
-      <span>o</span>
-      <span>d</span>
-      <span>i</span>
-      <span>o</span>
-      <span> </span>
-      <span>q</span>
-      <span>u</span>
-      <span>o</span>
-      <span> </span>
-      <span>n</span>
-      <span>o</span>
-      <span>b</span>
-      <span>i</span>
-      <span>s</span>
+    <div
+      ref={wordsContainerRef}
+      data-testid="words-div"
+      className="h4 words-font words"
+    >
+      {isOver && <Cover />}
+      {restart && <Cover />}
+      {mainState}
     </div>
   );
 };
 
-export default Words;
+export default React.memo(Words);

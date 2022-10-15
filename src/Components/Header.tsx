@@ -1,20 +1,31 @@
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect } from "react";
 import Result from "./Result";
 import Settings from "./Settings";
 
 import gsap from "gsap";
+import { toast } from "react-toastify";
+
+import { useAppSelector, useAppDispatch } from "../app/hooks";
+import {
+  optimizedSelectAppState,
+  setShowHighScore,
+  setShowSettings,
+  setShouldShowOtherContainer,
+  setShowOtherContainerIfItWasShown,
+} from "../features/appSlice";
 
 let clicked = false;
 
-const Header = ({
-  showOtherContainer,
-  toggleOtherContainer,
-}: {
-  showOtherContainer: boolean;
-  toggleOtherContainer: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const [showHighscore, setShowHighscore] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+const Header = () => {
+  const dispatch = useAppDispatch();
+  const {
+    shouldShowOtherContainer,
+    showOtherContainerIfItWasShown,
+    showHighScore,
+    showSettings,
+    highScore,
+  } = useAppSelector(optimizedSelectAppState);
+
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const hiderRef = useRef<SVGSVGElement | null>(null);
@@ -53,13 +64,10 @@ const Header = ({
   }, []);
 
   useEffect(() => {
-    // console.log(showOtherContainer);
-    // console.log("mounting", showOtherContainer);
-
     if (hiderRef.current) {
       const { current } = hiderRef;
 
-      if (showOtherContainer) {
+      if (shouldShowOtherContainer) {
         if (!canStart.current) canStart.current = 1;
         current.classList.add("hider-active");
         current.classList.remove("hider-passive");
@@ -76,27 +84,27 @@ const Header = ({
       // console.log("unmounting");
       window.removeEventListener("keydown", handleKeysCombination);
     };
-  }, [showOtherContainer]);
+  }, [shouldShowOtherContainer]);
 
   function handleKeysCombination(e: KeyboardEvent) {
     if (e.key === "Enter" && e.ctrlKey) {
-      // console.log("called hkcombination");
-
       toggle();
     }
   }
 
   function toggle() {
-    // TESTING !
-    // showOtherContainer will only become true when the user has typed and a result is generated
-    // if (canStart.current) {
-    toggleOtherContainer((prev) => !prev);
-    // console.log("called toggle", e);
+    // shouldShowOtherContainer will only become true when the user has typed and a result is generated
+    if (canStart.current) {
+      dispatch(setShouldShowOtherContainer(!shouldShowOtherContainer));
+      dispatch(
+        setShowOtherContainerIfItWasShown(!showOtherContainerIfItWasShown)
+      );
 
-    const mainBody = document.querySelector(
-      "main:first-of-type"
-    ) as HTMLElement;
-    mainBody.classList.toggle("onlyWords");
+      const mainBody = document.querySelector(
+        "main:first-of-type"
+      ) as HTMLElement;
+      mainBody.classList.toggle("onlyWords");
+    }
   }
 
   const animationEnd = () => {
@@ -134,13 +142,32 @@ const Header = ({
     }
   };
 
+  const handleHighScoreClicked = () => {
+    if (highScore.WPM) dispatch(setShowHighScore(!showHighScore));
+    else {
+      // If this is the user's first time and he/she is trying to access the personal record modal
+      toast.warn("No high score yet!", {
+        progressClassName: "toastify-progress-height",
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
+
+      toast.clearWaitingQueue();
+    }
+  };
+
   return (
     <header className="container">
       <nav className="header">
         <h1
           onClick={toggle}
           className={
-            canStart.current || showOtherContainer
+            canStart.current || shouldShowOtherContainer
               ? "clickable anchor icon__hover logo"
               : "anchor logo"
           }
@@ -168,7 +195,7 @@ const Header = ({
         <div className="menu" ref={menuRef}>
           <span
             className="invisible clickable icon__hover"
-            onClick={() => setShowHighscore((prev) => !prev)}
+            onClick={handleHighScoreClicked}
           >
             <svg
               viewBox="0 0 24 25"
@@ -220,7 +247,7 @@ const Header = ({
 
           <span
             className="invisible clickable icon__hover"
-            onClick={() => setShowSettings((prev) => !prev)}
+            onClick={() => dispatch(setShowSettings(!showSettings))}
           >
             <svg
               viewBox="0 0 24 25"
@@ -245,19 +272,10 @@ const Header = ({
         </button>
       </nav>
 
-      {showHighscore && (
-        <Result
-          isHighscore={true}
-          setShowHighscore={setShowHighscore}
-          handleMenuClicked={handleMenuClicked}
-        />
+      {showHighScore && (
+        <Result isHighscore={true} handleMenuClicked={handleMenuClicked} />
       )}
-      {showSettings && (
-        <Settings
-          setShowSettings={setShowSettings}
-          handleMenuClicked={handleMenuClicked}
-        />
-      )}
+      {showSettings && <Settings handleMenuClicked={handleMenuClicked} />}
     </header>
   );
 };

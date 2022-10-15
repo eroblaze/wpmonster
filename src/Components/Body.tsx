@@ -1,11 +1,20 @@
 import WordsDivContainer from "./WordsDivContainer";
 import OtherContainer from "./OtherContainer";
+import Result from "./Result";
 
-const Body = ({ show }: { show: boolean }) => {
+import { useAppSelector } from "../app/hooks";
+import { optimizedSelectAppState } from "../features/appSlice";
+import { optimizedSelectWordsState } from "../features/wordsSlice";
+
+const Body = () => {
+  const { shouldShowOtherContainer } = useAppSelector(optimizedSelectAppState);
+  const { displayPopUpResult } = useAppSelector(optimizedSelectWordsState);
+
   return (
     <main className="container onlyWords">
+      {displayPopUpResult && <Result popUp={true} />}
       <WordsDivContainer />
-      {show && <OtherContainer />}
+      {shouldShowOtherContainer && <OtherContainer />}
     </main>
   );
 };

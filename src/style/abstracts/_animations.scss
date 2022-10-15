@@ -4,6 +4,10 @@
   max-height: var(--settings-element-height) !important;
 }
 
+.blink {
+  animation: blink 1.1s infinite 1s linear;
+}
+
 .fade-out {
   animation: fadeOut 150ms linear forwards !important;
 }
@@ -35,13 +39,24 @@
   }
 }
 
-@keyframes timerAnimation {
+@keyframes timer-animation-decrement {
   from {
-    width: var(--timer-current-width);
+    width: 100%;
   }
   to {
     width: 0;
     background-color: var(--error);
+  }
+}
+
+@keyframes timer-animation-increment {
+  from {
+    width: var(--timer-current-width);
+    background-color: var(--timer-current-bg-color);
+  }
+  to {
+    width: 100%;
+    background-color: var(--secondary);
   }
 }
 
@@ -63,5 +78,26 @@
 @keyframes hiderPassive {
   100% {
     transform: rotate(90deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.2);
   }
 }

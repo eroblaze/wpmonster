@@ -3,7 +3,7 @@
 body {
   color: var(--white);
   background-color: var(--primary);
-  font-family: "Josefin Sans";
+  font-family: var(--primary-ff);
 
   &::-webkit-scrollbar {
     width: f.rem(12);
@@ -31,7 +31,7 @@ body {
 
 .words-font {
   color: white;
-  font-family: "Oxygen Mono";
+  font-family: var(--secondary-ff);
 }
 
 main.onlyWords {
@@ -50,4 +50,14 @@ code {
   padding: f.rem(2) f.rem(6);
   background-color: var(--modal-second-color);
   border-radius: f.rem(2);
+}
+
+// For the toastify component
+.toastify-progress-height {
+  height: f.rem(2);
+}
+
+.Toastify__close-button {
+  min-width: unset;
+  min-height: unset;
 }

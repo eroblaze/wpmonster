@@ -8,3 +8,23 @@
     fill: var(--white);
   }
 }
+
+@mixin caret($oneForBlock) {
+  position: absolute;
+  height: 89%;
+  transform: translateY(f.rem(0.9));
+  transition: left 0.1s ease;
+
+  // if it's 2, that means it is thinCaret
+  @if ($oneForBlock == 1) {
+    width: fit-content;
+    font-size: inherit;
+    border: none;
+    background-color: var(--secondary);
+  } @else {
+    z-index: 2;
+    margin-left: f.rem(-0.5);
+    border-left: f.rem(2.5) solid var(--secondary);
+    border-radius: 100vmalx;
+  }
+}

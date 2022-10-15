@@ -3,6 +3,9 @@
 $base-size: 16; // in 'px' unit
 
 :root {
+  --primary-ff: "Josefin Sans";
+  --secondary-ff: "Oxygen Mono";
+
   --primary: hsl(0, 0%, 13%);
   --secondary: hsl(166, 100%, 45%);
   --gradient: linear-gradient(
@@ -22,8 +25,18 @@ $base-size: 16; // in 'px' unit
   --general-padding: #{f.rem(16)};
   --general-b-radius: #{f.rem(4)};
   --wordsDivContainer-m-top: #{f.rem(32)};
-  --timer-current-width: 100%;
   --children-width: #{f.rem(288)};
   --modal-m-top: #{f.rem(92)};
   --settings-element-height: 0; // changed in javascript
+
+  --timer-current-width: 100%;
+  --timer-current-bg-color: none;
+  --timer-animation-name: none;
+  --timer-animation-duration: none;
+  --timer-animation-play-state: paused;
+
+  --toastify-font-family: var(--primary-ff);
+  --toastify-color-dark: var(--tertiary);
+  --toastify-color-success: var(--secondary);
+  --toastify-text-color-dark: var(--white);
 }
