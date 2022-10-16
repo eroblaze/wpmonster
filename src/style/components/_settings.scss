@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: min(100%, var(--children-width));
+  width: min(90%, var(--children-width));
   min-height: f.rem(430);
   border-radius: var(--general-b-radius);
   background-color: var(--tertiary);

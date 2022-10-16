@@ -45,7 +45,7 @@
 
   &--active {
     position: relative;
-    width: min(100%, var(--children-width));
+    width: min(90%, var(--children-width));
     margin-top: var(--modal-m-top);
     cursor: auto;
   }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 
 import Header from "./Components/Header";
@@ -49,40 +49,45 @@ function App() {
         "fade-in"
       );
 
-    window.addEventListener("resize", onWindowHeightResize);
-
     return () => {
       // This is needed in development because of double rendering
       gsap.set(
         [".site-title", ".menu>span", ".menu__hamburger", ".wordsDivContainer"],
         { opacity: 1, scale: 1, y: 0 }
       );
-
-      window.removeEventListener("resize", onWindowHeightResize);
     };
   }, []);
 
-  function onWindowHeightResize() {
+  useEffect(() => {
+    window.addEventListener("resize", onWindowHeightResize);
+    return () => {
+      window.removeEventListener("resize", onWindowHeightResize);
+    };
+  }, [shouldShowOtherContainer]);
+
+  const onWindowHeightResize = useCallback(() => {
     // On mobile, when the keyboard comes, the viewport height becomes smaller
     const header = document.querySelector("header") as HTMLHeadingElement;
     const footer = document.querySelector("footer") as HTMLElement;
     const wordsContainer = document.querySelector(
       ".wordsDivContainer"
     ) as HTMLElement;
+    const wordsDivMarginTop = 32;
 
     if (
       window.innerHeight <=
         header.offsetHeight +
           footer.offsetHeight +
           wordsContainer.offsetHeight +
-          42 &&
+          wordsDivMarginTop &&
       !shouldShowOtherContainer
     ) {
+      console.log(shouldShowOtherContainer);
       header.classList.add("onlyWords__margin-bottom");
     } else {
       header.classList.remove("onlyWords__margin-bottom");
     }
-  }
+  }, [shouldShowOtherContainer]);
 
   return (
     <>

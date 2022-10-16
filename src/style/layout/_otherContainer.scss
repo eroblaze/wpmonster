@@ -3,6 +3,7 @@
 
 .otherContainer {
   --children-height: #{f.rem(352)};
+  --spacing: #{f.rem(42)};
 
   display: flex;
   flex-flow: row;
