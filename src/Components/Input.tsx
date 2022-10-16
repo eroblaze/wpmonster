@@ -38,6 +38,7 @@ const Input = ({
         onDrop={(e) => e.preventDefault()}
         autoFocus
         autoComplete="off"
+        autoCapitalize="none"
         data-testid="main-input"
         ref={inputRef}
       />

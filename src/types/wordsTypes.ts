@@ -34,6 +34,8 @@ export interface WordsI {
   displayPopUpResult: boolean;
   wasDoneEarly?: boolean;
   derivedWrongWords: string[] | null;
+  queuedMode: string | null;
+
   //   onInput: (e: TInputEvent) => void;
   //   caretRef?: React.RefObject<HTMLSpanElement>;
 }

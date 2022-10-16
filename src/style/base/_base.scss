@@ -1,10 +1,12 @@
 @use "../abstracts/functions" as f;
-@use "../abstracts/breakpoints" as b;
 
 body {
   color: var(--white);
   background-color: var(--primary);
   font-family: var(--primary-ff);
+
+  // To prevent blue flashes when elements clicked on mobile
+  -webkit-tap-highlight-color: transparent;
 
   &::-webkit-scrollbar {
     width: f.rem(12);
@@ -31,9 +33,6 @@ body {
 }
 
 #root.onlyWords {
-  header {
-    margin-bottom: var(--spacing);
-  }
   main {
     display: flex;
     flex-direction: column;
@@ -45,17 +44,9 @@ body {
   }
 }
 
-// main.onlyWords {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-
-//   > section:first-of-type {
-//     @include b.breakpoint(md) {
-//       margin-top: 0;
-//     }
-//   }
-// }
+.onlyWords__margin-bottom {
+  margin-bottom: var(--spacing);
+}
 
 .words-font {
   color: white;

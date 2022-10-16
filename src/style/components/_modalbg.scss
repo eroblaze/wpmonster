@@ -9,4 +9,9 @@
   opacity: 0;
   animation: fadeIn 150ms linear forwards;
   z-index: 10;
+  overflow-y: auto;
+
+  > div {
+    margin-bottom: var(--spacing);
+  }
 }

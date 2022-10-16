@@ -17,6 +17,7 @@ const initialState = {
   wordsToDisplay: "",
   userIn: "",
   mode: "common",
+  queuedMode: null,
   previousColor: [],
   results: {
     accuracy: 0,
@@ -98,6 +99,9 @@ const wordsSlice = createSlice({
     changeMode: (state, action: PayloadAction<string>) => {
       state.mode = action.payload;
     },
+    setQueuedMode: (state, action: PayloadAction<string | null>) => {
+      state.queuedMode = action.payload;
+    },
   },
 });
 
@@ -117,6 +121,7 @@ export const {
   generateWords,
   restartApp,
   clearPreviousColor,
+  setQueuedMode,
 } = wordsSlice.actions;
 
 export const selectWordsState = (state: RootState) => state.words;

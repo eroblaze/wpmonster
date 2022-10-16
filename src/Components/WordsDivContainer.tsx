@@ -23,6 +23,7 @@ import {
   setWasDoneEarly,
   setWordsToDisplay,
   clearPreviousColor,
+  setQueuedMode,
 } from "../features/wordsSlice";
 
 import Timer from "./Timer";
@@ -523,6 +524,7 @@ const WordsDivContainer = () => {
     dispatch(setWasDoneEarly(false));
     dispatch(setStartAnimating(false)); // For the timer animation
     dispatch(setUserIn(""));
+    dispatch(setQueuedMode(null));
     dispatch(setHasGameStarted(false));
     dispatch(setIsOver(false));
     dispatch(setRestart(true));

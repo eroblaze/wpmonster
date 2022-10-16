@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import ModalBackground from "./ModalBackground";
 
@@ -10,7 +10,10 @@ import {
   setStartTime,
   setIsBlockCaret,
 } from "../features/appSlice";
-import { optimizedSelectWordsState, changeMode } from "../features/wordsSlice";
+import {
+  optimizedSelectWordsState,
+  setQueuedMode,
+} from "../features/wordsSlice";
 
 let showMenu: Record<string, boolean> = {
   mode: false,
@@ -20,6 +23,7 @@ let showMenu: Record<string, boolean> = {
 };
 
 let previouslyOpened: string | undefined;
+let localMode = "";
 
 const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
   const dispatch = useAppDispatch();
@@ -30,6 +34,10 @@ const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
 
   const settingsRef = useRef<HTMLDivElement>(null);
   const q = gsap.utils.selector(settingsRef);
+
+  useEffect(() => {
+    localMode = mode;
+  }, [mode]);
 
   const handleTimeChange = (time: number) => {
     if (!hasGameStarted && time !== startTime) dispatch(setStartTime(time));
@@ -128,13 +136,41 @@ const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
         <div className="settings__options-div  settings-mode">
           <p
             className={mode === "common" ? "settings--selected" : "ignore"}
-            onClick={() => dispatch(changeMode("common"))}
+            onClick={(e) => {
+              if (localMode !== "common") {
+                localMode = "common";
+
+                const el = e.target as HTMLParagraphElement;
+                el.nextElementSibling?.classList.remove("settings--selected");
+                el.nextElementSibling?.classList.add("ignore");
+
+                el.classList.remove("ignore");
+                el.classList.add("settings--selected");
+
+                dispatch(setQueuedMode("common"));
+              }
+            }}
           >
             <span>common</span>
           </p>
           <p
             className={mode === "complex" ? "settings--selected" : "ignore"}
-            onClick={() => dispatch(changeMode("complex"))}
+            onClick={(e) => {
+              if (localMode !== "complex") {
+                localMode = "complex";
+
+                const el = e.target as HTMLParagraphElement;
+                el.previousElementSibling?.classList.remove(
+                  "settings--selected"
+                );
+                el.previousElementSibling?.classList.add("ignore");
+
+                el.classList.remove("ignore");
+                el.classList.add("settings--selected");
+
+                dispatch(setQueuedMode("complex"));
+              }
+            }}
           >
             <span>complex</span>
           </p>
