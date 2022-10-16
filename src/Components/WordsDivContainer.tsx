@@ -189,12 +189,23 @@ const WordsDivContainer = () => {
         // Only show Other container if it was already being displayed
         if (showOtherContainerIfItWasShown) {
           dispatch(setShouldShowOtherContainer(true));
-          // const mainBody = document.querySelector(
-          //   "main:first-of-type"
-          // ) as HTMLElement;
-          // mainBody.classList.remove("onlyWords");
 
           const root = document.querySelector("#root") as HTMLElement;
+          // For mobile
+          const foundOrNot = document.querySelector(
+            ".onlyWords__margin-bottom"
+          ) as HTMLElement;
+          const docRoot = document.documentElement;
+          if (foundOrNot) {
+            // This means the header already has margin-bottom
+            docRoot.style.setProperty("--wordsDivContainer-m-top-js", "0px");
+          } else {
+            docRoot.style.setProperty(
+              "--wordsDivContainer-m-top-js",
+              "var(--wordsDivContainer-m-top)"
+            );
+          }
+
           root.classList.remove("onlyWords");
         }
       }, loadTime); // For the Modal Result
@@ -232,12 +243,23 @@ const WordsDivContainer = () => {
       // Only show Other container if it was already being displayed
       if (showOtherContainerIfItWasShown) {
         dispatch(setShouldShowOtherContainer(true));
-        // const mainBody = document.querySelector(
-        //   "main:first-of-type"
-        // ) as HTMLElement;
-        // mainBody.classList.remove("onlyWords");
 
         const root = document.querySelector("#root") as HTMLElement;
+        // For mobile
+        const foundOrNot = document.querySelector(
+          ".onlyWords__margin-bottom"
+        ) as HTMLElement;
+        const docRoot = document.documentElement;
+        if (foundOrNot) {
+          // This means the header already has margin-bottom
+          docRoot.style.setProperty("--wordsDivContainer-m-top-js", "0px");
+        } else {
+          docRoot.style.setProperty(
+            "--wordsDivContainer-m-top-js",
+            "var(--wordsDivContainer-m-top)"
+          );
+        }
+
         root.classList.remove("onlyWords");
       }
     }, loadTime);

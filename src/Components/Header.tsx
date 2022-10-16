@@ -100,12 +100,25 @@ const Header = () => {
         setShowOtherContainerIfItWasShown(!showOtherContainerIfItWasShown)
       );
 
-      // const mainBody = document.querySelector(
-      // "main:first-of-type"
-      // ) as HTMLElement;
-      // mainBody.classList.toggle("onlyWords");
-
       const root = document.querySelector("#root") as HTMLElement;
+
+      if (root.classList.contains("onlyWords")) {
+        // For mobile
+        const foundOrNot = document.querySelector(
+          ".onlyWords__margin-bottom"
+        ) as HTMLElement;
+        const docRoot = document.documentElement;
+        if (foundOrNot) {
+          // This means the header already has margin-bottom
+          docRoot.style.setProperty("--wordsDivContainer-m-top-js", "0px");
+        } else {
+          docRoot.style.setProperty(
+            "--wordsDivContainer-m-top-js",
+            "var(--wordsDivContainer-m-top)"
+          );
+        }
+      }
+
       root.classList.toggle("onlyWords");
     }
   }
