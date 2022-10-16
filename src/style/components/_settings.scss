@@ -29,7 +29,8 @@
       align-items: flex-end;
       flex-direction: column;
       place-content: center;
-      width: min(100%, f.rem(200));
+      // width: min(100%, f.rem(200));
+      width: 90%;
       height: 100%;
       margin-inline: auto;
 

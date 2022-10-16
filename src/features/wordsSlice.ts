@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
-// import { RootState } from "../app/store";
 import { ResultI } from "../types/appTypes";
 import { WordsI } from "../types/wordsTypes";
 

@@ -49,6 +49,9 @@ function App() {
         "fade-in"
       );
 
+    // Incase it is loaded first on landscape mode on mobile
+    onWindowHeightResize();
+
     return () => {
       // This is needed in development because of double rendering
       gsap.set(
@@ -82,7 +85,6 @@ function App() {
           wordsDivMarginTop &&
       !shouldShowOtherContainer
     ) {
-      console.log(shouldShowOtherContainer);
       header.classList.add("onlyWords__margin-bottom");
     } else {
       header.classList.remove("onlyWords__margin-bottom");
