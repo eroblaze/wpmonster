@@ -87,7 +87,9 @@ function App() {
     ) {
       header.classList.add("onlyWords__margin-bottom");
     } else {
-      header.classList.remove("onlyWords__margin-bottom");
+      // This is necessary since I am removing the margin-top from the wordDivContainer if this class exists
+      if (!shouldShowOtherContainer)
+        header.classList.remove("onlyWords__margin-bottom");
     }
   }, [shouldShowOtherContainer]);
 

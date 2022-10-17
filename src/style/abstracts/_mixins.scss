@@ -21,9 +21,10 @@
     font-size: inherit;
     border: none;
     background-color: var(--secondary);
+    border-radius: f.rem(2);
   } @else {
     z-index: 2;
     border-left: f.rem(2.5) solid var(--secondary);
-    border-radius: 100vmalx;
+    border-radius: 100vmax;
   }
 }

@@ -62,6 +62,7 @@ let value: string;
 let valueLen: number;
 let valueLenInd: number;
 let isWrong = false;
+let spaceBar = true;
 // When to show Result Section
 let isSubmitting = false;
 let spaceCountPrev = 0;
@@ -84,6 +85,7 @@ function clearAllEntries(): void {
   valueLenInd = 0;
   isWrong = false;
   spaceCountPrev = 0;
+  spaceBar = true;
 }
 
 const WordsDivContainer = () => {
@@ -347,6 +349,7 @@ const WordsDivContainer = () => {
     // Make sure any key pressed after a word without a space isn't included
     // To get the indexes of all letters before a space
 
+    spaceBar = false;
     everyIndexBeforeSpace.splice(0);
     for (let i = 0; i < splittedArr.length; i++) {
       // This enables any additional letter to be added after the last letter in the screen
@@ -485,6 +488,7 @@ const WordsDivContainer = () => {
   }
 
   function ifSpaceBarPressed(): void {
+    spaceBar = true;
     // For the counter;
     counter++;
     spaceEnteredByUser++;
@@ -590,6 +594,12 @@ const WordsDivContainer = () => {
         } else {
           // Backspace or Delete was pressed
           char = "";
+        }
+
+        if (char === " ") {
+          // If space bar is pressed for the first time, nothing should happend
+          // Also space bar should not follow space bar
+          if (spaceBar) return;
         }
 
         if (!timeHasStarted) {
