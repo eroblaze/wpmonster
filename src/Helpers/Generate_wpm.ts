@@ -1,10 +1,4 @@
-export default function generateWpm(rightTime: number, pastColor: string[]) {
-  console.log(`before change rightTime :${rightTime}`);
-  // Format the rightTime (from seconds to minutes)
-  rightTime = rightTime / 60;
-
-  console.log(`rightTime changed: ${rightTime}`);
-
+export default function generateWpm(time: number, pastColor: string[]) {
   const wordsArr = pastColor.join("").split("blue");
 
   let wrongWordsIdx = wordsArr.map((el, idx) => {
@@ -21,39 +15,18 @@ export default function generateWpm(rightTime: number, pastColor: string[]) {
 
   const wrongCharsToWord = Math.round(wrongChars / 5);
 
-  let totalCharTyped = pastColor.reduce((acc, el) => {
-    if (el === "green" || el === "red" || el === "blue") acc++;
-    return acc;
-  }, 0);
+  let totalCharTyped = pastColor.length;
 
-  const tot = totalCharTyped / 5;
-  const GWM = tot / rightTime;
-  const correctWords = Math.round((totalCharTyped - wrongChars) / 5);
-
-  const WPM = Math.round(GWM - wrongCharsToWord);
   const correctChars = totalCharTyped - wrongChars;
 
-  // console.log(`Correct Chars : ${correctChars}`);
-  // console.log(`Wrong Chars : ${wrongChars}`);
-  // console.log(`Spaces : ${spaceTyped}`);
-  // console.log(`Total char typed : ${totalCharTyped}`);
-  // console.log(`Wrong words : ${wrongCharsToWord}`);
-  // console.log(`Correct words : ${correctWords}`);
-  // console.log(`GWM : ${GWM}`);
-  // console.log(`NET WPM : ${WPM} wpm`);
+  const correctWords = Math.round(correctChars / 5);
+
+  let WPM = Math.round((correctChars * (60 / time)) / 5); // Gotten from monkeytype
+  if (WPM < 0 || isNaN(WPM)) WPM = 0;
 
   // For Accuracy
-
-  let accuracy = ((totalCharTyped - wrongChars) / totalCharTyped) * 100;
+  let accuracy = (correctChars / totalCharTyped) * 100;
   accuracy = +accuracy.toFixed(1) || 0; // Incase of when it is 0
-  // console.log(`accuracy : ${accuracy}%`);
-
-  // console.log(`rightTime : ${rightTime}`);
-  // console.log(
-  //   `Normally it would have been if it were to be 1 minute ${
-  //     Math.round(totalCharTyped / 5) - wrongCharsToWord
-  //   } wpm`
-  // );
 
   return {
     wrongWordsIdx,
