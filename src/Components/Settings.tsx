@@ -151,7 +151,7 @@ const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
               }
             }}
           >
-            <span>common</span>
+            common
           </p>
           <p
             className={mode === "complex" ? "settings--selected" : "ignore"}
@@ -172,7 +172,7 @@ const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
               }
             }}
           >
-            <span>complex</span>
+            complex
           </p>
         </div>
         <section
@@ -195,7 +195,7 @@ const Settings = ({ handleMenuClicked }: { handleMenuClicked: () => void }) => {
               className={startTime === time ? "settings--selected" : "ignore"}
               data-timevalue={time}
             >
-              <span>{time}</span>
+              {time}
             </p>
           ))}
         </div>
