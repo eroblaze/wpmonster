@@ -3,10 +3,11 @@ import { ResultI } from "../types/appTypes";
 import { WordsI } from "../types/wordsTypes";
 
 import Data from "../Data/common/words.json";
+import Data2 from "../Data/common/words2.json";
 import ComplexData from "../Data/complex/complex.json";
 import { RootState } from "../app/store";
 
-function formatWords(data: string[] = Data) {
+function formatWords(data: string[] = Data2) {
   const newData = data.sort(() => Math.random() - 0.5);
   const wordString = newData.join(" ");
   return wordString;
